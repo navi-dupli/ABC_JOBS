@@ -21,9 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Change working directory
-        run: | 
-          cd microservice-users
-          ls -l
+        shell: bash
+        script: |
+          cd /microservice-users
       - name: Install dependencies
         run: npm install
       - name: Test
