@@ -14,5 +14,4 @@ export class User {
   @Column()
   password: string;
 
-  //todo: Otros campos de usuario, como nombre, apellidos, etc.
 }
