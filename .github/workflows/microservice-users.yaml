@@ -20,9 +20,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Change working directory
+        run: cd /microservice-users
       - name: Install dependencies
-        run: |
-          cd microservice-users
-          npm install
+        run: npm install
       - name: Test
         run: npm run test:e2e-cov
