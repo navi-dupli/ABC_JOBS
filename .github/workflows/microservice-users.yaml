@@ -3,13 +3,13 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'microservice-users/**'
+#    paths:
+#      - 'microservice-users/**'
   pull_request:
     branches:
       - main
-    paths:
-      - 'microservice-users/**'
+#    paths:
+#      - 'microservice-users/**'
 jobs:
   test:
     name: Test
