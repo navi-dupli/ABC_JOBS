@@ -33,4 +33,4 @@ jobs:
           cd microservice-users
           npm run test:e2e-cov
       - name: call my internal workflow
-        uses: ./.github/workflows/my-internal-workflow.yaml
+        uses: ./my-internal-workflow.yaml
