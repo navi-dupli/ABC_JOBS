@@ -32,5 +32,9 @@ jobs:
         run: |
           cd microservice-users
           npm run test:e2e-cov
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
       - name: call my internal workflow
         uses: ./.github/workflows/my-internal-workflow.yaml
