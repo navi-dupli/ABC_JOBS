@@ -37,12 +37,16 @@ jobs:
 
       - name: Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v0
+        uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
           source: ./microservice-users
+          env_vars: |
+            NODE_ENV=production
+            DB_TYPE=sqlite
+            DB_DATABASE=mydatabase.sqlite
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
