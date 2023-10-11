@@ -33,4 +33,7 @@ jobs:
           cd microservice-users
           npm run test:e2e-cov
   deploy:
-    uses: ./.github/workflows/my-internal-workflow.yaml
+    needs:
+      - test
+    name: Deploy
+    uses: ./.github/workflows/deploy-microservice-workflow.yaml
