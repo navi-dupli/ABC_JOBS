@@ -1,6 +1,10 @@
 name: My Internal Workflow
 on:
-  workflow_call:
+  push:
+    branches:
+      - main
+#on:
+#  workflow_call:
 env:
   PROJECT_ID: proyecto-final-xcloud-qa # TODO: update Google Cloud project id
   SERVICE: microservice-users # TODO: update Cloud Run service name
