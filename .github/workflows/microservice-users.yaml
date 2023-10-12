@@ -41,5 +41,5 @@ jobs:
       service: 'microservice-users'
       region: 'us-central1'
       source: './microservice-users'
-      vif_provider: '${{ secrets.WIF_PROVIDER }}'
-      vif_service_account: '${{ secrets.VIF_SERVICE_ACCOUNT }}'
+      wif_provider: '${{ secrets.WIF_PROVIDER }}'
+      wif_service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'

@@ -14,11 +14,11 @@ on:
         description: 'Cloud Run service source folder'
         type: string
         required: true
-      vif_provider:
+      wif_provider:
         description: 'Workload Identity Federation provider'
         type: string
         required: true
-      vif_service_account:
+      wif_service_account:
         description: 'Workload Identity Federation service account'
         type: string
         required: true
@@ -44,8 +44,8 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           create_credentials_file: 'true'
-          workload_identity_provider: '${{ inputs.vif_provider }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ inputs.vif_service_account }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+          workload_identity_provider: '${{ inputs.wif_provider }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ inputs.wif_service_account }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
       # NOTE: Alternative option - authentication via credentials json
       # - name: Google Auth
