@@ -38,7 +38,6 @@ jobs:
     name: Deploy
     uses: ./.github/workflows/deploy-microservice-workflow.yaml
     with:
-      project_id: '${{ secrets.GCP_PROJECT_ID }}'
       service: 'microservice-users'
       region: 'us-central1'
       source: './microservice-users'

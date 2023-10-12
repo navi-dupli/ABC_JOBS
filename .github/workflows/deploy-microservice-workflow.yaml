@@ -2,10 +2,6 @@ name: Deploy cloud run service
 on:
   workflow_call:
     inputs:
-      project_id:
-        description: 'Google Cloud Project ID'
-        type: string
-        required: true
       service:
         description: 'Cloud Run service name'
         type: string
