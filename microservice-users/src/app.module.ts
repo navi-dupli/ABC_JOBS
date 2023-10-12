@@ -12,7 +12,7 @@ import { UsersModule } from './users/users.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: () => ({
-        type: process.env.DB_TYPE as any,
+        type: process.env.DB_TYPE,
         host: process.env.DB_HOST,
         port: parseInt(process.env.DB_PORT, 10),
         username: process.env.DB_USERNAME,

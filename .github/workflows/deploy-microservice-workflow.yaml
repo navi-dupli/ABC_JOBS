@@ -1,8 +1,31 @@
-name: My Internal Workflow
+name: Deploy cloud run service
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      project_id:
+        description: 'Google Cloud Project ID'
+        type: string
+        required: true
+      service:
+        description: 'Cloud Run service name'
+        type: string
+        required: true
+      region:
+        description: 'Cloud Run service region'
+        type: string
+        required: true
+      source:
+        description: 'Cloud Run service source folder'
+        type: string
+        required: true
+      vif_provider:
+        description: 'Workload Identity Federation provider'
+        type: string
+        required: true
+      vif_service_account:
+        description: 'Workload Identity Federation service account'
+        type: string
+        required: true
 env:
   PROJECT_ID: proyecto-final-xcloud-qa # TODO: update Google Cloud project id
   SERVICE: microservice-users # TODO: update Cloud Run service name
@@ -25,8 +48,8 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           create_credentials_file: 'true'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+          workload_identity_provider: '${{ inputs.vif_provider }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ inputs.vif_service_account }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
       # NOTE: Alternative option - authentication via credentials json
       # - name: Google Auth
@@ -39,14 +62,10 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
+          service: ${{ inputs.service }}
+          region: ${{ inputs.region }}
           # NOTE: If required, update to the appropriate source folder
-          source: ./microservice-users
-          env_vars: |
-            NODE_ENV=production
-            DB_TYPE=sqlite
-            DB_DATABASE=mydatabase.sqlite
+          source: ${{ inputs.source }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
