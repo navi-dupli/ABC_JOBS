@@ -3,8 +3,8 @@ on:
   pull_request:
     branches:
       - develop
-#    paths:
-#      - 'microservice-users/**'
+    paths:
+      - 'microservice-users/**'
 jobs:
   test:
     name: Test
@@ -30,7 +30,6 @@ jobs:
   deploy:
     needs:
       - test
-    if: contains(github.event.pull_request.changed_files, 'microservice-users/') || contains(github.event.pusher.head_commit.modified, 'microservice-users/')
     name: Deploy
     uses: ./.github/workflows/deploy-microservice-workflow.yaml
     with:
