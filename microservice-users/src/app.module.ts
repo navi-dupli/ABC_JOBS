@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'; // Importa TypeOrmModule
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import * as process from "process";
 
 @Module({
   imports: [
