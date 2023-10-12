@@ -35,6 +35,7 @@ jobs:
   deploy:
     needs:
       - test
+    if: contains(github.event.head_commit.added, 'microservice-users/')
     name: Deploy
     uses: ./.github/workflows/deploy-microservice-workflow.yaml
     with:
