@@ -7,10 +7,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Country } from './entities/country.entity';
 import { Region } from './entities/region.entity';
 import { City } from './entities/city.entity';
+import { CitiesController } from './controllers/cities/cities.controller';
+import { CitiesService } from './services/cities.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Country, Region, City])],
-  controllers: [CountriesController, RegionsController],
-  providers: [CountriesService, RegionsService],
+  controllers: [CountriesController, RegionsController, CitiesController],
+  providers: [CountriesService, RegionsService, CitiesService],
 })
 export class LocationModule {}
