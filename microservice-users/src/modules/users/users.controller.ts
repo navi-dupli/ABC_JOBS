@@ -1,19 +1,15 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthorizedController } from '../../commons/controllers/authorized/authorized.controller';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+export class UsersController extends AuthorizedController {
+  constructor(private readonly userService: UsersService) {
+    super();
+  }
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
@@ -21,15 +17,13 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   async findAll() {
     return await this.userService.findAll();
   }
 
   @Put(':id')
-  async updateUser(
-    @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return await this.userService.updateUser(id, updateUserDto);
   }
 
