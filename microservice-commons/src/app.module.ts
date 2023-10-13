@@ -3,11 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config'; // Importa ConfigM
 import { TypeOrmModule } from '@nestjs/typeorm'; // Importa TypeOrmModule
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './modules/users/users.module';
 import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { LocationModule } from './modules/location/location.module';
-import * as process from 'process';
 
 @Module({
   imports: [
@@ -26,7 +24,6 @@ import * as process from 'process';
         synchronize: true,
       }),
     }),
-    UsersModule,
     AuthzModule,
     LocationModule,
   ],
