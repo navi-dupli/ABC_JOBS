@@ -9,10 +9,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-      DB_TYPE: sqlite
-      DB_DATABASE: mydatabase.sqlite
     strategy:
       matrix:
         node-version: [16.x]
@@ -26,7 +22,7 @@ jobs:
       - name: Test
         run: |
           cd microservice-users
-          npm run test:e2e-cov
+          npm run test:cov
       - name: Build image Test
         run: |
           cd microservice-users
