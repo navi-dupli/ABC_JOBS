@@ -25,7 +25,7 @@ import { IdentificationModule } from './modules/identification/identification.mo
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        // synchronize: true,
       }),
     }),
     AuthzModule,
