@@ -3,6 +3,7 @@ version: "3"
 services:
   postgres:
     image: postgres:latest
+    user: "999:999"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

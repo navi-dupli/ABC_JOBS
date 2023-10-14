@@ -29,11 +29,14 @@ export class Company {
   phoneNumber: string;
 
   @Column()
-  country: string;
+  country: number;
 
   @Column()
-  region: string;
+  region: number;
 
   @Column()
-  city: string;
+  city: number;
+
+  @Column()
+  address: string;
 }
