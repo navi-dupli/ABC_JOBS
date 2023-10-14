@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Company } from './company.entity';
+import { Company } from './entity/company.entity';
 import { CreateCompanyDto } from './dto/create-companie.dto';
 import { Repository } from 'typeorm';
 
@@ -18,7 +18,7 @@ export class CompaniesService {
     });
 
     if (existingRepresentative) {
-      throw new Error('The representative email already exists in the system.');
+      throw new Error('El correo del representante ya esta asociado a otra empresa');
     }
 
     // Crear una nueva empresa
