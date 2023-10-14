@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { City } from '../../entities/city.entity';
 import { CitiesService } from '../../services/cities.service';
 
@@ -16,8 +16,8 @@ export class CitiesController {
     return this.citiesService.findByRegionId(regionId);
   }
 
-  @Get('region/:regionId/name')
-  async findByRegionIdAndCityName(@Param('regionId') regionId: number, @Query('name') name: string): Promise<City> {
+  @Get('region/:regionId/search/:name')
+  async findByRegionIdAndCityName(@Param('regionId') regionId: number, @Param('name') name: string): Promise<City[]> {
     return this.citiesService.findByRegionIdAndCityName(regionId, name);
   }
 }

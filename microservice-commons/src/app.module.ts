@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { LocationModule } from './modules/location/location.module';
+import { IdentificationModule } from './modules/identification/identification.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LocationModule } from './modules/location/location.module';
     }),
     AuthzModule,
     LocationModule,
+    IdentificationModule,
   ],
   controllers: [AppController, AuthorizedController],
   providers: [AppService],
