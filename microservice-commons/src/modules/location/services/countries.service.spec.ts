@@ -52,8 +52,31 @@ describe('CountriesService', () => {
     });
   });
 
-  describe('findOneByName', () => {
-    it('should return a country by name', async () => {
+  describe('findByName', () => {
+    it('should return countries by name', async () => {
+      const countryName = 'ExampleCountry';
+      const expectedCountries: Country[] = [
+        {
+          id: 1,
+          name: countryName,
+          code: 'C1',
+          regions: [],
+        },
+      ];
+
+      jest.spyOn(repository, 'createQueryBuilder').mockReturnValue({
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(expectedCountries),
+      } as any);
+
+      const result = await service.findByName(countryName);
+
+      expect(result).toEqual(expectedCountries);
+    });
+  });
+  describe('findAll', () => {
+    it('should return all countries ', async () => {
       const countryName = 'ExampleCountry';
       const expectedCountry: Country = {
         id: 1,
@@ -62,19 +85,11 @@ describe('CountriesService', () => {
         regions: [],
       };
 
-      jest.spyOn(repository, 'findOne').mockResolvedValue(expectedCountry);
+      jest.spyOn(repository, 'find').mockResolvedValue([expectedCountry]);
 
-      const result = await service.findOneByName(countryName);
+      const result = await service.findAll();
 
-      expect(result).toEqual(expectedCountry);
-    });
-
-    it('should throw NotFoundException if country is not found by name', async () => {
-      const countryName = 'NonexistentCountry';
-
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
-
-      await expect(service.findOneByName(countryName)).rejects.toThrowError(NotFoundException);
+      expect(result).toEqual([expectedCountry]);
     });
   });
   afterEach(() => {

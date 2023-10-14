@@ -79,14 +79,16 @@ describe('RegionsController', () => {
     it('should return a region by country ID and region name', async () => {
       const countryId = 1;
       const regionName = 'ExampleRegion';
-      const expectedRegion: Region = {
-        id: 1,
-        name: 'Region 1',
-        code: 'C1',
-        country_id: countryId,
-        country: null,
-        cities: [],
-      };
+      const expectedRegion: Region[] = [
+        {
+          id: 1,
+          name: 'Region 1',
+          code: 'C1',
+          country_id: countryId,
+          country: null,
+          cities: [],
+        },
+      ];
 
       jest.spyOn(service, 'findByCountryIdAndRegionName').mockResolvedValue(expectedRegion);
 

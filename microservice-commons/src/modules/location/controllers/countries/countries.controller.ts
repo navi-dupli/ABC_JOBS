@@ -9,13 +9,18 @@ export class CountriesController extends AuthorizedController {
     super();
   }
 
-  @Get(':id')
+  @Get('')
+  async findAll(): Promise<Country[]> {
+    return this.countriesService.findAll();
+  }
+
+  @Get('/:id')
   async findOneById(@Param('id') id: number): Promise<Country> {
     return this.countriesService.findOneById(id);
   }
 
-  @Get('name/:name')
-  async findOneByName(@Param('name') name: string): Promise<Country> {
-    return this.countriesService.findOneByName(name);
+  @Get('/search/:name')
+  async findOneByName(@Param('name') name: string): Promise<Country[]> {
+    return this.countriesService.findByName(name);
   }
 }

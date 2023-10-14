@@ -85,19 +85,21 @@ describe('CitiesController', () => {
     it('should return a city by region ID and city name', async () => {
       const regionId = 1;
       const cityName = 'City 1';
-      const expectedCity = {
-        id: 1,
-        name: cityName,
-        region_id: 1,
-        country_id: 1,
-        latitude: 1,
-        longitude: 1,
-        region: null,
-      }; // Adjust based on your actual City model
-      jest.spyOn(service, 'findByRegionIdAndCityName').mockResolvedValue(expectedCity);
+      const expectedCities = [
+        {
+          id: 1,
+          name: cityName,
+          region_id: 1,
+          country_id: 1,
+          latitude: 1,
+          longitude: 1,
+          region: null,
+        },
+      ]; // Adjust based on your actual City model
+      jest.spyOn(service, 'findByRegionIdAndCityName').mockResolvedValue(expectedCities);
 
       const result = await controller.findByRegionIdAndCityName(regionId, cityName);
-      expect(result).toBe(expectedCity);
+      expect(result).toBe(expectedCities);
     });
   });
 });
