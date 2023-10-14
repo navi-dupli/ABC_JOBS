@@ -14,7 +14,9 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    "main.ts"
+    "main.ts",
+    "main.spec.ts",
+    "app.module.spec.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
