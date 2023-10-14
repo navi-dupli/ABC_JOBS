@@ -88,29 +88,26 @@ describe('RegionsService', () => {
     it('should return a region by country ID and region name', async () => {
       const countryId = 1;
       const regionName = 'ExampleRegion';
-      const expectedRegion: Region = {
-        id: 1,
-        name: regionName,
-        code: 'C1',
-        country_id: countryId,
-        country: null,
-        cities: [],
-      };
+      const expectedRegions: Region[] = [
+        {
+          id: 1,
+          name: regionName,
+          code: 'C1',
+          country_id: countryId,
+          country: null,
+          cities: [],
+        },
+      ];
 
-      jest.spyOn(repository, 'findOne').mockResolvedValue(expectedRegion);
+      jest.spyOn(repository, 'createQueryBuilder').mockReturnValue({
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(expectedRegions),
+      } as any);
 
       const result = await service.findByCountryIdAndRegionName(countryId, regionName);
 
-      expect(result).toBe(expectedRegion);
-    });
-
-    it('should throw NotFoundException if region is not found', async () => {
-      const countryId = 1;
-      const regionName = 'NonexistentRegion';
-
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
-
-      await expect(service.findByCountryIdAndRegionName(countryId, regionName)).rejects.toThrowError(NotFoundException);
+      expect(result).toBe(expectedRegions);
     });
   });
   afterEach(() => {

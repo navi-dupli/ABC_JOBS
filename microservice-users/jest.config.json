@@ -2,6 +2,9 @@
   "collectCoverage": true,
   "coverageThreshold": {
     "global": {
+      "branches": 70,
+      "functions": 70,
+      "lines": 70,
       "statements": 70
     }
   },
@@ -11,9 +14,7 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    "main.ts",
-    "main.spec.ts",
-    "app.module.spec.ts"
+    "main.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -21,7 +22,8 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    "main.ts"
+    "main.ts",
+    ".module.ts"
   ],
   "moduleFileExtensions": [
     "js",

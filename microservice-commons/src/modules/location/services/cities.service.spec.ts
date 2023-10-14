@@ -88,28 +88,26 @@ describe('CitiesService', () => {
     it('should return a city by region ID and city name', async () => {
       const regionId = 1;
       const cityName = 'City 1';
-      const expectedCity: City = {
-        id: 1,
-        name: cityName,
-        region_id: 1,
-        country_id: 1,
-        latitude: 1,
-        longitude: 1,
-        region: null,
-      }; // Adjust based on your actual City model
-      jest.spyOn(repository, 'findOne').mockResolvedValue(expectedCity);
+      const expectedCities: City[] = [
+        {
+          id: 1,
+          name: cityName,
+          region_id: 1,
+          country_id: 1,
+          latitude: 1,
+          longitude: 1,
+          region: null,
+        },
+      ];
+      // Mock the find method of the repository to return expectedCities
+      jest.spyOn(repository, 'createQueryBuilder').mockReturnValue({
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(expectedCities),
+      } as any);
 
       const result = await service.findByRegionIdAndCityName(regionId, cityName);
-      expect(result).toBe(expectedCity);
-    });
-
-    it('should throw NotFoundException if city is not found', async () => {
-      const regionId = 1;
-      const cityName = 'NonexistentCity';
-
-      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
-
-      await expect(service.findByRegionIdAndCityName(regionId, cityName)).rejects.toThrowError(NotFoundException);
+      expect(result).toBe(expectedCities);
     });
   });
 });

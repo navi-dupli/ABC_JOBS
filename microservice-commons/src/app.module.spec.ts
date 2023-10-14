@@ -8,6 +8,7 @@ import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { LocationModule } from './modules/location/location.module';
 import { TypeOrmSQLITETestingModule } from './test-utils/type-orm-sqlite-testing-module';
+import { IdentificationModule } from './modules/identification/identification.module';
 
 describe('AppModule', () => {
   let module: TestingModule;
@@ -55,5 +56,10 @@ describe('AppModule', () => {
   it('should have AuthorizedController defined', () => {
     const authorizedController = module.get(AuthorizedController);
     expect(authorizedController).toBeDefined();
+  });
+
+  it('should have  IdentificationModule defined', () => {
+    const identificationModule = module.get(IdentificationModule);
+    expect(identificationModule).toBeDefined();
   });
 });

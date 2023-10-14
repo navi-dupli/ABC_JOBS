@@ -29,6 +29,26 @@ describe('CountriesController', () => {
     expect(controller).toBeDefined();
   });
 
+  describe('finAll', () => {
+    it('should return all countries ', async () => {
+      const countryId = 1;
+      const expectedCountries: Country[] = [
+        {
+          id: countryId,
+          name: 'Country 1',
+          code: 'C1',
+          regions: [],
+        },
+      ];
+
+      jest.spyOn(service, 'findAll').mockResolvedValue(expectedCountries);
+
+      const result = await controller.findAll();
+
+      expect(result).toBe(expectedCountries);
+    });
+  });
+
   describe('findOneById', () => {
     it('should return a country by ID', async () => {
       const countryId = 1;
@@ -50,18 +70,20 @@ describe('CountriesController', () => {
   describe('findOneByName', () => {
     it('should return a country by name', async () => {
       const countryName = 'ExampleCountry';
-      const expectedCountry: Country = {
-        id: 1,
-        name: countryName,
-        code: 'C1',
-        regions: [],
-      };
+      const expectedCountries: Country[] = [
+        {
+          id: 1,
+          name: countryName,
+          code: 'C1',
+          regions: [],
+        },
+      ];
 
-      jest.spyOn(service, 'findOneByName').mockResolvedValue(expectedCountry);
+      jest.spyOn(service, 'findByName').mockResolvedValue(expectedCountries);
 
       const result = await controller.findOneByName(countryName);
 
-      expect(result).toBe(expectedCountry);
+      expect(result).toBe(expectedCountries);
     });
   });
 });
