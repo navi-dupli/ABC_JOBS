@@ -12,8 +12,11 @@ import { CompaniesModule } from './companies/companies.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: () => ({
-        type: 'postgres',
+        type: process.env.DB_TYPE as any,
         host: process.env.DB_HOST,
+        extra: {
+          socketPath: process.env.NODE_ENV == '' ? '' : process.env.DB_HOST,
+        },
         port: parseInt(process.env.DB_PORT, 10),
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,

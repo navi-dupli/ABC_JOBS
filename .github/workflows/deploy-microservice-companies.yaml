@@ -1,15 +1,15 @@
-name: Deploy cloud run service commons
+name: Deploy cloud run service companies
 on:
   push:
     branches:
       - develop
     paths:
-      - 'microservice-commons/**'
+      - 'microservice-companies/**'
 env:
   PROJECT_ID: proyecto-final-xcloud-qa
-  SERVICE: microservice-commons
+  SERVICE: microservice-companies
   REGION: us-central1
-  SOURCE: './microservice-commons'
+  SOURCE: './microservice-companies'
 
 jobs:
   deploy:

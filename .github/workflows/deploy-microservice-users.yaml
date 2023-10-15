@@ -1,4 +1,4 @@
-name: Deploy cloud run service
+name: Deploy cloud run service users
 on:
   push:
     branches:
