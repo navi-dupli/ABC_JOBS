@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import * as process from 'process';
 
 let configLoaded: TypeOrmModuleOptions;
 if (process.env.NODE_ENV === 'test') {
@@ -18,7 +19,7 @@ if (process.env.NODE_ENV === 'test') {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: true,
+    synchronize: !!process.env.DB_SYNCHRONIZE,
     dropSchema: false,
   };
 }
