@@ -1,10 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { Region } from '../../entities/region.entity';
 import { RegionsService } from '../../services/regions.service';
+import { AuthorizedController } from '../../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('regions')
-export class RegionsController {
-  constructor(private readonly regionsService: RegionsService) {}
+export class RegionsController extends AuthorizedController {
+  constructor(private readonly regionsService: RegionsService) {
+    super();
+  }
 
   @Get(':id')
   async findOneById(@Param('id') id: number): Promise<Region> {

@@ -14,7 +14,8 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    "main.ts"
+    "main.ts",
+    "database.config.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -22,7 +23,8 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    "main.ts"
+    "main.ts",
+    "database.config.ts"
   ],
   "moduleFileExtensions": [
     "js",
@@ -38,5 +40,8 @@
     "**/*.(t|j)s"
   ],
   "coverageDirectory": "../coverage",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "testEnvironmentOptions": {
+    "NODE_ENV": "test"
+  }
 }

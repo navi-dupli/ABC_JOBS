@@ -1,35 +1,31 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config'; // Importa ConfigModule
-import { TypeOrmModule } from '@nestjs/typeorm'; // Importa TypeOrmModule
+import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { LocationModule } from './modules/location/location.module';
 import { IdentificationModule } from './modules/identification/identification.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { databaseConfig } from './database.config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // Configura ConfigModule
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: () => ({
-        type: process.env.DB_TYPE as any,
-        host: process.env.DB_HOST,
-        port: parseInt(process.env.DB_PORT, 10),
-        username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-      }),
+      useFactory: () => databaseConfig,
     }),
     AuthzModule,
     LocationModule,
     IdentificationModule,
   ],
   controllers: [AppController, AuthorizedController],
-  providers: [AppService],
+  providers: [AppService, Logger],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
