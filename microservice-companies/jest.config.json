@@ -7,21 +7,19 @@
   },
   "testPathIgnorePatterns": [
     "/node_modules/",
-    "/test-utils/",
     "/dist/",
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "database.config.ts"
+    ".module.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
-    "/test-utils/",
     "/dist/",
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "database.config.ts"
+    ".module.ts"
   ],
   "moduleFileExtensions": [
     "js",
@@ -37,8 +35,5 @@
     "**/*.(t|j)s"
   ],
   "coverageDirectory": "../coverage",
-  "testEnvironment": "node",
-  "testEnvironmentOptions": {
-    "NODE_ENV": "test"
-  }
+  "testEnvironment": "node"
 }

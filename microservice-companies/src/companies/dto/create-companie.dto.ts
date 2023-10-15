@@ -28,11 +28,14 @@ export class CreateCompanyDto {
   phoneNumber: string;
 
   @IsNotEmpty()
-  country: string;
+  country: number;
 
   @IsNotEmpty()
-  region: string;
+  region: number;
 
   @IsNotEmpty()
-  city: string;
+  city: number;
+
+  @IsNotEmpty()
+  address: string;
 }
