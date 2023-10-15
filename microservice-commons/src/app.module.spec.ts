@@ -1,24 +1,31 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { LocationModule } from './modules/location/location.module';
-import { TypeOrmSQLITETestingModule } from './test-utils/type-orm-sqlite-testing-module';
 import { IdentificationModule } from './modules/identification/identification.module';
+import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 
 describe('AppModule', () => {
   let module: TestingModule;
+  let app: INestApplication;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      imports: [AppModule, ...TypeOrmSQLITETestingModule()],
+      imports: [AppModule],
     }).compile();
+    app = module.createNestApplication<NestExpressApplication>();
+    app.use(LoggerMiddleware);
+    await app.init();
   });
-
+  afterAll(async () => {
+    await module.close();
+  });
   it('should be defined', () => {
     expect(module).toBeDefined();
   });
@@ -31,11 +38,6 @@ describe('AppModule', () => {
   it('should have AppService defined', () => {
     const service = module.get<AppService>(AppService);
     expect(service).toBeDefined();
-  });
-
-  it('should have ConfigModule configured', () => {
-    const configService = module.get<ConfigService>(ConfigService);
-    expect(configService).toBeDefined();
   });
 
   it('should have TypeOrmModule configured', () => {

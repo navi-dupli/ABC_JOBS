@@ -4,18 +4,18 @@ import { CountriesController } from './controllers/countries/countries.controlle
 import { CountriesService } from './services/countries.service';
 import { RegionsController } from './controllers/regions/regions.controller';
 import { RegionsService } from './services/regions.service';
-import { TypeOrmSQLITETestingModule } from '../../test-utils/type-orm-sqlite-testing-module';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Region } from './entities/region.entity';
 import { Repository } from 'typeorm';
 import { Country } from './entities/country.entity';
+import { databaseConfig } from '../../database.config';
 
 describe('LocationModule', () => {
   let module: TestingModule;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      imports: [...TypeOrmSQLITETestingModule(), LocationModule],
+      imports: [TypeOrmModule.forRoot(databaseConfig), LocationModule],
       controllers: [CountriesController, RegionsController],
       providers: [
         CountriesService,

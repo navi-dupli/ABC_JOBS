@@ -1,10 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { IdentificationService } from '../services/identification.service';
 import { IdentificationType } from '../entities/identification-type.entity';
+import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('identification')
-export class IdentificationController {
-  constructor(private readonly identificationTypeService: IdentificationService) {}
+export class IdentificationController extends AuthorizedController {
+  constructor(private readonly identificationTypeService: IdentificationService) {
+    super();
+  }
 
   @Get()
   async findAllActive(): Promise<IdentificationType[]> {

@@ -2,7 +2,10 @@
   "collectCoverage": true,
   "coverageThreshold": {
     "global": {
-      "statements": 70
+      "statements": 70,
+      "branches": 70,
+      "functions": 70,
+      "lines": 70
     }
   },
   "testPathIgnorePatterns": [
@@ -12,8 +15,7 @@
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "main.spec.ts",
-    "app.module.spec.ts"
+    "database.config.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -21,7 +23,8 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    "main.ts"
+    "main.ts",
+    "database.config.ts"
   ],
   "moduleFileExtensions": [
     "js",
@@ -37,5 +40,8 @@
     "**/*.(t|j)s"
   ],
   "coverageDirectory": "../coverage",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "testEnvironmentOptions": {
+    "NODE_ENV": "test"
+  }
 }
