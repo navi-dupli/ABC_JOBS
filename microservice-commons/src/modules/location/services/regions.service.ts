@@ -22,11 +22,13 @@ export class RegionsService {
     return this.regionRepository.find({ where: { country_id: countryId } });
   }
 
-  async findByCountryIdAndRegionName(countryId: number, name: string): Promise<Region> {
-    const region = await this.regionRepository.findOne({ where: { country_id: countryId, name: name } });
-    if (!region) {
-      throw new NotFoundException(`Region with country ID ${countryId} and name ${name} not found`);
-    }
-    return region;
+  async findByCountryIdAndRegionName(countryId: number, name: string): Promise<Region[]> {
+    return this.regionRepository
+      .createQueryBuilder('regionByCountryIdByName')
+      .where('regionByCountryIdByName.country_id=:countryId and  LOWER(regionByCountryIdByName.name) LIKE :name', {
+        countryId: countryId,
+        name: `%${name.toLowerCase()}%`,
+      })
+      .getMany();
   }
 }

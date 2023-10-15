@@ -25,11 +25,13 @@ export class CitiesService extends AuthorizedController {
     return this.cityRepository.find({ where: { region_id: regionId } });
   }
 
-  async findByRegionIdAndCityName(regionId: number, name: string): Promise<City> {
-    const city = await this.cityRepository.findOne({ where: { region_id: regionId, name: name } });
-    if (!city) {
-      throw new NotFoundException(`City with region ID ${regionId} and name ${name} not found`);
-    }
-    return city;
+  async findByRegionIdAndCityName(regionId: number, name: string): Promise<City[]> {
+    return this.cityRepository
+      .createQueryBuilder('citiesByRegionIdIdByName')
+      .where('citiesByRegionIdIdByName.region_id=:regionId and  LOWER(citiesByRegionIdIdByName.name) LIKE :name', {
+        regionId: regionId,
+        name: `%${name.toLowerCase()}%`,
+      })
+      .getMany();
   }
 }

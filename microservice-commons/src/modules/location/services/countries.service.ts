@@ -19,11 +19,14 @@ export class CountriesService {
     return country;
   }
 
-  async findOneByName(name: string): Promise<Country> {
-    const country = await this.countryRepository.findOne({ where: { name } });
-    if (!country) {
-      throw new NotFoundException(`Country with name ${name} not found`);
-    }
-    return country;
+  async findByName(name: string): Promise<Country[]> {
+    return this.countryRepository
+      .createQueryBuilder('countryByName')
+      .where('LOWER(countryByName.name) LIKE :name', { name: `%${name.toLowerCase()}%` })
+      .getMany();
+  }
+
+  findAll(): Promise<Country[]> {
+    return this.countryRepository.find();
   }
 }
