@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {CompaniesService} from "./companies.service";
-import {Company} from "./entity/company.entity";
+import { CompaniesService } from './companies.service';
+import { Company } from './entity/company.entity';
 
 describe('CompaniesService', () => {
   let service: CompaniesService;
@@ -27,5 +26,4 @@ describe('CompaniesService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
 });
