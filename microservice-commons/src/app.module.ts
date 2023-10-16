@@ -1,6 +1,4 @@
 import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { LocationModule } from './modules/location/location.module';
@@ -21,8 +19,8 @@ import { LoggerMiddleware } from './commons/middleware/logger.middleware';
     LocationModule,
     IdentificationModule,
   ],
-  controllers: [AppController, AuthorizedController],
-  providers: [AppService, Logger],
+  controllers: [AuthorizedController],
+  providers: [Logger],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
