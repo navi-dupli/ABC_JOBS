@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import {BadRequestException, Body, Controller, Get, Post} from "@nestjs/common";
 import { CompaniesService } from "./companies.service";
 import { CreateCompanyDto } from "./dto/create-companie.dto";
 import { Company } from "./entity/company.entity";
@@ -23,7 +23,11 @@ export class CompaniesController {
     try {
       return await this.companiesService.createCompany(createCompanyDto);
     } catch (error) {
-      throw new Error(error.message);
+      if (error instanceof BadRequestException) {
+        throw new BadRequestException(error.message);
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
 }
