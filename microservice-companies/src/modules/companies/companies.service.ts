@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Company } from './entity/company.entity';
 import { CreateCompanyDto } from './dto/create-companie.dto';
@@ -18,7 +18,7 @@ export class CompaniesService {
     });
 
     if (existingRepresentative) {
-      throw new Error('El correo del representante ya esta asociado a otra empresa');
+      throw new BadRequestException('El correo del representante ya esta asociado a otra empresa')
     }
 
     // Crear una nueva empresa
