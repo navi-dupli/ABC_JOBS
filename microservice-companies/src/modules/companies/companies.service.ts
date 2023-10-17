@@ -18,7 +18,6 @@ export class CompaniesService {
     });
 
     if (existingRepresentative) {
-      // throw new Error('El correo del representante ya esta asociado a otra empresa');
       throw new BadRequestException('El correo del representante ya esta asociado a otra empresa')
     }
 
