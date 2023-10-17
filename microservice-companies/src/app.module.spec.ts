@@ -3,11 +3,10 @@ import { AppModule } from './app.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthzModule } from './modules/authz/authz.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
-import { LocationModule } from './modules/location/location.module';
-import { IdentificationModule } from './modules/identification/identification.module';
 import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
+import { CompaniesModule } from './modules/companies/companies.module';
 
 describe('AppModule', () => {
   let module: TestingModule;
@@ -38,18 +37,13 @@ describe('AppModule', () => {
     expect(authzModule).toBeDefined();
   });
 
-  it('should have LocationModule defined', () => {
-    const locationModule = module.get(LocationModule);
-    expect(locationModule).toBeDefined();
+  it('should have CompaniesModule defined', () => {
+    const companiesModule = module.get(CompaniesModule);
+    expect(companiesModule).toBeDefined();
   });
 
   it('should have AuthorizedController defined', () => {
     const authorizedController = module.get(AuthorizedController);
     expect(authorizedController).toBeDefined();
-  });
-
-  it('should have  IdentificationModule defined', () => {
-    const identificationModule = module.get(IdentificationModule);
-    expect(identificationModule).toBeDefined();
   });
 });
