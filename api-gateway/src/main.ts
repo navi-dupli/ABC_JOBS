@@ -6,11 +6,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
 
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  });
-  app.setGlobalPrefix((process.env.NAME || 'base-path') + '-app');
+  app.enableCors();
   SwaggerConfigModule.setup(app);
 
   await app.listen(port);
