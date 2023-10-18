@@ -6,11 +6,17 @@ export class User {
   id: number;
 
   @Column()
-  username: string;
+  names: string;
+
+  @Column()
+  surnames: string;
 
   @Column()
   email: string;
 
-  @Column()
-  password: string;
+  @Column({ name: 'auth_id', nullable: true })
+  authId: string;
+
+  @Column({ nullable: true })
+  picture: string;
 }

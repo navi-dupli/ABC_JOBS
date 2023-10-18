@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from '../services/users.service';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthorizedController } from '../../commons/controllers/authorized/authorized.controller';
+import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('users')
 export class UsersController extends AuthorizedController {

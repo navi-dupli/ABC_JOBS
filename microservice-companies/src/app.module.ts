@@ -23,6 +23,5 @@ import { AuthorizedController } from './commons/controllers/authorized/authorize
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
-    //SwaggerConfigModule.setup(this);
   }
 }
