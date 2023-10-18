@@ -1,11 +1,13 @@
-// dynamic-routes.config.ts
-
-import * as process from 'process';
-
 export interface RouteConfig {
-  path: string;
+  path: MicroserviceEnum;
   microservice: string;
   endPoint: string;
+}
+
+export class MicroserviceEnum {
+  static readonly COMMONS = 'commons-app';
+  static readonly COMPANIES = 'companies-app';
+  static readonly USERS = 'users-app';
 }
 
 export const dynamicRoutesConfig: RouteConfig[] = [
@@ -20,8 +22,8 @@ export const dynamicRoutesConfig: RouteConfig[] = [
     endPoint: process.env.COMPANIES_ENDPOINT || 'http://localhost:3001',
   },
   {
-    path: 'controllers-app',
-    microservice: 'controllers-micro-service',
+    path: 'users-app',
+    microservice: 'users-micro-service',
     endPoint: process.env.USERS_ENDPOINT || 'http://localhost:3002',
   },
 ];

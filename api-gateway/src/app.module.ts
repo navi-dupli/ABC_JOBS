@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
-import { GenericController } from './commons/controllers/generic/generic.controller';
 import { HttpModule } from '@nestjs/axios';
-import { UsersModule } from './commons/modules/users/users.module';
+import { UsersModule } from './modules/users/users.module';
+import { GenericDelegateModule } from './commons/modules/generic-delegate/generic-delegate.module';
 
 @Module({
   imports: [
@@ -19,8 +19,9 @@ import { UsersModule } from './commons/modules/users/users.module';
     HttpModule,
     AuthzModule,
     UsersModule,
+    GenericDelegateModule,
   ],
-  controllers: [AuthorizedController, GenericController],
+  controllers: [AuthorizedController],
   providers: [Logger],
 })
 export class AppModule implements NestModule {

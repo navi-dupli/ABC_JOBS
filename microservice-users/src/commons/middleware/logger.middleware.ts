@@ -6,8 +6,8 @@ export class LoggerMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 
   use(req: Request, res: Response, next: any) {
-    const { method, url, baseUrl, params } = req;
-    const logMessage = `${method}:${url}${baseUrl}?${JSON.stringify(params)}`;
+    const { method, url, baseUrl, params, headers } = req;
+    const logMessage = `[${headers['x-request-id']}] ${method}:${url}${baseUrl}?${JSON.stringify(params)}`;
     this.logger.log(logMessage);
     next();
   }
