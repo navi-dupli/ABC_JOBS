@@ -1,9 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
 import { Auth0ExternalApiService } from '../../../commons/modules/user-manager/services/auth0-external-api.service';
 import { Auth0UserDto } from '../../../commons/modules/user-manager/dto/auth-user.dto';
 import { ExternalApiResponseDto } from '../../../commons/modules/user-manager/dto/external-api.dto';
@@ -51,22 +50,6 @@ export class UsersService {
 
   findOne(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id: id });
-  }
-
-  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.userRepository.findOneBy({ id });
-    if (!user) {
-      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
-    }
-
-    // Actualiza el usuario con los datos del DTO
-    Object.assign(user, updateUserDto);
-
-    return await this.userRepository.save(user);
-  }
-
-  async deleteUser(id: number): Promise<DeleteResult> {
-    return this.userRepository.delete(id);
   }
 
   private async createAndUpdateUser(auth0User: Auth0UserDto, user: User) {

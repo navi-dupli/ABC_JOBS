@@ -14,6 +14,8 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
+    ".dto.ts",
+    ".enum.ts",
     "main.ts",
     "database.config.ts"
   ],
@@ -23,6 +25,8 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
+    ".dto.ts",
+    ".enum.ts",
     "main.ts",
     "database.config.ts"
   ],
