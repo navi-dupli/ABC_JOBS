@@ -3,8 +3,10 @@ import { Request, Response } from 'express';
 import { dynamicRoutesConfig, RouteConfig } from '../../../dynamic-routes.config';
 import { GenericRequestDelegatedService } from './generic-request-delegated.service';
 import { AuthorizedController } from '../../controllers/authorized/authorized.controller';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
+@ApiTags('Generic-Delegated')
 export class GenericController extends AuthorizedController {
   private readonly logger = new Logger(GenericController.name);
 
