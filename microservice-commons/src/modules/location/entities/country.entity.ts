@@ -1,4 +1,3 @@
-// country.entity.ts
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Region } from './region.entity';
 
