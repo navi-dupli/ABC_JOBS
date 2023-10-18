@@ -6,7 +6,7 @@ import { AuthorizedController } from './commons/controllers/authorized/authorize
 import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
-import { CompaniesModule } from './modules/companies/companies.module';
+import { UserManagerModule } from './commons/modules/user-manager/user-manager.module';
 
 describe('AppModule', () => {
   let module: TestingModule;
@@ -37,9 +37,9 @@ describe('AppModule', () => {
     expect(authzModule).toBeDefined();
   });
 
-  it('should have CompaniesModule defined', () => {
-    const companiesModule = module.get(CompaniesModule);
-    expect(companiesModule).toBeDefined();
+  it('should have UserManagerModule defined', () => {
+    const userManagerModule = module.get(UserManagerModule);
+    expect(userManagerModule).toBeDefined();
   });
 
   it('should have AuthorizedController defined', () => {

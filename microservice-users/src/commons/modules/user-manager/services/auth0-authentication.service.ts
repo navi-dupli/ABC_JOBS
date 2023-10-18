@@ -36,7 +36,7 @@ export class Auth0AuthenticationService {
       audience: process.env.AUTH0_MANAGER_AUDIENCE,
       grant_type: process.env.AUTH0_MANAGER_GRANT_TYPE,
     };
-
+    this.logger.debug(`getting access token `);
     return this.httpService.post(process.env.AUTH0_MANAGER_END_POINT, authCredentials).pipe(
       map((response: AxiosResponse<AuthResponseDto>) => {
         this.accessToken = response.data.access_token;
