@@ -26,4 +26,14 @@ export const dynamicRoutesConfig: RouteConfig[] = [
     microservice: 'users-micro-service',
     endPoint: process.env.USERS_ENDPOINT || 'http://localhost:3002',
   },
+  {
+    path: 'projects-app',
+    microservice: 'projects-micro-service',
+    endPoint: process.env.PROJECTS_ENDPOINT || 'http://localhost:3003',
+  },
+  {
+    path: 'evaluations-app',
+    microservice: 'evaluations-micro-service',
+    endPoint: process.env.EVALUATIONS_ENDPOINT || 'http://localhost:3004',
+  },
 ];
