@@ -1,4 +1,4 @@
-name: Deploy Users Service
+name: Deploy api gateway Service
 on:
   pull_request:
     branches:
