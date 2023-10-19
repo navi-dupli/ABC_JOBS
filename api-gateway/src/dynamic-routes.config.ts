@@ -8,6 +8,8 @@ export class MicroserviceEnum {
   static readonly COMMONS = 'commons-app';
   static readonly COMPANIES = 'companies-app';
   static readonly USERS = 'users-app';
+  static readonly EVALUATIONS = 'evaluations-app';
+  static readonly PROJECTS = 'projects-app';
 }
 
 export const dynamicRoutesConfig: RouteConfig[] = [
