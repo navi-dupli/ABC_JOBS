@@ -1,10 +1,10 @@
-name: Test Users Service
+name: Test projects Service
 on:
   pull_request:
     branches:
       - develop
     paths:
-      - 'microservice-users/**'
+      - 'microservice-projects/**'
 jobs:
   test:
     name: Test
@@ -17,25 +17,25 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          cd microservice-users
+          cd microservice-projects
           npm install
       - name: Test
         run: |
-          cd microservice-users
+          cd microservice-projects
           npm run test:cov
       - name: Build image Test
         run: |
-          cd microservice-users
-          docker build -t microservice-users-test .
+          cd microservice-projects
+          docker build -t microservice-projects-test .
 #  deploy:
 #    needs:
 #      - test
 #    name: Deploy
 #    uses: ./.github/workflows/deploy-microservice-workflow.yaml
 #    with:
-#      service: 'microservice-users'
+#      service: 'microservice-projects'
 #      region: 'us-central1'
-#      source: './microservice-users'
+#      source: './microservice-projects'
 #    secrets:
 #      wif_provider: ${{ secrets.WIF_PROVIDER }}
 #      wif_service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
