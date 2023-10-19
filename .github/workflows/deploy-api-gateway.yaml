@@ -1,4 +1,4 @@
-name: Deploy cloud run service commons
+name: Deploy cloud run service api gateway
 on:
   push:
     branches:
