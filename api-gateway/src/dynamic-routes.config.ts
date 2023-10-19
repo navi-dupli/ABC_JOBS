@@ -31,11 +31,11 @@ export const dynamicRoutesConfig: RouteConfig[] = [
   {
     path: 'projects-app',
     microservice: 'projects-micro-service',
-    endPoint: process.env.PROJECTS_ENDPOINT || 'http://localhost:3003',
+    endPoint: process.env.PROJECTS_ENDPOINT || 'http://localhost:3004',
   },
   {
     path: 'evaluations-app',
     microservice: 'evaluations-micro-service',
-    endPoint: process.env.EVALUATIONS_ENDPOINT || 'http://localhost:3004',
+    endPoint: process.env.EVALUATIONS_ENDPOINT || 'http://localhost:3003',
   },
 ];
