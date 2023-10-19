@@ -1,9 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { Request } from 'express';
 import { RouteConfig } from '../../../dynamic-routes.config';
 import { AxiosRequestConfig } from 'axios';
+import { catchError } from 'rxjs/operators';
+import { MicroserviceException } from '../../exceptions/microservice.exception';
 
 @Injectable()
 export class GenericRequestDelegatedService {
@@ -17,12 +19,12 @@ export class GenericRequestDelegatedService {
       authorization: request.headers['authorization'],
     };
     const url = this.constructUrlAndMethod(microservice, request);
-    this.logger.log(`Delegating to ${request.method}${url}`);
+    this.logger.log(`Delegating to ${request.method}:${url}`);
     const requestConfig: AxiosRequestConfig = {
       headers: clientHeaders,
       method: request.method,
       //params: null,
-      //timeout: parseInt(process.env.REQUEST_TIMEOUT) || 10000,
+      timeout: parseInt(process.env.REQUEST_TIMEOUT) || 10000,
       url: url,
     };
     if (request.method.toUpperCase() === 'POST' || request.method.toUpperCase() === 'PUT') {
@@ -30,16 +32,15 @@ export class GenericRequestDelegatedService {
     }
     const requestObservable: Observable<any> = this.httpService.request(requestConfig);
 
-    return requestObservable;
-    /*  .pipe(
+    return requestObservable.pipe(
       catchError((error) => {
-        this.logger.log(
+        this.logger.error(
           `${error?.response?.status}:${error?.response?.statusText} was received from ${request.originalUrl}`,
         );
         this.logger.error(error);
-        return of(new NotFoundException(error));
+        return of(new MicroserviceException(error));
       }),
-    );*/
+    );
   }
 
   private constructUrlAndMethod(routeConfig: RouteConfig, req: Request): string {

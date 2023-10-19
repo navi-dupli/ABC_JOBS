@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +7,8 @@ import { Auth0ExternalApiService } from '../../../commons/modules/user-manager/s
 import { Auth0UserDto } from '../../../commons/modules/user-manager/dto/auth-user.dto';
 import { ExternalApiResponseDto } from '../../../commons/modules/user-manager/dto/external-api.dto';
 import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.enum';
+import { UserAlreadyExistException } from '../../../commons/exceptions/user-already-exist.exception';
+import { UserCreationErrorException } from '../../../commons/exceptions/user-creation-error.exception';
 
 @Injectable()
 export class UsersService {
@@ -24,7 +26,7 @@ export class UsersService {
     // si ya existe el usuario, se actualiza el authId
     if (user) {
       if (user.authId) {
-        throw new NotFoundException(`Usuario con email ${createUserDto.email} ya existe`);
+        throw new UserAlreadyExistException(`Usuario con email ${createUserDto.email} ya existe`);
       } else {
         await this.createAndUpdateUser(auth0User, user);
       }
@@ -39,7 +41,7 @@ export class UsersService {
         await this.createAndUpdateUser(auth0User, userCreated);
         return userCreated;
       } else {
-        throw new NotFoundException(`Usuario con email ${createUserDto.email} no pudo ser creado`);
+        throw new UserCreationErrorException(`Usuario con email ${createUserDto.email} no pudo ser creado`);
       }
     }
   }

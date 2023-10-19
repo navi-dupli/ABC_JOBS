@@ -8,9 +8,15 @@ export class LoggerMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: any) {
     req.headers['x-request-id'] = `abcjobs:${uuidv4()}`;
-    const { method, url, baseUrl, params, headers } = req;
-    const logMessage = `[${headers['x-request-id']}]${method}:${url}${baseUrl}?${JSON.stringify(params)}`;
+    const { method, originalUrl, params, headers } = req;
+    const logMessage = `[${headers['x-request-id']}] ==> ${method}:${originalUrl}?${JSON.stringify(params)}`;
     this.logger.log(logMessage);
+    res.on('finish', () => {
+      const logMessage = `[${headers['x-request-id']}] <== ${res.statusCode} ${method}:${originalUrl}?${JSON.stringify(
+        params,
+      )}`;
+      this.logger.log(logMessage);
+    });
     next();
   }
 }
