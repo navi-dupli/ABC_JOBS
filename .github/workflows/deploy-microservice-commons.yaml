@@ -1,15 +1,15 @@
-name: Deploy cloud run service evaluations
+name: Deploy cloud run service commons
 on:
   push:
     branches:
       - develop
     paths:
-      - 'microservice-evaluations/**'
+      - 'microservice-commons/**'
 env:
   PROJECT_ID: proyecto-final-xcloud-qa
-  SERVICE: microservice-evaluations
+  SERVICE: microservice-commons
   REGION: us-central1
-  SOURCE: './microservice-evaluations'
+  SOURCE: './microservice-commons'
 
 jobs:
   deploy:

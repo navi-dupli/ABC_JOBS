@@ -1,10 +1,10 @@
-name: Test microservice evaluations
+name: Test microservice commons
 on:
   pull_request:
     branches:
       - develop
     paths:
-      - 'microservice-evaluations/**'
+      - 'microservice-commons/**'
 jobs:
   test:
     name: Test
