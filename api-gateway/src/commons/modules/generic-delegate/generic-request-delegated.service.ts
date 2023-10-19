@@ -1,8 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Injectable, Logger } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import { v4 as uuidv4 } from 'uuid';
+import { Request } from 'express';
+import { RouteConfig } from '../../../dynamic-routes.config';
+import { AxiosRequestConfig } from 'axios';
 
 @Injectable()
 export class GenericRequestDelegatedService {
@@ -10,25 +11,38 @@ export class GenericRequestDelegatedService {
 
   constructor(private readonly httpService: HttpService) {}
 
-  delegateRequest(method: string, url: string, headers: Record<string, any>, body?: any): Observable<any> {
-    const uuidHeader = { 'X-Request-Id': `abcjobs:${uuidv4()}` }; // Agrega el header con el UUID
-    headers['content-length'] = null; // Agrega el header con el UUID
-    const allHeaders = { ...headers, ...uuidHeader };
-    const requestObservable: Observable<any> = this.httpService.request({
-      method,
-      url,
-      params: '',
-      headers: allHeaders,
-      data: body,
-      timeout: parseInt(process.env.REQUEST_TIMEOUT) || 10000,
-    });
+  delegateRequest(microservice: RouteConfig, request: Request): Observable<any> {
+    const clientHeaders = {
+      'x-request-id': request.headers['x-request-id'],
+      authorization: request.headers['authorization'],
+    };
+    const url = this.constructUrlAndMethod(microservice, request);
+    this.logger.log(`Delegating to ${request.method}${url}`);
+    const requestConfig: AxiosRequestConfig = {
+      headers: clientHeaders,
+      method: request.method,
+      //params: null,
+      //timeout: parseInt(process.env.REQUEST_TIMEOUT) || 10000,
+      url: url,
+    };
+    if (request.method.toUpperCase() === 'POST' || request.method.toUpperCase() === 'PUT') {
+      requestConfig.data = request.body;
+    }
+    const requestObservable: Observable<any> = this.httpService.request(requestConfig);
 
-    return requestObservable.pipe(
+    return requestObservable;
+    /*  .pipe(
       catchError((error) => {
-        this.logger.log(`${error?.response?.status}:${error?.response?.statusText} was received from ${url}`);
+        this.logger.log(
+          `${error?.response?.status}:${error?.response?.statusText} was received from ${request.originalUrl}`,
+        );
         this.logger.error(error);
         return of(new NotFoundException(error));
       }),
-    );
+    );*/
+  }
+
+  private constructUrlAndMethod(routeConfig: RouteConfig, req: Request): string {
+    return `${routeConfig.endPoint}${req.originalUrl}`;
   }
 }

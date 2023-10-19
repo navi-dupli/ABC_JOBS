@@ -25,20 +25,18 @@ export class GenericController extends AuthorizedController {
     const routeConfig: RouteConfig | undefined = dynamicRoutesConfig.find((route) => route.path === path);
 
     if (routeConfig) {
-      const { method, url } = this.constructUrlAndMethod(routeConfig, req);
-
-      this.requestDelegatedService.delegateRequest(method, url, req.headers, body).subscribe((response) => {
-        res.status(response.status).json(response.data);
-      });
+      this.requestDelegatedService.delegateRequest(routeConfig, req).subscribe(
+        (response) => {
+          res.status(response.status).json(response.data);
+        },
+        (error) => {
+          this.logger.error(error);
+          res.status(500).json({ error: error.message });
+        },
+      );
     } else {
       this.logger.error(`Route not found: ${path}`);
       res.status(404).json({ error: 'Route not found' });
     }
-  }
-
-  private constructUrlAndMethod(routeConfig: RouteConfig, req: Request): { method: string; url: string } {
-    const method = req.method.toUpperCase();
-    const url = `${routeConfig.endPoint}${req.url}`;
-    return { method, url };
   }
 }
