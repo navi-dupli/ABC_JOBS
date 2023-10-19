@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as process from 'process';
-// @ts-ignore
-import { version } from '../../../../package.json';
 
 @Module({})
 export class SwaggerConfigModule {
@@ -10,7 +8,7 @@ export class SwaggerConfigModule {
     const options = new DocumentBuilder()
       .setTitle(process.env.NAME)
       .setDescription(`API to manage ${process.env.NAME} `)
-      .setVersion(version)
+      .setVersion(process.env.VERSION || 'latest')
       .addBearerAuth()
       .build();
 
