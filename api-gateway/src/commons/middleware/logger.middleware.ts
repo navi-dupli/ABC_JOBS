@@ -9,6 +9,7 @@ export class LoggerMiddleware implements NestMiddleware {
     const { method, url, baseUrl, params } = req;
     const logMessage = `${method}:${url}${baseUrl}?${JSON.stringify(params)}`;
     this.logger.log(logMessage);
+    req.headers['x-request-id'] = 'abcjobs:1234567890';
     next();
   }
 }

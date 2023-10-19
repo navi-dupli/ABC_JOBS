@@ -52,6 +52,10 @@ export class UsersService {
     return this.userRepository.findOneBy({ id: id });
   }
 
+  findOneByAuthId(id: string): Promise<User> {
+    return this.userRepository.findOneBy({ authId: id });
+  }
+
   private async createAndUpdateUser(auth0User: Auth0UserDto, user: User) {
     auth0User.picture = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${user.id}&flip=true&radius=4`;
     auth0User.user_metadata = JSON.parse(JSON.stringify(user));
