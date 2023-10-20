@@ -12,9 +12,9 @@ async function bootstrap() {
   SwaggerConfigModule.setup(app);
 
   await app.listen(port);
-  console.info(`>>>>>>>>>>>>>>>>>>>>>> APP NAME: ${process.env.NAME}`);
-  console.info(`>>>>>>>>>>>>>>>>>>>>>> APP ENV: ${process.env.NODE_ENV}`);
-  console.info(`>>>>>>>>>>>>>>>>>>>>>> Application is running on: http://localhost:${port}`);
+  console.info(`>>> APP NAME: ${process.env.NAME}`);
+  console.info(`>>> APP ENV: ${process.env.NODE_ENV}`);
+  console.info(`>>> Application is running on: http://localhost:${port}/${process.env.NAME}-app/api`);
 }
 
 bootstrap();

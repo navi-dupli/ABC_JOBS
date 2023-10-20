@@ -1,10 +1,11 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { ExternalApiResponseDto } from '../dto/external-api.dto';
 import { Auth0UserDto, RequestUserDto } from '../dto/auth-user.dto';
 import { Auth0AuthenticationService } from './auth0-authentication.service';
 import { AuthRole } from '../enums/role.enum';
+import { UserAlreadyExistException } from '../../../exceptions/user-already-exist.exception';
 
 @Injectable()
 export class Auth0ExternalApiService {
@@ -28,10 +29,10 @@ export class Auth0ExternalApiService {
     } catch (error) {
       if (error instanceof AxiosError && error.response.status === 409) {
         this.logger.error(error.response.data.message);
-        throw new NotFoundException(error.response.data.message);
+        throw new UserAlreadyExistException(error.response.data.message);
       }
       this.logger.error(error);
-      throw new NotFoundException(error);
+      throw new InternalServerErrorException(error);
     }
   }
 

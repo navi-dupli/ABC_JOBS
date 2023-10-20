@@ -15,7 +15,9 @@
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "database.config.ts"
+    ".config.ts",
+    ".filter.ts",
+    ".exception.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -24,7 +26,9 @@
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "database.config.ts"
+    ".config.ts",
+    ".filter.ts",
+    ".exception.ts"
   ],
   "moduleFileExtensions": [
     "js",
