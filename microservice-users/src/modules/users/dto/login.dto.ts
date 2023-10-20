@@ -39,6 +39,7 @@ export class LoginResponseDto extends Auth0ResponseLoginDto {
   authId: string;
   picture: string;
   rol: string;
+  company_id: string;
 
   static fromAuth0ResponseLoginDto(auth0ResponseLoginDto: Auth0ResponseLoginDto, user: User): LoginResponseDto {
     const loginResponseDto = new LoginResponseDto();
@@ -52,6 +53,7 @@ export class LoginResponseDto extends Auth0ResponseLoginDto {
     loginResponseDto.authId = user.authId;
     loginResponseDto.picture = user.picture;
     loginResponseDto.rol = user.rol;
+    loginResponseDto.company_id = user.company_id;
     return loginResponseDto;
   }
 }

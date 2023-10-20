@@ -22,4 +22,7 @@ export class User {
 
   @Column({ nullable: false })
   rol: string;
+
+  @Column({ nullable: true })
+  company_id: string;
 }
