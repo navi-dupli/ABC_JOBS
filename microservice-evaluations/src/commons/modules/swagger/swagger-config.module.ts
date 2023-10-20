@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as process from 'process';
 
 @Module({})
 export class SwaggerConfigModule {

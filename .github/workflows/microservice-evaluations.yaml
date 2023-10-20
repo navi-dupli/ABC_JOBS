@@ -1,10 +1,10 @@
-name: Test Users Service
+name: Test microservice evaluations
 on:
   pull_request:
     branches:
       - develop
     paths:
-      - 'microservice-users/**'
+      - 'microservice-evaluations/**'
 jobs:
   test:
     name: Test
@@ -17,16 +17,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          cd microservice-users
+          cd microservice-evaluations
           npm install
       - name: Test
         run: |
-          cd microservice-users
+          cd microservice-evaluations
           npm run test:cov
       - name: Build image Test
         run: |
-          cd microservice-users
-          docker build -t microservice-users-test .
+          cd microservice-evaluations
+          docker build -t microservice-evaluations-test .
 #  deploy:
 #    needs:
 #      - test
