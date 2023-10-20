@@ -9,6 +9,11 @@ import { ExternalApiResponseDto } from '../../../commons/modules/user-manager/dt
 import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.enum';
 import { UserAlreadyExistException } from '../../../commons/exceptions/user-already-exist.exception';
 import { UserCreationErrorException } from '../../../commons/exceptions/user-creation-error.exception';
+import { LoginDto, LoginResponseDto } from '../dto/login.dto';
+import { Auth0LoginService } from './auth0-login/auth0-login.service';
+import * as jwt from 'jsonwebtoken';
+import { UserLoginErrorException } from '../../../commons/exceptions/user-login-error.exception';
+import { UserLoginFailedException } from '../../../commons/exceptions/user-login-failed.exception';
 
 @Injectable()
 export class UsersService {
@@ -18,6 +23,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly authService: Auth0ExternalApiService,
+    private readonly aut0LoginService: Auth0LoginService,
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -68,5 +74,24 @@ export class UsersService {
     user.picture = auth0User.picture;
     await this.userRepository.save(user);
     await this.authService.assignRole(externalApiUser.user_id, Auth0RoleEnum.CANDIDATO);
+  }
+
+  async login(loginDto: LoginDto): Promise<User> {
+    const userLogged = await this.aut0LoginService.authenticate(loginDto);
+    if (userLogged) {
+      const decodedToken = jwt.decode(userLogged.access_token) as jwt.JwtPayload;
+
+      if (!decodedToken || !decodedToken.exp) {
+        throw new UserLoginErrorException('Error al decodificar el token');
+      }
+      const user = await this.userRepository.findOneBy({ authId: decodedToken.sub });
+      if (user) {
+        return Promise.resolve(LoginResponseDto.fromAuth0ResponseLoginDto(userLogged, user));
+      }
+    } else {
+      throw new UserLoginFailedException('Error al loguear el usuario');
+    }
+
+    throw new UserLoginErrorException('Error al loguear el usuario, no exite en la bd local');
   }
 }

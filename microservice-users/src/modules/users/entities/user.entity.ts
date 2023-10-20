@@ -19,4 +19,7 @@ export class User {
 
   @Column({ nullable: true })
   picture: string;
+
+  @Column({ nullable: false })
+  rol: string;
 }
