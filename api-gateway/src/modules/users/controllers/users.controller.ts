@@ -21,8 +21,8 @@ export class UsersController extends AuthorizedController {
     return forkJoin([getUsers$, getUserById$]).pipe(
       map(([users, userUno]) => {
         return {
-          user: userUno.data,
-          users: users.data,
+          user: userUno,
+          users: users,
         };
       }),
     );
