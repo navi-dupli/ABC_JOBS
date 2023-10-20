@@ -13,7 +13,7 @@ export class Auth0UserDto {
     auth0UserDto.email = createUserDto.email;
     auth0UserDto.name = createUserDto.names + ' ' + createUserDto.surnames;
     auth0UserDto.password = createUserDto.password;
-    auth0UserDto.app_metadata = { roles: createUserDto.roles };
+    auth0UserDto.app_metadata = { rol: createUserDto.rol };
     return auth0UserDto;
   }
 }

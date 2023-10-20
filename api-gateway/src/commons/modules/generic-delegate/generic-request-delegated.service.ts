@@ -29,6 +29,7 @@ export class GenericRequestDelegatedService {
     };
     if (request.method.toUpperCase() === 'POST' || request.method.toUpperCase() === 'PUT') {
       requestConfig.data = request.body;
+      this.logger.debug(`Request body: ${JSON.stringify(request.body)}`);
     }
     const requestObservable: Observable<any> = this.httpService.request(requestConfig);
 
