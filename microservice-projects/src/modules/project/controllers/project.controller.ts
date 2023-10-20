@@ -4,7 +4,7 @@ import { ProjectService } from '../service/project.service';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller'; // Importa el servicio correspondiente
 
 @Controller('projects')
-export class ProjectController extends AuthorizedController{
+export class ProjectController extends AuthorizedController {
   constructor(private readonly projectService: ProjectService) {
     super();
   }

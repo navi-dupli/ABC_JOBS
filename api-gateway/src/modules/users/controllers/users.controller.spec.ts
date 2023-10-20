@@ -1,18 +1,46 @@
-import { Test, TestingModule } from '@nestjs/testing';
+// users.controller.spec.ts
 import { UsersController } from './users.controller';
 
 describe('UsersController', () => {
-  let controller: UsersController;
+  let usersController: UsersController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
-    }).compile();
+  const mockMicroserviceClientService = {
+    call: jest.fn(),
+  };
 
-    controller = module.get<UsersController>(UsersController);
+  beforeEach(() => {
+    usersController = new UsersController(mockMicroserviceClientService as any);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should return user and users', async () => {
+    // Arrange
+    const fakeUser = { id: 1, name: 'John Doe' };
+    const fakeUsers = [
+      { id: 1, name: 'John Doe' },
+      { id: 2, name: 'Jane Smith' },
+    ];
+
+    // Configure the mock to return the expected data
+    mockMicroserviceClientService.call
+      .mockResolvedValueOnce({ data: fakeUsers })
+      .mockResolvedValueOnce({ data: fakeUser });
+
+    // Act
+    const result = await usersController.findAll({} as any, 1).toPromise();
+
+    // Assert
+    expect(mockMicroserviceClientService.call).toHaveBeenCalledTimes(2);
+    expect(mockMicroserviceClientService.call).toHaveBeenCalledWith(
+      expect.anything(),
+      '/users',
+      'GET',
+      expect.anything(),
+    );
+    expect(mockMicroserviceClientService.call).toHaveBeenCalledWith(
+      expect.anything(),
+      '/users/1',
+      'GET',
+      expect.anything(),
+    );
   });
 });

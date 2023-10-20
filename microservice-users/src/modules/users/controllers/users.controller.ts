@@ -23,4 +23,9 @@ export class UsersController extends AuthorizedController {
   async findOne(@Param('id') id: number) {
     return await this.userService.findOne(id);
   }
+
+  @Get('/auth0/:id')
+  async findOneByAuth0Id(@Param('id') id: string) {
+    return await this.userService.findOneByAuthId(id);
+  }
 }
