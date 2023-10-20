@@ -14,10 +14,10 @@ export class ProjectService {
 
   async createProject(createProjectDto: CreateProjectDto): Promise<Project> {
     const project = new Project();
-    project.name = createProjectDto.name;
-    project.description = createProjectDto.description;
-    project.idCompany = createProjectDto.idCompany;
-    project.date = createProjectDto.date;
+    project.name = createProjectDto.projectName;
+    project.description = createProjectDto.projectDescription;
+    project.idCompany = createProjectDto.companyId;
+    project.date = createProjectDto.projectDate;
 
     return this.projectRepository.save(project);
   }
