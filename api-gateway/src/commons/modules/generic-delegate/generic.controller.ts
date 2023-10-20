@@ -30,13 +30,7 @@ export class GenericController extends AuthorizedController {
       });
     } else {
       this.logger.error(`Route not found: ${path}`);
-      res.status(404).json({ error: 'Route not found' });
-    }
-  }
-
-  private handleResponse(res: Response, response: any): void {
-    if (response?.error) {
-      res.status(response?.status).json(response.data);
+      res.status(404).json({ error: `Microservices with path: ${path} not found` });
     }
   }
 }
