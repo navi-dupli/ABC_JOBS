@@ -3,7 +3,7 @@ import { Education } from '../../education/entities/education.entity';
 import { Experience } from '../../expertise/entities/expertise.entity';
 import { UserLanguage } from '../../userLanguage/entities/userLanguage.entity';
 import { UserLocation } from '../../userLocation/entities/userLocation.entity';
-import {UserAbility} from "../../userAbility/entities/userAbility.entity";
+import { UserAbility } from '../../userAbility/entities/userAbility.entity';
 
 @Entity()
 export class User {
@@ -36,6 +36,9 @@ export class User {
 
   @Column()
   nameIdentification: string;
+
+  @Column()
+  identification: string;
 
   @OneToMany(() => Education, (education) => education.user)
   education: Education[];
