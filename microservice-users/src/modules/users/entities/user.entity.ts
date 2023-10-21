@@ -1,8 +1,9 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Education } from '../../education/entities/education.entity';
-import { Expertise } from '../../expertise/entities/expertise.entity';
+import { Experience } from '../../expertise/entities/expertise.entity';
 import { UserLanguage } from '../../userLanguage/entities/userLanguage.entity';
 import { UserLocation } from '../../userLocation/entities/userLocation.entity';
+import {UserAbility} from "../../userAbility/entities/userAbility.entity";
 
 @Entity()
 export class User {
@@ -39,12 +40,15 @@ export class User {
   @OneToMany(() => Education, (education) => education.user)
   education: Education[];
 
-  @OneToMany(() => Expertise, (expertise) => expertise.user)
-  expertise: Expertise[];
+  @OneToMany(() => Experience, (expertise) => expertise.user)
+  experiences: Experience[];
 
   @OneToMany(() => UserLanguage, (userLanguage) => userLanguage.user)
   languages: UserLanguage[];
 
   @ManyToOne(() => UserLocation, (userLocation) => userLocation.users, { nullable: true })
   location: UserLocation;
+
+  @OneToMany(() => UserAbility, (userAbility) => userAbility.user)
+  skills: UserAbility[];
 }
