@@ -7,10 +7,12 @@ import { UserManagerModule } from '../../commons/modules/user-manager/user-manag
 import { LoginController } from './controllers/login/login.controller';
 import { Auth0LoginService } from './services/auth0-login/auth0-login.service';
 import { HttpModule } from '@nestjs/axios';
+import { CandidateController } from './controllers/candidate/candidate.controller';
+import { CandidateService } from './services/candidate/candidate.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), UserManagerModule, HttpModule],
-  controllers: [UsersController, LoginController],
-  providers: [UsersService, Auth0LoginService],
+  controllers: [UsersController, LoginController, CandidateController],
+  providers: [UsersService, Auth0LoginService, CandidateService],
 })
 export class UsersModule {}
