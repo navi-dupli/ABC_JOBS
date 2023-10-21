@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AbilityModule } from './modules/ability/abilityModule';
 import { LanguageModule } from './modules/languague/language.module';
+import { EducationTypeModule } from './modules/education-type/education-type.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { LanguageModule } from './modules/languague/language.module';
     IdentificationModule,
     AbilityModule,
     LanguageModule,
+    EducationTypeModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],

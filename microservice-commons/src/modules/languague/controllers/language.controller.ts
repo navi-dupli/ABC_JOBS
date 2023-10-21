@@ -4,9 +4,9 @@ import {LanguageService} from "../services/language.service";
 import {Language} from "../entities/language.entity";
 
 @Controller('languages')
-export class LanguageController {
+export class LanguageController extends AuthorizedController{
   constructor(private readonly languageService: LanguageService) {
-
+    super();
   }
 
   @Get()

@@ -1,14 +1,10 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Language {
+export class EducationType {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({length: 45})
+  @Column({length: 100})
   name: string;
-
-  @Column({length: 45})
-  code: string;
-
 }
