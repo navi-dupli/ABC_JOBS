@@ -9,7 +9,7 @@ import {RegisterTechnicalTestDto} from "../dto/register-technical-test.dto";
 export class TechnicalTestService extends AuthorizedController {
   constructor(
     @InjectRepository(TechnicalTest)
-    private readonly technicalTestRepository: Repository<TechnicalTest>,
+    public technicalTestRepository: Repository<TechnicalTest>,
   ) {
     super();
   }
