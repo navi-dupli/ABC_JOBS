@@ -7,7 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
-import { SkillsModule } from './modules/skills/skills.module';
+import { AbilityModule } from './modules/ability/abilityModule';
+import { LanguageModule } from './modules/languague/language.module';
+import { EducationTypeModule } from './modules/education-type/education-type.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { SkillsModule } from './modules/skills/skills.module';
     AuthzModule,
     LocationModule,
     IdentificationModule,
-    SkillsModule,
+    AbilityModule,
+    LanguageModule,
+    EducationTypeModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
