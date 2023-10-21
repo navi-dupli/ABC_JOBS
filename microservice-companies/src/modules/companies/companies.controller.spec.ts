@@ -6,6 +6,7 @@ import { CompaniesController } from './companies.controller';
 import { CompaniesService } from './companies.service';
 import { Company } from './entity/company.entity';
 import { CreateCompanyDto } from './dto/create-companie.dto';
+import { BadRequestException } from '@nestjs/common';
 
 describe('CompaniesController', () => {
   let controller: CompaniesController;
@@ -27,61 +28,106 @@ describe('CompaniesController', () => {
     service = module.get<CompaniesService>(CompaniesService);
   });
 
-  describe('getCompanies', () => {
-    it('should return an array of companies', async () => {
-      const createCompanyDto = getCompanieMock();
-      const company = getCompanieFromDto(createCompanyDto);
-      const result: Company[] = [company];
-      jest.spyOn(service, 'getCompanies').mockResolvedValue(result);
+  it('should return a list of companies', async () => {
+    const mockCompanies: Company[] = [{
+      companyName: 'Test Company',
+      uniqueIdentification: '123456',
+      businessActivity: 'Software Development',
+      companyEmail: 'test@test.com',
+      representativeName: 'John Doe',
+      representativeEmail: 'john.doe@test.com',
+      representativePassword: 'password123',
+      phoneNumber: '123456789',
+      country: 1,
+      region: 2,
+      city: 3,
+      address: '123 Main St',
+      id: 1
+    }]; 
+    jest.spyOn(service, 'getCompanies').mockResolvedValue(mockCompanies);
 
-      expect(await controller.getCompanies()).toBe(result);
-    });
+    const result = await controller.getCompanies();
+
+    expect(result).toEqual(mockCompanies);
   });
 
-  describe('createCompany', () => {
-    it('should create a new company', async () => {
-      const createCompanyDto = getCompanieMock();
-      const result = getCompanieFromDto(createCompanyDto);
-      jest.spyOn(service, 'createCompany').mockResolvedValue(result);
+  it('should create a company', async () => {
+    const createCompanyDto: CreateCompanyDto = {
+      companyName: 'Test Company',
+      uniqueIdentification: '123456',
+      businessActivity: 'Software Development',
+      companyEmail: 'test@test.com',
+      representativeName: 'John Doe',
+      representativeEmail: 'john.doe@test.com',
+      representativePassword: 'password123',
+      phoneNumber: '123456789',
+      country: 1,
+      region: 2,
+      city: 3,
+      address: '123 Main St'
+    }; 
+    const createdCompany: Company = {
+      companyName: 'Test Company',
+      uniqueIdentification: '123456',
+      businessActivity: 'Software Development',
+      companyEmail: 'test@test.com',
+      representativeName: 'John Doe',
+      representativeEmail: 'john.doe@test.com',
+      representativePassword: 'password123',
+      phoneNumber: '123456789',
+      country: 1,
+      region: 2,
+      city: 3,
+      address: '123 Main St',
+      id: 1
+    }; 
+    jest.spyOn(service, 'createCompany').mockResolvedValue(createdCompany);
 
-      expect(await controller.createCompany(createCompanyDto)).toBe(result);
-    });
+    const result = await controller.createCompany(createCompanyDto);
+
+    expect(result).toEqual(createdCompany);
   });
+
+  it('should handle BadRequestException from service', async () => {
+    const createCompanyDto: CreateCompanyDto = {
+      companyName: 'Test Company',
+      uniqueIdentification: '123456',
+      businessActivity: 'Software Development',
+      companyEmail: 'test@test.com',
+      representativeName: 'John Doe',
+      representativeEmail: 'john.doe@test.com',
+      representativePassword: 'password123',
+      phoneNumber: '123456789',
+      country: 1,
+      region: 2,
+      city: 3,
+      address: '123 Main St'
+    }; 
+    const error = new BadRequestException('Bad Request');
+    jest.spyOn(service, 'createCompany').mockRejectedValue(error);
+
+    await expect(controller.createCompany(createCompanyDto)).rejects.toThrow(BadRequestException);
+  });
+
+  it('should handle other exceptions from service', async () => {
+    const createCompanyDto: CreateCompanyDto = {
+      companyName: 'Test Company',
+      uniqueIdentification: '123456',
+      businessActivity: 'Software Development',
+      companyEmail: 'test@test.com',
+      representativeName: 'John Doe',
+      representativeEmail: 'john.doe@test.com',
+      representativePassword: 'password123',
+      phoneNumber: '123456789',
+      country: 1,
+      region: 2,
+      city: 3,
+      address: '123 Main St'
+    }; 
+    const error = new Error('Internal Server Error');
+    jest.spyOn(service, 'createCompany').mockRejectedValue(error);
+
+    await expect(controller.createCompany(createCompanyDto)).rejects.toThrow(Error);
+  });
+
 });
-
-function getCompanieMock() {
-  const createCompanyDto: CreateCompanyDto = {
-    companyName: 'Test Company',
-    uniqueIdentification: '123456',
-    businessActivity: 'Software Development',
-    companyEmail: 'test@test.com',
-    representativeName: 'John Doe',
-    representativeEmail: 'john.doe@test.com',
-    representativePassword: 'password123',
-    phoneNumber: '123456789',
-    country: 1,
-    region: 2,
-    city: 3,
-    address: '123 Main St',
-  };
-  return createCompanyDto;
-}
-
-function getCompanieFromDto(createCompanyDto: CreateCompanyDto) {
-  const result: Company = {
-    address: createCompanyDto.address,
-    businessActivity: createCompanyDto.businessActivity,
-    city: createCompanyDto.city,
-    companyEmail: createCompanyDto.companyEmail,
-    companyName: createCompanyDto.companyName,
-    country: createCompanyDto.country,
-    id: 1,
-    phoneNumber: createCompanyDto.phoneNumber,
-    region: createCompanyDto.region,
-    representativeEmail: createCompanyDto.representativeEmail,
-    representativeName: createCompanyDto.representativeName,
-    uniqueIdentification: createCompanyDto.uniqueIdentification,
-    representativePassword: createCompanyDto.representativePassword,
-  };
-  return result;
-}
