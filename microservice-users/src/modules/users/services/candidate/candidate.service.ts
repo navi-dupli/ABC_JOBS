@@ -22,6 +22,8 @@ export class CandidateService {
         skills: true,
         location: true,
         languages: true,
+        education: true,
+        experiences: true,
       },
       where: {
         rol: 'CANDIDATO',
