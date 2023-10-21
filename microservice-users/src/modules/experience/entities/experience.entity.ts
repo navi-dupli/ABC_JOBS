@@ -20,9 +20,6 @@ export class Experience {
   @Column({ length: 255 })
   description: string;
 
-  @Column()
-  experienceYears: number;
-
   @ManyToOne(() => User, (user) => user.experiences)
   user: User;
 }
