@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 @Entity()
-export class Expertise {
+export class Experience {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,6 +20,6 @@ export class Expertise {
   @Column({ length: 255 })
   description: string;
 
-  @ManyToOne(() => User, (user) => user.expertise)
+  @ManyToOne(() => User, (user) => user.experiences)
   user: User;
 }
