@@ -7,7 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
-import { SkillsModule } from './modules/skills/skills.module';
+import { AbilityModule } from './modules/ability/abilityModule';
+import { AbilityController } from './modules/ability/controllers/ability.controller';
+import { AbilityService } from './modules/ability/services/ability.service';
 
 @Module({
   imports: [
@@ -19,10 +21,10 @@ import { SkillsModule } from './modules/skills/skills.module';
     AuthzModule,
     LocationModule,
     IdentificationModule,
-    SkillsModule,
+    AbilityModule,
   ],
-  controllers: [AuthorizedController],
-  providers: [Logger],
+  controllers: [AuthorizedController, AbilityController],
+  providers: [Logger, AbilityService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
