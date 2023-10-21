@@ -80,7 +80,7 @@ export class UsersService {
     await this.authService.assignRole(externalApiUser.user_id, rol);
   }
 
-  async login(loginDto: LoginDto): Promise<User> {
+  async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const userLogged = await this.aut0LoginService.authenticate(loginDto);
     if (userLogged) {
       const decodedToken = jwt.decode(userLogged.access_token) as jwt.JwtPayload;
@@ -90,7 +90,7 @@ export class UsersService {
       }
       const user = await this.userRepository.findOneBy({ authId: decodedToken.sub });
       if (user) {
-        return Promise.resolve(LoginResponseDto.fromAuth0ResponseLoginDto(userLogged, user));
+        return LoginResponseDto.fromAuth0ResponseLoginDto(userLogged, user);
       }
     } else {
       throw new UserLoginFailedException('Error al loguear el usuario');
