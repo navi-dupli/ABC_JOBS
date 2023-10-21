@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Education } from '../../education/entities/education.entity';
-import { Experience } from '../../expertise/entities/expertise.entity';
+import { Experience } from '../../experience/entities/experience.entity';
 import { UserLanguage } from '../../userLanguage/entities/userLanguage.entity';
 import { UserLocation } from '../../userLocation/entities/userLocation.entity';
 import { UserAbility } from '../../userAbility/entities/userAbility.entity';
@@ -39,6 +39,9 @@ export class User {
 
   @Column()
   identification: string;
+
+  @Column({ nullable: true })
+  experienceYears: number;
 
   @OneToMany(() => Education, (education) => education.user)
   education: Education[];
