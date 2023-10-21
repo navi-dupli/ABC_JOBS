@@ -8,8 +8,6 @@ import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AbilityModule } from './modules/ability/abilityModule';
-import { AbilityController } from './modules/ability/controllers/ability.controller';
-import { AbilityService } from './modules/ability/services/ability.service';
 
 @Module({
   imports: [
@@ -23,8 +21,8 @@ import { AbilityService } from './modules/ability/services/ability.service';
     IdentificationModule,
     AbilityModule,
   ],
-  controllers: [AuthorizedController, AbilityController],
-  providers: [Logger, AbilityService],
+  controllers: [AuthorizedController],
+  providers: [Logger],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
