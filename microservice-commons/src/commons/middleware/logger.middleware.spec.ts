@@ -26,7 +26,7 @@ describe('LoggerMiddleware', () => {
       baseUrl: '/test',
       params: { id: '123' },
       headers: {
-        'x-request-id': '12345', // Agrega aquí el valor que quieras para x-request-id
+        'x-request-id': '12345'
       }
     } as unknown as Request;
     const mockResponse = {} as Response;
