@@ -41,6 +41,9 @@ export class User {
   identification: string;
 
   @Column({ nullable: true })
+  phone: string;
+
+  @Column({ nullable: true })
   experienceYears: number;
 
   @OneToMany(() => Education, (education) => education.user)
