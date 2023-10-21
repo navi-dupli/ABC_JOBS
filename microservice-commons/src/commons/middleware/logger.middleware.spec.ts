@@ -25,13 +25,16 @@ describe('LoggerMiddleware', () => {
       url: '/test',
       baseUrl: '/test',
       params: { id: '123' },
+      headers: {
+        'x-request-id': '12345', // Agrega aquí el valor que quieras para x-request-id
+      }
     } as unknown as Request;
     const mockResponse = {} as Response;
     const mockNextFunction = jest.fn();
 
     loggerMiddleware.use(mockRequest, mockResponse, mockNextFunction);
 
-    expect(loggerSpy).toHaveBeenCalledWith('GET:/test/test?{"id":"123"}');
+    expect(loggerSpy).toHaveBeenCalledWith('[12345] GET:/test/test?{\"id\":\"123\"}');
     expect(mockNextFunction).toHaveBeenCalled();
   });
 });
