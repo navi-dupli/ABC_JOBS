@@ -8,6 +8,7 @@ import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AbilityModule } from './modules/ability/abilityModule';
+import { LanguageModule } from './modules/languague/language.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AbilityModule } from './modules/ability/abilityModule';
     LocationModule,
     IdentificationModule,
     AbilityModule,
+    LanguageModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
