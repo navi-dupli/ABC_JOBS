@@ -46,6 +46,10 @@ export class UsersService {
       if (createUserDto.rol.toUpperCase() === Auth0RoleEnum.REPRESENTANTE_EMPRESA.name) {
         newUser.company_id = createUserDto.company_id;
       }
+      newUser.typeIdentificationId = createUserDto.typeIdentificationId;
+      newUser.nameIdentification = createUserDto.nameIdentification;
+      newUser.location = createUserDto.locationId;
+      newUser.identification = createUserDto.identification;
       const userCreated: User = await this.userRepository.save(newUser);
       if (userCreated) {
         await this.createAndUpdateUser(auth0User, userCreated, Auth0RoleEnum.findByName(userCreated.rol));
