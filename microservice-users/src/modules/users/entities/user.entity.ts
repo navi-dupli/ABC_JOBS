@@ -31,14 +31,14 @@ export class User {
   @Column({ nullable: true })
   company_id: string;
 
-  @Column()
-  typeIdentificationId: number;
+  @Column({ nullable: true })
+  identification: string;
 
-  @Column()
+  @Column({ nullable: true })
   nameIdentification: string;
 
-  @Column()
-  identification: string;
+  @Column({ nullable: true })
+  typeIdentificationId: number;
 
   @Column({ nullable: true })
   phone: string;
