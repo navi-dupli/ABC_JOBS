@@ -21,7 +21,6 @@ export class CandidateController {
     @Query('experienceYears', new ParseArrayPipe({ items: String, separator: ',', optional: true }))
     experienceYears: string[] = [],
   ): Promise<User[]> {
-    console.log(skills, languages, countries, education, experienceYears);
     return await this.candidateService.search(skills, languages, countries, education, experienceYears);
   }
 }
