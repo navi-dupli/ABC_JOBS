@@ -26,7 +26,7 @@ export class MicroserviceClientService {
     };
     const microserviceRoute = dynamicRoutesConfig.find((route) => route.path === microservice);
     const url = `${microserviceRoute.endPoint}/${microserviceRoute.path}${path}`;
-    this.logger.log(`Calling ${url}`);
+    this.logger.log(`[${originalRequest.headers['x-request-id']}] Calling ${method}:${url}`);
     return this.httpService
       .request({
         method,
@@ -37,9 +37,13 @@ export class MicroserviceClientService {
       })
       .pipe(
         map((response) => {
+          this.logger.log(
+            `[${originalRequest.headers['x-request-id']}] Response ${method}:${url} => ${response.status}`,
+          );
           return response.data || {};
         }),
         catchError((error) => {
+          this.logger.log(`[${originalRequest.headers['x-request-id']}] Response ${method}:${url} => ${error?.status}`);
           if (isAxiosError(error)) {
             // Axios error with network-related issues (e.g., no connection)
             throw new HttpException('Network Error', 503);

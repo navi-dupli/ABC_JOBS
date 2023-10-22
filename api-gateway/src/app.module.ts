@@ -8,6 +8,8 @@ import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { HttpModule } from '@nestjs/axios';
 import { UsersModule } from './modules/users/users.module';
 import { GenericDelegateModule } from './commons/modules/generic-delegate/generic-delegate.module';
+import { CompaniesModule } from './modules/companies/companies.module';
+import { MicroserviceManagerModule } from './commons/modules/microservice-manager/microservice-manager.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { GenericDelegateModule } from './commons/modules/generic-delegate/generi
     HttpModule,
     AuthzModule,
     UsersModule,
+    CompaniesModule,
     GenericDelegateModule,
+    MicroserviceManagerModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],

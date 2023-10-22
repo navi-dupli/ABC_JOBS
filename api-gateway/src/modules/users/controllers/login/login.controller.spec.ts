@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LoginController } from './login.controller';
 import { Request } from 'express';
 import { GenericDelegateModule } from '../../../../commons/modules/generic-delegate/generic-delegate.module';
-import { MicroserviceClientService } from '../../../../commons/modules/generic-delegate/services/microservice-client.service';
+import { MicroserviceClientService } from '../../../../commons/modules/microservice-manager/services/microservice-client.service';
 import { Observable } from 'rxjs';
 
 describe('LoginController', () => {

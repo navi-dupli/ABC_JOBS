@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './controllers/users.controller';
-import { GenericDelegateModule } from '../../commons/modules/generic-delegate/generic-delegate.module';
 import { LoginController } from './controllers/login/login.controller';
+import { MicroserviceManagerModule } from '../../commons/modules/microservice-manager/microservice-manager.module';
 
 @Module({
-  imports: [GenericDelegateModule],
+  imports: [MicroserviceManagerModule],
   controllers: [UsersController, LoginController],
 })
 export class UsersModule {}

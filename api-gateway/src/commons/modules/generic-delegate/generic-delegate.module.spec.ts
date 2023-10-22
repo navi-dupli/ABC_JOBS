@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { GenericDelegateModule } from './generic-delegate.module';
 import { GenericRequestDelegatedService } from './services/generic-request-delegated.service';
 import { GenericController } from './controllers/generic.controller';
-import { MicroserviceClientService } from './services/microservice-client.service';
+import { MicroserviceClientService } from '../microservice-manager/services/microservice-client.service';
 
 describe('GenericDelegateModule', () => {
   let module: TestingModule;

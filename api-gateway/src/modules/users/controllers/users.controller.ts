@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Req } from '@nestjs/common';
-import { MicroserviceClientService } from '../../../commons/modules/generic-delegate/services/microservice-client.service';
+import { MicroserviceClientService } from '../../../commons/modules/microservice-manager/services/microservice-client.service';
 import { MicroserviceEnum } from '../../../dynamic-routes.config';
 import { forkJoin, map, Observable } from 'rxjs';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';

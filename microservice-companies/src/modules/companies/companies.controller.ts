@@ -1,4 +1,4 @@
-import {BadRequestException, Body, Controller, Get, Post} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-companie.dto';
 import { Company } from './entity/company.entity';
@@ -23,14 +23,15 @@ export class CompaniesController extends AuthorizedController {
 
   @Post()
   async createCompany(@Body() createCompanyDto: CreateCompanyDto): Promise<Company> {
+    return await this.companiesService.createCompany(createCompanyDto);
+  }
+
+  @Delete('/:id')
+  async deleteCompany(@Param('id') id: number): Promise<void> {
     try {
-      return await this.companiesService.createCompany(createCompanyDto);
+      await this.companiesService.deleteCompany(id);
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw new BadRequestException(error.message);
-      } else {
-        throw new Error(error.message);
-      }
+      throw new Error(error.message);
     }
   }
 }
