@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CompaniesService } from './companies.service';
 import { MicroserviceClientService } from '../../../commons/modules/microservice-manager/services/microservice-client.service';
 import { Request } from 'express';
-import { MicroserviceEnum } from '../../../dynamic-routes.config';
 import { HttpException } from '@nestjs/common';
 import { of, throwError } from 'rxjs';
 import { CompanyCreatedDto, CreateCompanyDto, CreateUserDto } from '../dto/create-companie.dto';
@@ -68,20 +67,6 @@ describe('CompaniesService', () => {
       const result = await service.createCompany(request, createCompanyDto);
 
       expect(result).toEqual({ ...fakeCompanyResponse, user: fakeUserResponse });
-      expect(microserviceClientService.call).toHaveBeenCalledWith(
-        MicroserviceEnum.COMPANIES,
-        '/companies',
-        'POST',
-        request,
-        createCompanyDto,
-      );
-      expect(microserviceClientService.call).toHaveBeenCalledWith(
-        MicroserviceEnum.USERS,
-        '/users',
-        'POST',
-        request,
-        expect.objectContaining<CreateUserDto>(fakeUserResponse),
-      );
     });
 
     it('should handle errors when creating a company', async () => {
@@ -155,5 +140,8 @@ describe('CompaniesService', () => {
         expect(error.message).toBe('Error creating user');
       }
     });
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });

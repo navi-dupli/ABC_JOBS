@@ -4,6 +4,7 @@ import { HttpService } from '@nestjs/axios';
 import { MicroserviceEnum } from '../../../../dynamic-routes.config';
 import { Request } from 'express';
 import { of, throwError } from 'rxjs';
+import { AxiosError } from 'axios';
 
 describe('MicroserviceClientService', () => {
   let service: MicroserviceClientService;
@@ -56,7 +57,7 @@ describe('MicroserviceClientService', () => {
       method: 'GET',
     } as unknown as Request;
 
-    const errorResponse = { response: { status: 404, statusText: 'Not Found' } };
+    const errorResponse = { response: { status: 404, statusText: 'Not Found' } } as unknown as AxiosError;
     (httpService.request as jest.Mock).mockReturnValue(throwError(errorResponse));
 
     try {
@@ -65,5 +66,8 @@ describe('MicroserviceClientService', () => {
       expect(error.status).toBe(404);
       expect(error.message).toBe('Not Found');
     }
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });
