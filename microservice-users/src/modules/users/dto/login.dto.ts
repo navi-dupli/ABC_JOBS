@@ -1,11 +1,20 @@
 import { User } from '../entities/user.entity';
 import { IsEmail, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class LoginDto {
+  @ApiProperty({
+    example: 'example@example.com',
+    description: 'Correo electrónico del usuario',
+  })
   @IsEmail()
   @IsNotEmpty()
   public email: string;
 
+  @ApiProperty({
+    example: 'password123',
+    description: 'Contraseña del usuario',
+  })
   @IsNotEmpty()
   public password: string;
 }
@@ -29,23 +38,41 @@ export class Auth0RequestLoginDto {
     return auth0RequestLoginDto;
   }
 }
-
 export class Auth0ResponseLoginDto {
+  @ApiProperty({ description: 'Token de acceso', example: 'access_token_here' })
   public access_token: string;
+
+  @ApiProperty({ description: 'Tiempo de expiración en segundos', example: 3600 })
   public expires_in: number;
+
+  @ApiProperty({ description: 'Tipo de token', example: 'Bearer' })
   public token_type: string;
 }
 
 export class LoginResponseDto extends Auth0ResponseLoginDto {
+  @ApiProperty({ description: 'ID del usuario', example: 1 })
   id: number;
-  names: string;
-  surnames: string;
-  email: string;
-  authId: string;
-  picture: string;
-  rol: string;
-  company_id: string;
 
+  @ApiProperty({ description: 'Nombres del usuario', example: 'John' })
+  names: string;
+
+  @ApiProperty({ description: 'Apellidos del usuario', example: 'Doe' })
+  surnames: string;
+
+  @ApiProperty({ description: 'Correo electrónico del usuario', example: 'user@example.com' })
+  email: string;
+
+  @ApiProperty({ description: 'ID de autenticación', example: 'auth_id_here' })
+  authId: string;
+
+  @ApiProperty({ description: 'URL de la imagen del usuario', example: 'https://example.com/user.jpg' })
+  picture: string;
+
+  @ApiProperty({ description: 'Rol del usuario', example: 'user' })
+  rol: string;
+
+  @ApiProperty({ description: 'ID de la empresa', example: 'company_id_here' })
+  company_id: string;
   static fromAuth0ResponseLoginDto(auth0ResponseLoginDto: Auth0ResponseLoginDto, user: User): LoginResponseDto {
     const loginResponseDto = new LoginResponseDto();
     loginResponseDto.access_token = auth0ResponseLoginDto.access_token;
