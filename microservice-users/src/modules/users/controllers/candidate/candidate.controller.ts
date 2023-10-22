@@ -2,10 +2,13 @@ import { Controller, Get, ParseArrayPipe, Query } from '@nestjs/common';
 import { CandidateService } from '../../services/candidate/candidate.service';
 import { User } from '../../entities/user.entity';
 import { ApiQuery } from '@nestjs/swagger';
+import { AuthorizedController } from '../../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('candidate')
-export class CandidateController {
-  constructor(private readonly candidateService: CandidateService) {}
+export class CandidateController extends AuthorizedController {
+  constructor(private readonly candidateService: CandidateService) {
+    super();
+  }
 
   @Get()
   @ApiQuery({ name: 'skills', type: [Number], required: false })
