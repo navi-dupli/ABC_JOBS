@@ -78,7 +78,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"mi13dj2a2@gmail.com\",\n  \"password\": \"prueba$123\"\n}",
+									"raw": "{\n  \"email\": \"mi13dj22@gmail.com\",\n  \"password\": \"prueba$123\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -349,7 +349,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"mi13dj22@gmail.com\",\n  \"password\": \"pruebal$123\"\n}",
+									"raw": "{\n  \"email\": \"mi13dj22@gmail.com\",\n  \"password\": \"passWrong\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
