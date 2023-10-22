@@ -60,7 +60,12 @@ describe('Auth0ExternalApiService', () => {
       surnames: 'Doe',
       email: 'john.doe@example.com',
       password: 'password123',
-      roles: ['user'],
+      rol: 'user',
+      company_id: null,
+      typeIdentificationId: 1,
+      locationId: null,
+      identification: '123456789',
+      nameIdentification: 'Cédula de ciudadanía',
     };
     const result = await service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto));
     expect(result).toBeDefined();
@@ -82,7 +87,12 @@ describe('Auth0ExternalApiService', () => {
       surnames: 'Doe',
       email: 'john.doe@example.com',
       password: 'password123',
-      roles: ['user'],
+      rol: 'user',
+      company_id: null,
+      typeIdentificationId: 1,
+      locationId: null,
+      identification: '123456789',
+      nameIdentification: 'Cédula de ciudadanía',
     };
 
     await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(

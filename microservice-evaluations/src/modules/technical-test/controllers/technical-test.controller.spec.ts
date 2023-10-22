@@ -1,4 +1,3 @@
-// cities.controller.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { TechnicalTestController } from './technical-test.controller';
 import { TechnicalTestService } from '../services/technical-test.service';
@@ -31,47 +30,67 @@ describe('TechnicalTestController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return an array of companies', async () => {
-    const registerTechTestDto = registerTechTestMock();
-    const techTest = getRegisterTechTestFromDto(registerTechTestDto);
-    const result = [techTest];
-    jest.spyOn(service, 'getTechnicalTest').mockResolvedValue(result);
+  it('should return a list of technical tests', async () => {
+    const mockTechTests: TechnicalTest[] = [
+      {
+        date: new Date(),
+        state: "Ejemplo de estado",
+        user_id: 123,
+        observations: "Ejemplo de observaciones",
+        qualify: 5,
+        qualifying_user_id: 456,
+        test_id: 789,
+        id: 1
+      }
+    ];
+    jest.spyOn(service, 'getTechTest').mockResolvedValue(mockTechTests);
 
-    expect(await controller.getTechnicalTest()).toBe(result);
+    const result = await controller.getTechnicalTest();
+
+    expect(result).toEqual(mockTechTests);
   });
 
-  it('should create a new company', async () => {
-    const registerTechTestDto = registerTechTestMock();
-    const result = getRegisterTechTestFromDto(registerTechTestDto);
-    jest.spyOn(service, 'registerTechnicalTest').mockResolvedValue(result);
+  it('should register a technical test', async () => {
+    const registerTechTestDto: RegisterTechnicalTestDto = {
+      date: new Date(),
+      state: "Ejemplo de estado",
+      user_id: 123,
+      observations: "Ejemplo de observaciones",
+      qualify: 5,
+      qualifying_user_id: 456,
+      test_id: 789
+    };
+    const registeredTechTest: TechnicalTest = {
+      date: new Date(),
+      state: "Ejemplo de estado",
+      user_id: 123,
+      observations: "Ejemplo de observaciones",
+      qualify: 5,
+      qualifying_user_id: 456,
+      test_id: 789,
+      id: 1
+    }; 
+    jest.spyOn(service, 'registerTechTest').mockResolvedValue(registeredTechTest);
 
-    expect(await controller.registerTechnicalTest(registerTechTestDto)).toBe(result);
+    const result = await controller.registerTechnicalTest(registerTechTestDto);
+
+    expect(result).toEqual(registeredTechTest);
+  });
+
+  it('should handle exceptions from service', async () => {
+    const registerTechTestDto: RegisterTechnicalTestDto = {
+      date: new Date(),
+      state: "Ejemplo de estado",
+      user_id: 123,
+      observations: "Ejemplo de observaciones",
+      qualify: 5,
+      qualifying_user_id: 456,
+      test_id: 789
+    };
+    const error = new Error('Internal Server Error');
+    jest.spyOn(service, 'registerTechTest').mockRejectedValue(error);
+
+    await expect(controller.registerTechnicalTest(registerTechTestDto)).rejects.toThrow(Error);
   });
 
 });
-
-function registerTechTestMock() {
-  const registerTechTestDto: RegisterTechnicalTestDto = {
-    "date": new Date(),
-    "state": "Ejemplo de estado",
-    "user_id": 123,
-    "observations": "Ejemplo de observaciones",
-    "qualify": 5,
-    "qualifying_user_id": 456,
-    "test_id": 789
-  }
-  return registerTechTestDto;
-}
-
-function getRegisterTechTestFromDto(registerTechTestDto: RegisterTechnicalTestDto) {
-  const result = {
-    date: registerTechTestDto.date,
-    state: registerTechTestDto.state,
-    user_id: registerTechTestDto.user_id,
-    observations: registerTechTestDto.observations,
-    qualify: registerTechTestDto.qualify,
-    qualifying_user_id: registerTechTestDto.qualifying_user_id,
-    test_id: registerTechTestDto.test_id
-  };
-  return result;
-}

@@ -2,14 +2,14 @@ import { IsDateString, IsNotEmpty } from 'class-validator';
 
 export class CreateProjectDto {
   @IsNotEmpty()
-  name: string;
+  projectName: string;
 
   @IsNotEmpty()
-  description: string;
+  projectDescription: string;
 
   @IsDateString()
-  date: Date;
+  projectDate: Date;
 
   @IsNotEmpty()
-  idCompany: number;
+  companyId: number;
 }

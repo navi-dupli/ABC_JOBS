@@ -2,7 +2,7 @@ import {BadRequestException, Body, Controller, Get, Logger, Param, Post } from '
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
-import { Auth0RoleEnum } from 'src/commons/modules/user-manager/enums/role.enum';
+import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.enum';
 
 @Controller('users')
 export class UsersController extends AuthorizedController {
@@ -17,7 +17,7 @@ export class UsersController extends AuthorizedController {
       this.logger.error(`Invalid rol ${createUserDto.rol} to create user`);
       throw new BadRequestException(`Invalid rol ${createUserDto.rol} to create user`);
     }
-    if(createUserDto.rol.toUpperCase() === Auth0RoleEnum.REPRESENTANTE_EMPRESA.name && !createUserDto.company_id) {
+    if (createUserDto.rol.toUpperCase() === Auth0RoleEnum.REPRESENTANTE_EMPRESA.name && !createUserDto.company_id) {
       this.logger.error(`Invalid company_id to create user with rol ${createUserDto.rol}`);
       throw new BadRequestException('Invalid company_id');
     }

@@ -35,6 +35,7 @@ describe('UsersService', () => {
       imports: [UserManagerModule],
       providers: [
         UsersService,
+        Auth0ExternalApiService,
         {
           provide: getRepositoryToken(User),
           useClass: Repository,
@@ -58,15 +59,32 @@ describe('UsersService', () => {
         surnames: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
-        roles: ['user'],
+        rol: 'user',
+        company_id: null,
+        typeIdentificationId: 1,
+        locationId: null,
+        identification: '123456789',
+        nameIdentification: 'Cédula de ciudadanía',
       };
       const userEntity: User = {
         id: 12341234,
         names: 'John',
         surnames: 'Doe',
         email: 'john.doe@example.com',
-        authId: null,
+        authId: 'asdf',
         picture: 'http://fake-url-to-picture.png',
+        rol: 'user',
+        company_id: null,
+        typeIdentificationId: 1,
+        location: null,
+        identification: '123456789',
+        nameIdentification: 'Cédula de ciudadanía',
+        phone: '123456789',
+        experienceYears: 1,
+        education: [],
+        languages: [],
+        skills: [],
+        experiences: [],
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(userEntity);
       jest.spyOn(repository, 'save').mockResolvedValue(userEntity);
@@ -82,7 +100,12 @@ describe('UsersService', () => {
         surnames: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
-        roles: ['user'],
+        rol: 'user',
+        company_id: null,
+        typeIdentificationId: 1,
+        locationId: null,
+        identification: '123456789',
+        nameIdentification: 'Cédula de ciudadanía',
       };
       const userEntity: User = {
         id: 12341234,
@@ -91,6 +114,18 @@ describe('UsersService', () => {
         email: 'john.doe@example.com',
         authId: 'asdf',
         picture: 'http://fake-url-to-picture.png',
+        rol: 'user',
+        company_id: null,
+        typeIdentificationId: 1,
+        location: null,
+        identification: '123456789',
+        nameIdentification: 'Cédula de ciudadanía',
+        phone: '123456789',
+        experienceYears: 1,
+        education: [],
+        languages: [],
+        skills: [],
+        experiences: [],
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(userEntity);
 

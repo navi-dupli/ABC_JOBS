@@ -46,6 +46,10 @@ export class UsersService {
       if (createUserDto.rol.toUpperCase() === Auth0RoleEnum.REPRESENTANTE_EMPRESA.name) {
         newUser.company_id = createUserDto.company_id;
       }
+      newUser.typeIdentificationId = createUserDto.typeIdentificationId;
+      newUser.nameIdentification = createUserDto.nameIdentification;
+      newUser.location = createUserDto.locationId;
+      newUser.identification = createUserDto.identification;
       const userCreated: User = await this.userRepository.save(newUser);
       if (userCreated) {
         await this.createAndUpdateUser(auth0User, userCreated, Auth0RoleEnum.findByName(userCreated.rol));
@@ -80,7 +84,7 @@ export class UsersService {
     await this.authService.assignRole(externalApiUser.user_id, rol);
   }
 
-  async login(loginDto: LoginDto): Promise<User> {
+  async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const userLogged = await this.aut0LoginService.authenticate(loginDto);
     if (userLogged) {
       const decodedToken = jwt.decode(userLogged.access_token) as jwt.JwtPayload;
@@ -90,7 +94,7 @@ export class UsersService {
       }
       const user = await this.userRepository.findOneBy({ authId: decodedToken.sub });
       if (user) {
-        return Promise.resolve(LoginResponseDto.fromAuth0ResponseLoginDto(userLogged, user));
+        return LoginResponseDto.fromAuth0ResponseLoginDto(userLogged, user);
       }
     } else {
       throw new UserLoginFailedException('Error al loguear el usuario');
