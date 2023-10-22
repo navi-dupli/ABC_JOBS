@@ -12,9 +12,6 @@ import { CandidateService } from './services/candidate/candidate.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), UserManagerModule, HttpModule],
-  controllers: [UsersController, LoginController],
-  providers: [UsersService, Auth0LoginService],
-  imports: [TypeOrmModule.forFeature([User]), UserManagerModule, HttpModule],
   controllers: [UsersController, LoginController, CandidateController],
   providers: [UsersService, Auth0LoginService, CandidateService],
 })
