@@ -18,12 +18,8 @@ export class CandidateService {
     experienceYears: string[],
   ): Promise<User[]> {
     const query = {
-      relations: {
-        skills: true,
-        location: true,
-        languages: true,
-        education: true,
-        experiences: true,
+      select: {
+        id: true,
       },
       where: {
         rol: 'CANDIDATO',
@@ -65,6 +61,21 @@ export class CandidateService {
       query.where['experienceYears'] = And(...range);
     }
 
-    return this.userRepository.find(query);
+    const users = await this.userRepository.find(query);
+
+    const usersMap = users.map((user) => user.id);
+
+    return this.userRepository.find({
+      relations: {
+        skills: true,
+        location: true,
+        languages: true,
+        education: true,
+        experiences: true,
+      },
+      where: {
+        id: In(usersMap),
+      },
+    });
   }
 }
