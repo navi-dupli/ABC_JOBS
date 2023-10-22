@@ -3,9 +3,6 @@ import { IsNotEmpty } from 'class-validator';
 export class RegisterTechnicalTestDto {
 
   @IsNotEmpty()
-  date: Date;
-
-  @IsNotEmpty()
   state: string;
 
   @IsNotEmpty()

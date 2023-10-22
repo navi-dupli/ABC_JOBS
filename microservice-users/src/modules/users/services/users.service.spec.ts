@@ -6,6 +6,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { Auth0ExternalApiService } from '../../../commons/modules/user-manager/services/auth0-external-api.service';
 import { ExternalApiResponseDto, Identity } from '../../../commons/modules/user-manager/dto/external-api.dto';
 import { Repository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
 import { UserManagerModule } from '../../../commons/modules/user-manager/user-manager.module';
 import { Auth0LoginService } from './auth0-login/auth0-login.service';
 import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.enum';
@@ -42,6 +43,7 @@ describe('UsersService', () => {
       imports: [UserManagerModule],
       providers: [
         UsersService,
+        Auth0ExternalApiService,
         {
           provide: Auth0ExternalApiService,
           useValue: {

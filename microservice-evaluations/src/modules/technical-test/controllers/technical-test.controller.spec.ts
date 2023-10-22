@@ -52,7 +52,6 @@ describe('TechnicalTestController', () => {
 
   it('should register a technical test', async () => {
     const registerTechTestDto: RegisterTechnicalTestDto = {
-      date: new Date(),
       state: "Ejemplo de estado",
       user_id: 123,
       observations: "Ejemplo de observaciones",
@@ -79,7 +78,6 @@ describe('TechnicalTestController', () => {
 
   it('should handle exceptions from service', async () => {
     const registerTechTestDto: RegisterTechnicalTestDto = {
-      date: new Date(),
       state: "Ejemplo de estado",
       user_id: 123,
       observations: "Ejemplo de observaciones",

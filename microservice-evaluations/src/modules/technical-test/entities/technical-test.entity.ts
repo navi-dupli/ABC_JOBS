@@ -5,7 +5,7 @@ export class TechnicalTest {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', default: new Date() })
   date: Date;
 
   @Column()
