@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { MicroserviceClientService } from '../../../../commons/modules/generic-delegate/microservice-client.service';
+import { MicroserviceClientService } from '../../../../commons/modules/generic-delegate/services/microservice-client.service';
 import { Request } from 'express';
 import { MicroserviceEnum } from '../../../../dynamic-routes.config';
 

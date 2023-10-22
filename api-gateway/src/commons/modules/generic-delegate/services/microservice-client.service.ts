@@ -1,9 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpService } from '@nestjs/axios';
-import { dynamicRoutesConfig, MicroserviceEnum } from '../../../dynamic-routes.config';
+import { dynamicRoutesConfig, MicroserviceEnum } from '../../../../dynamic-routes.config';
 import { Request } from 'express';
+import { isAxiosError } from 'axios';
 
 @Injectable()
 export class MicroserviceClientService {
@@ -39,7 +40,14 @@ export class MicroserviceClientService {
           return response.data || {};
         }),
         catchError((error) => {
-          throw new Error('Error' + error.message);
+          if (isAxiosError(error)) {
+            // Axios error with network-related issues (e.g., no connection)
+            throw new HttpException('Network Error', 503);
+          }
+          if (error?.response?.status) {
+            throw new HttpException(error?.response?.statusText, error?.response?.status);
+          }
+          throw new InternalServerErrorException(error.message, error.stack);
         }),
       );
   }

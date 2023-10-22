@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
+import {BadRequestException, Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
@@ -6,7 +6,7 @@ import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.
 
 @Controller('users')
 export class UsersController extends AuthorizedController {
-  private readonly logger = new Logger(UsersController.name);
+  private readonly logger =new Logger(UsersController.name);
   constructor(private readonly userService: UsersService) {
     super();
   }

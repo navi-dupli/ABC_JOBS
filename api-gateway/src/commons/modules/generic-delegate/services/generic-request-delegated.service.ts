@@ -1,11 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Observable, of } from 'rxjs';
+import { HttpException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { map, Observable } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { Request } from 'express';
-import { RouteConfig } from '../../../dynamic-routes.config';
-import { AxiosRequestConfig } from 'axios';
+import { RouteConfig } from '../../../../dynamic-routes.config';
+import { AxiosRequestConfig, isAxiosError } from 'axios';
 import { catchError } from 'rxjs/operators';
-import { MicroserviceException } from '../../exceptions/microservice.exception';
 
 @Injectable()
 export class GenericRequestDelegatedService {
@@ -34,12 +33,22 @@ export class GenericRequestDelegatedService {
     const requestObservable: Observable<any> = this.httpService.request(requestConfig);
 
     return requestObservable.pipe(
+      map((response) => {
+        return response.data; // because we are using axios
+      }),
       catchError((error) => {
+        this.logger.error(error);
         this.logger.error(
           `${error?.response?.status}:${error?.response?.statusText} was received from ${request.originalUrl}`,
         );
-        this.logger.error(error);
-        return of(new MicroserviceException(error));
+        if (isAxiosError(error)) {
+          // Axios error with network-related issues (e.g., no connection)
+          throw new HttpException('Network Error', 503);
+        }
+        if (error?.response?.status) {
+          throw new HttpException(error?.response?.statusText, error?.response?.status);
+        }
+        throw new InternalServerErrorException(error.message, error.stack);
       }),
     );
   }
