@@ -17,7 +17,7 @@ export class TechnicalTest {
   @Column({ length: 500, nullable: true })
   observations: string;
 
-  @Column({ type: 'decimal', precision: 1 })
+  @Column({ type: 'decimal' })
   qualify: number;
 
   @Column({ name: 'qualifying_user_id', type: 'int' })
