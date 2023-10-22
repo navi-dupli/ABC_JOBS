@@ -45,7 +45,7 @@ export class Auth0ExternalApiService {
         .toPromise();
       return response.data;
     } catch (error) {
-      if (error instanceof AxiosError && error.response.status === 409) {
+      if (error instanceof AxiosError && error.response?.status === 409) {
         this.logger.error(error.response.data.message);
         throw new NotFoundException(error.response.data.message);
       }

@@ -4,11 +4,12 @@ import { HttpModule } from '@nestjs/axios';
 import { UserManagerModule } from '../user-manager.module';
 import { Auth0RoleEnum } from '../enums/role.enum';
 import { of, throwError } from 'rxjs';
-import { NotFoundException } from '@nestjs/common';
+import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ExternalApiResponseDto, Identity } from '../dto/external-api.dto';
 import { Auth0UserDto } from '../dto/auth-user.dto';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { CreateUserDto } from '../../../../modules/users/dto/create-user.dto';
+import { UserAlreadyExistException } from '../../../exceptions/user-already-exist.exception';
 
 const fakeIdentity = new Identity('Username-Password-Authentication', 'fakeUserId', 'auth0', false);
 const fakeExternalApiResponseDto: ExternalApiResponseDto = new ExternalApiResponseDto(
@@ -96,9 +97,33 @@ describe('Auth0ExternalApiService', () => {
     };
 
     await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(
-      NotFoundException,
+      InternalServerErrorException,
     );
-    // Puedes agregar más aserciones según sea necesario.
+  });
+  it('should handle createUser Axios error', async () => {
+    jest.spyOn(service['authenticationService'], 'getAccessToken').mockReturnValueOnce(of('fake-access-token'));
+    const axiosError = new AxiosError('Conflict', '409', null, null, {
+      status: 409,
+      data: { message: 'Conflict' },
+    } as AxiosResponse);
+    jest.spyOn(service['httpService'], 'post').mockReturnValueOnce(throwError(axiosError));
+
+    const createUserDto: CreateUserDto = {
+      names: 'John',
+      surnames: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password123',
+      rol: 'user',
+      company_id: null,
+      typeIdentificationId: 1,
+      locationId: null,
+      identification: '123456789',
+      nameIdentification: 'Cédula de ciudadanía',
+    };
+
+    await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(
+      UserAlreadyExistException,
+    );
   });
 
   it('should assign role successfully', async () => {
@@ -120,14 +145,11 @@ describe('Auth0ExternalApiService', () => {
 
   it('should handle assignRole error and throw NotFoundException', async () => {
     jest.spyOn(service['authenticationService'], 'getAccessToken').mockReturnValueOnce(of('fake-access-token'));
-    jest.spyOn(service['httpService'], 'post').mockReturnValueOnce(
-      throwError({
-        response: {
-          status: 409,
-          data: { message: 'Conflict' },
-        },
-      }),
-    );
+    const axiosError = new AxiosError('Conflict', '409', null, null, {
+      status: 409,
+      data: { message: 'Conflict' },
+    } as AxiosResponse);
+    jest.spyOn(service['httpService'], 'post').mockReturnValueOnce(throwError(axiosError));
 
     await expect(service.assignRole('fake-user-id', Auth0RoleEnum.ADMIN)).rejects.toThrowError(NotFoundException);
   });
