@@ -46,7 +46,7 @@ export class MicroserviceClientService {
           this.logger.log(`[${originalRequest.headers['x-request-id']}] Response ${method}:${url} => ${error?.status}`);
           if (isAxiosError(error)) {
             // Axios error with network-related issues (e.g., no connection)
-            throw new HttpException('Network Error', error?.response?.status || 500);
+            throw new HttpException(error?.response?.statusText || 'Network Error', error?.response?.status || 500);
           }
           if (error?.response?.status) {
             throw new HttpException(error?.response?.statusText, error?.response?.status);
