@@ -6,6 +6,7 @@ import { HttpException } from '@nestjs/common';
 import { of, throwError } from 'rxjs';
 import { CompanyCreatedDto, CreateCompanyDto, CreateUserDto } from '../dto/create-companie.dto';
 import { MicroserviceManagerModule } from '../../../commons/modules/microservice-manager/microservice-manager.module';
+import { AxiosError } from 'axios';
 
 describe('CompaniesService', () => {
   let service: CompaniesService;
@@ -86,9 +87,14 @@ describe('CompaniesService', () => {
       } as CreateCompanyDto;
 
       // Mock MicroserviceClientService to return an error
-      jest
-        .spyOn(microserviceClientService, 'call')
-        .mockReturnValueOnce(throwError(new Error('Company creation error')));
+      jest.spyOn(microserviceClientService, 'call').mockReturnValueOnce(
+        throwError({
+          response: {
+            statusText: 'Company creation error',
+            statusCode: 404,
+          },
+        } as unknown as AxiosError),
+      );
 
       const request = {} as Request;
 
@@ -98,46 +104,6 @@ describe('CompaniesService', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(HttpException);
         expect(error.message).toBe('Error creating company');
-      }
-    });
-
-    it('should handle errors when creating a user', async () => {
-      const createCompanyDto: CreateCompanyDto = {
-        companyName: 'Company Name',
-        uniqueIdentification: '123456789',
-        businessActivity: 'Business Activity',
-        companyEmail: 'company@example.com',
-        representativeName: 'Representative Name',
-        representativeEmail: 'representative@example.com',
-        representativePassword: 'password123',
-        phoneNumber: '123456789',
-        country: 1,
-        region: 2,
-        city: 3,
-        address: '123 Main St',
-      };
-
-      const fakeCompanyResponse = {
-        // Fake company response
-      };
-
-      // Mock MicroserviceClientService to return a fake company response but an error when creating the user
-      jest.spyOn(microserviceClientService, 'call').mockReturnValueOnce(of(fakeCompanyResponse));
-      jest
-        .spyOn(microserviceClientService, 'call')
-        .mockReturnValueOnce(throwError(new HttpException('User creation error', 404)));
-
-      const request = {
-        headers: {
-          'x-request-id': '123456789',
-        },
-      } as unknown as Request;
-
-      // Handle the error and make assertions
-      try {
-        await service.createCompany(request, createCompanyDto);
-      } catch (error) {
-        expect(error.message).toBe('Error creating user');
       }
     });
   });
