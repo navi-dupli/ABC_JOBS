@@ -6,6 +6,8 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { UserManagerModule } from '../../../commons/modules/user-manager/user-manager.module';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { Auth0LoginService } from '../services/auth0-login/auth0-login.service';
+import { HttpModule } from '@nestjs/axios';
 
 describe('UserController', () => {
   let userController: UsersController;
@@ -15,8 +17,9 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      imports: [UserManagerModule],
+      imports: [UserManagerModule, HttpModule],
       providers: [
+        Auth0LoginService,
         UsersService,
         {
           provide: getRepositoryToken(User),
@@ -44,6 +47,18 @@ describe('UserController', () => {
           email: 'myemail@gmail.com',
           picture: 'http://example.com',
           authId: '123456789',
+          rol: 'CANDIDATO',
+          company_id: null,
+          typeIdentificationId: 1,
+          nameIdentification: 'Cédula de ciudadanía',
+          identification: '123456789',
+          phone: '123456789',
+          experienceYears: 1,
+          education: [],
+          languages: [],
+          skills: [],
+          location: null,
+          experiences: [],
         },
       ];
       jest.spyOn(userService, 'findAll').mockResolvedValue(mockCreatedUser);
@@ -58,7 +73,12 @@ describe('UserController', () => {
         surnames: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
-        roles: ['user'],
+        rol: 'user',
+        company_id: null,
+        typeIdentificationId: 1,
+        nameIdentification: 'Cédula de ciudadanía',
+        locationId: null,
+        identification: '123456789',
       };
 
       const mockCreatedUser: User = {
@@ -68,6 +88,18 @@ describe('UserController', () => {
         email: createUserDto.email,
         picture: 'http://example.com',
         authId: '123456789',
+        rol: createUserDto.rol,
+        company_id: null,
+        typeIdentificationId: createUserDto.typeIdentificationId,
+        nameIdentification: createUserDto.nameIdentification,
+        identification: createUserDto.identification,
+        phone: null,
+        experienceYears: null,
+        education: [],
+        languages: [],
+        skills: [],
+        location: null,
+        experiences: [],
       };
 
       jest.spyOn(userService, 'createUser').mockResolvedValue(mockCreatedUser);
@@ -87,6 +119,18 @@ describe('UserController', () => {
           email: 'john.doe@example.com',
           picture: 'http://example.com',
           authId: '123456789',
+          rol: 'CANDIDATO',
+          company_id: null,
+          typeIdentificationId: 1,
+          nameIdentification: 'Cédula de ciudadanía',
+          identification: '123456789',
+          phone: '123456789',
+          experienceYears: 1,
+          education: [],
+          languages: [],
+          skills: [],
+          location: null,
+          experiences: [],
         },
         {
           id: 2,
@@ -95,6 +139,18 @@ describe('UserController', () => {
           email: 'jane.doe@example.com',
           picture: 'http://example.com',
           authId: '123456789',
+          rol: 'CANDIDATO',
+          company_id: null,
+          typeIdentificationId: 1,
+          nameIdentification: 'Cédula de ciudadanía',
+          identification: '123456789',
+          phone: '123456789',
+          experienceYears: 1,
+          education: [],
+          languages: [],
+          skills: [],
+          location: null,
+          experiences: [],
         },
       ];
 
