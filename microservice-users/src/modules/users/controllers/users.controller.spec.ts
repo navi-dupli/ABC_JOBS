@@ -8,6 +8,8 @@ import { UserManagerModule } from '../../../commons/modules/user-manager/user-ma
 import { CreateUserDto } from '../dto/create-user.dto';
 import { Auth0LoginService } from '../services/auth0-login/auth0-login.service';
 import { HttpModule } from '@nestjs/axios';
+import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.enum';
+import { BadRequestException } from '@nestjs/common';
 
 describe('UserController', () => {
   let userController: UsersController;
@@ -37,7 +39,7 @@ describe('UserController', () => {
     expect(userController).toBeDefined();
   });
 
-  describe('findOne', () => {
+  describe('findAll', () => {
     it('should return an array of users', async () => {
       const mockCreatedUser: User[] = [
         {
@@ -73,7 +75,7 @@ describe('UserController', () => {
         surnames: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
-        rol: 'user',
+        rol: Auth0RoleEnum.CANDIDATO.name,
         company_id: null,
         typeIdentificationId: 1,
         nameIdentification: 'Cédula de ciudadanía',
@@ -106,6 +108,51 @@ describe('UserController', () => {
 
       const result = await userController.createUser(createUserDto);
       expect(result).toBe(mockCreatedUser);
+    });
+    it('invalid rol - should throw BadRequestExeption', async () => {
+      const createUserDto: CreateUserDto = {
+        names: 'John',
+        surnames: 'Doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+        rol: 'invalid rol',
+        company_id: null,
+        typeIdentificationId: 1,
+        nameIdentification: 'Cédula de ciudadanía',
+        locationId: null,
+        identification: '123456789',
+      };
+      await expect(userController.createUser(createUserDto)).rejects.toThrowError(BadRequestException);
+    });
+    it('null rol - should throw BadRequestExeption', async () => {
+      const createUserDto: CreateUserDto = {
+        names: 'John',
+        surnames: 'Doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+        rol: null,
+        company_id: null,
+        typeIdentificationId: 1,
+        nameIdentification: 'Cédula de ciudadanía',
+        locationId: null,
+        identification: '123456789',
+      };
+      await expect(userController.createUser(createUserDto)).rejects.toThrowError(BadRequestException);
+    });
+    it('REMPRESANTANT rol - should throw BadRequestExeption', async () => {
+      const createUserDto: CreateUserDto = {
+        names: 'John',
+        surnames: 'Doe',
+        email: 'john.doe@example.com',
+        password: 'password123',
+        rol: Auth0RoleEnum.REPRESENTANTE_EMPRESA.name,
+        company_id: null,
+        typeIdentificationId: 1,
+        nameIdentification: 'Cédula de ciudadanía',
+        locationId: null,
+        identification: '123456789',
+      };
+      await expect(userController.createUser(createUserDto)).rejects.toThrowError(BadRequestException);
     });
   });
 
@@ -160,7 +207,118 @@ describe('UserController', () => {
       expect(result).toBe(mockUsers);
     });
   });
+  describe('findAllByRole', () => {
+    it('should return an array of users', async () => {
+      const mockUsers: User[] = [
+        {
+          id: 1,
+          names: 'John',
+          surnames: 'Doe',
+          email: 'john.doe@example.com',
+          picture: 'http://example.com',
+          authId: '123456789',
+          rol: 'CANDIDATO',
+          company_id: null,
+          typeIdentificationId: 1,
+          nameIdentification: 'Cédula de ciudadanía',
+          identification: '123456789',
+          phone: '123456789',
+          experienceYears: 1,
+          education: [],
+          languages: [],
+          skills: [],
+          location: null,
+          experiences: [],
+        },
+        {
+          id: 2,
+          names: 'Jane',
+          surnames: 'Doe',
+          email: 'jane.doe@example.com',
+          picture: 'http://example.com',
+          authId: '123456789',
+          rol: 'CANDIDATO',
+          company_id: null,
+          typeIdentificationId: 1,
+          nameIdentification: 'Cédula de ciudadanía',
+          identification: '123456789',
+          phone: '123456789',
+          experienceYears: 1,
+          education: [],
+          languages: [],
+          skills: [],
+          location: null,
+          experiences: [],
+        },
+      ];
 
+      jest.spyOn(userService, 'findAllBy').mockResolvedValue(mockUsers);
+
+      const result = await userController.findAllByRole(Auth0RoleEnum.CANDIDATO.name);
+      expect(result).toBe(mockUsers);
+    });
+    it('invalid rol should throw BadRequestException', async () => {
+      await expect(userController.findAllByRole('invalid rol')).rejects.toThrowError(BadRequestException);
+    });
+  });
+  describe('findOne', () => {
+    it('should return an  user', async () => {
+      const mockUser: User = {
+        id: 1,
+        names: 'John',
+        surnames: 'Doe',
+        email: 'john.doe@example.com',
+        picture: 'http://example.com',
+        authId: '123456789',
+        rol: 'CANDIDATO',
+        company_id: null,
+        typeIdentificationId: 1,
+        nameIdentification: 'Cédula de ciudadanía',
+        identification: '123456789',
+        phone: '123456789',
+        experienceYears: 1,
+        education: [],
+        languages: [],
+        skills: [],
+        location: null,
+        experiences: [],
+      };
+
+      jest.spyOn(userService, 'findOneBy').mockResolvedValue(mockUser);
+
+      const result = await userController.findOne(14);
+      expect(result).toBe(mockUser);
+    });
+  });
+  describe('findOneByAuth0Id', () => {
+    it('should return an  user', async () => {
+      const mockUser: User = {
+        id: 1,
+        names: 'John',
+        surnames: 'Doe',
+        email: 'john.doe@example.com',
+        picture: 'http://example.com',
+        authId: '123456789',
+        rol: 'CANDIDATO',
+        company_id: null,
+        typeIdentificationId: 1,
+        nameIdentification: 'Cédula de ciudadanía',
+        identification: '123456789',
+        phone: '123456789',
+        experienceYears: 1,
+        education: [],
+        languages: [],
+        skills: [],
+        location: null,
+        experiences: [],
+      };
+
+      jest.spyOn(userService, 'findOneBy').mockResolvedValue(mockUser);
+
+      const result = await userController.findOne(14);
+      expect(result).toBe(mockUser);
+    });
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });

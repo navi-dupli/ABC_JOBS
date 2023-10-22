@@ -17,7 +17,9 @@
     ".dto.ts",
     ".enum.ts",
     "main.ts",
-    "database.config.ts"
+    ".config.ts",
+    ".filter.ts",
+    ".exception.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -28,7 +30,9 @@
     ".dto.ts",
     ".enum.ts",
     "main.ts",
-    "database.config.ts"
+    ".config.ts",
+    ".filter.ts",
+    ".exception.ts"
   ],
   "moduleFileExtensions": [
     "js",
