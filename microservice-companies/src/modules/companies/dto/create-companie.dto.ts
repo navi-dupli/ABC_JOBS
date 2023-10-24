@@ -22,9 +22,6 @@ export class CreateCompanyDto {
   representativeEmail: string;
 
   @IsNotEmpty()
-  representativePassword: string;
-
-  @IsNotEmpty()
   phoneNumber: string;
 
   @IsNotEmpty()

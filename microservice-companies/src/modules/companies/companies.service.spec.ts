@@ -74,7 +74,6 @@ function getCompanieMock() {
     companyEmail: 'test@test.com',
     representativeName: 'John Doe',
     representativeEmail: 'john.doe@test.com',
-    representativePassword: 'password123',
     phoneNumber: '123456789',
     country: 1,
     region: 2,
@@ -98,7 +97,6 @@ function getCompanieFromDto(createCompanyDto: CreateCompanyDto) {
     representativeEmail: createCompanyDto.representativeEmail,
     representativeName: createCompanyDto.representativeName,
     uniqueIdentification: createCompanyDto.uniqueIdentification,
-    representativePassword: createCompanyDto.representativePassword,
   };
   return result;
 }

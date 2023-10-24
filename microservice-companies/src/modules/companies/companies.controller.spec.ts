@@ -29,21 +29,22 @@ describe('CompaniesController', () => {
   });
 
   it('should return a list of companies', async () => {
-    const mockCompanies: Company[] = [{
-      companyName: 'Test Company',
-      uniqueIdentification: '123456',
-      businessActivity: 'Software Development',
-      companyEmail: 'test@test.com',
-      representativeName: 'John Doe',
-      representativeEmail: 'john.doe@test.com',
-      representativePassword: 'password123',
-      phoneNumber: '123456789',
-      country: 1,
-      region: 2,
-      city: 3,
-      address: '123 Main St',
-      id: 1
-    }]; 
+    const mockCompanies: Company[] = [
+      {
+        companyName: 'Test Company',
+        uniqueIdentification: '123456',
+        businessActivity: 'Software Development',
+        companyEmail: 'test@test.com',
+        representativeName: 'John Doe',
+        representativeEmail: 'john.doe@test.com',
+        phoneNumber: '123456789',
+        country: 1,
+        region: 2,
+        city: 3,
+        address: '123 Main St',
+        id: 1,
+      },
+    ];
     jest.spyOn(service, 'getCompanies').mockResolvedValue(mockCompanies);
 
     const result = await controller.getCompanies();
@@ -59,13 +60,12 @@ describe('CompaniesController', () => {
       companyEmail: 'test@test.com',
       representativeName: 'John Doe',
       representativeEmail: 'john.doe@test.com',
-      representativePassword: 'password123',
       phoneNumber: '123456789',
       country: 1,
       region: 2,
       city: 3,
-      address: '123 Main St'
-    }; 
+      address: '123 Main St',
+    };
     const createdCompany: Company = {
       companyName: 'Test Company',
       uniqueIdentification: '123456',
@@ -73,14 +73,13 @@ describe('CompaniesController', () => {
       companyEmail: 'test@test.com',
       representativeName: 'John Doe',
       representativeEmail: 'john.doe@test.com',
-      representativePassword: 'password123',
       phoneNumber: '123456789',
       country: 1,
       region: 2,
       city: 3,
       address: '123 Main St',
-      id: 1
-    }; 
+      id: 1,
+    };
     jest.spyOn(service, 'createCompany').mockResolvedValue(createdCompany);
 
     const result = await controller.createCompany(createCompanyDto);
@@ -96,13 +95,12 @@ describe('CompaniesController', () => {
       companyEmail: 'test@test.com',
       representativeName: 'John Doe',
       representativeEmail: 'john.doe@test.com',
-      representativePassword: 'password123',
       phoneNumber: '123456789',
       country: 1,
       region: 2,
       city: 3,
-      address: '123 Main St'
-    }; 
+      address: '123 Main St',
+    };
     const error = new BadRequestException('Bad Request');
     jest.spyOn(service, 'createCompany').mockRejectedValue(error);
 
@@ -117,17 +115,15 @@ describe('CompaniesController', () => {
       companyEmail: 'test@test.com',
       representativeName: 'John Doe',
       representativeEmail: 'john.doe@test.com',
-      representativePassword: 'password123',
       phoneNumber: '123456789',
       country: 1,
       region: 2,
       city: 3,
-      address: '123 Main St'
-    }; 
+      address: '123 Main St',
+    };
     const error = new Error('Internal Server Error');
     jest.spyOn(service, 'createCompany').mockRejectedValue(error);
 
     await expect(controller.createCompany(createCompanyDto)).rejects.toThrow(Error);
   });
-
 });
