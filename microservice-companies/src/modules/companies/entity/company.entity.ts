@@ -24,9 +24,6 @@ export class Company {
   representativeEmail: string;
 
   @Column()
-  representativePassword: string;
-
-  @Column()
   phoneNumber: string;
 
   @Column()
