@@ -6,13 +6,11 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { Auth0ExternalApiService } from '../../../commons/modules/user-manager/services/auth0-external-api.service';
 import { ExternalApiResponseDto, Identity } from '../../../commons/modules/user-manager/dto/external-api.dto';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
 import { UserManagerModule } from '../../../commons/modules/user-manager/user-manager.module';
 import { Auth0LoginService } from './auth0-login/auth0-login.service';
 import { Auth0RoleEnum } from '../../../commons/modules/user-manager/enums/role.enum';
 import { UserAlreadyExistException } from '../../../commons/exceptions/user-already-exist.exception';
 import { Auth0ResponseLoginDto, LoginDto } from '../dto/login.dto';
-import * as jwt from 'jsonwebtoken';
 import { UserLoginErrorException } from '../../../commons/exceptions/user-login-error.exception';
 import { UserLoginFailedException } from '../../../commons/exceptions/user-login-failed.exception';
 
@@ -107,6 +105,7 @@ describe('UsersService', () => {
         languages: [],
         skills: [],
         experiences: [],
+        userTests: [],
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       jest.spyOn(repository, 'save').mockResolvedValue(userEntity);
@@ -148,6 +147,7 @@ describe('UsersService', () => {
         languages: [],
         skills: [],
         experiences: [],
+        userTests: [],
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(userEntity);
 
@@ -196,6 +196,7 @@ describe('UsersService', () => {
         languages: [],
         skills: [],
         experiences: [],
+        userTests: [],
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(user);
 
@@ -212,7 +213,7 @@ describe('UsersService', () => {
         access_token: 'password123',
         expires_in: 86400,
       } as Auth0ResponseLoginDto; // Esto debe coincidir con el comportamiento del método Auth0LoginService
-      const invalidToken: string = 'invalidToken'; // Simula un token JWT inválido que fallará en el decodificador
+      // const invalidToken: string = 'invalidToken'; // Simula un token JWT inválido que fallará en el decodificador
       jest.spyOn(auth0LoginService, 'authenticate').mockResolvedValue(userLogged);
       //jest.spyOn(jwt, 'sign').mockReturnValue(invalidToken);
 

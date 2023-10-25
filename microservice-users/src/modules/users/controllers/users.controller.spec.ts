@@ -14,7 +14,6 @@ import { BadRequestException } from '@nestjs/common';
 describe('UserController', () => {
   let userController: UsersController;
   let userService: UsersService;
-  let repository: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,7 +31,6 @@ describe('UserController', () => {
 
     userController = module.get<UsersController>(UsersController);
     userService = module.get<UsersService>(UsersService);
-    repository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
@@ -61,6 +59,7 @@ describe('UserController', () => {
           skills: [],
           location: null,
           experiences: [],
+          userTests: [],
         },
       ];
       jest.spyOn(userService, 'findAll').mockResolvedValue(mockCreatedUser);
@@ -102,6 +101,7 @@ describe('UserController', () => {
         skills: [],
         location: null,
         experiences: [],
+        userTests: [],
       };
 
       jest.spyOn(userService, 'createUser').mockResolvedValue(mockCreatedUser);
@@ -178,6 +178,7 @@ describe('UserController', () => {
           skills: [],
           location: null,
           experiences: [],
+          userTests: [],
         },
         {
           id: 2,
@@ -198,6 +199,7 @@ describe('UserController', () => {
           skills: [],
           location: null,
           experiences: [],
+          userTests: [],
         },
       ];
 
@@ -229,6 +231,7 @@ describe('UserController', () => {
           skills: [],
           location: null,
           experiences: [],
+          userTests: [],
         },
         {
           id: 2,
@@ -249,6 +252,7 @@ describe('UserController', () => {
           skills: [],
           location: null,
           experiences: [],
+          userTests: [],
         },
       ];
 
@@ -282,6 +286,7 @@ describe('UserController', () => {
         skills: [],
         location: null,
         experiences: [],
+        userTests: [],
       };
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(mockUser);
@@ -311,6 +316,7 @@ describe('UserController', () => {
         skills: [],
         location: null,
         experiences: [],
+        userTests: [],
       };
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(mockUser);
