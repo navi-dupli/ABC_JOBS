@@ -7,6 +7,7 @@ import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
 import { UsersModule } from './modules/users/users.module';
 import { UserManagerModule } from './commons/modules/user-manager/user-manager.module';
+import { UserTestModule } from './modules/user-test/user-test.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserManagerModule } from './commons/modules/user-manager/user-manager.m
     AuthzModule,
     UsersModule,
     UserManagerModule,
+    UserTestModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
