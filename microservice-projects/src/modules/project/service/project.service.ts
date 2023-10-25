@@ -21,4 +21,10 @@ export class ProjectService {
 
     return this.projectRepository.save(project);
   }
+
+  async getProjectsByCompany(idCompany: number) {
+    return await this.projectRepository.find({
+      where: { idCompany },
+    });
+  }
 }

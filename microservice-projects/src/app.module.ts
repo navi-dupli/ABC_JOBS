@@ -6,6 +6,7 @@ import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { ProjectModule } from './modules/project/project.module';
+import {TeamModule} from "./modules/team/team.module";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProjectModule } from './modules/project/project.module';
     }),
     AuthzModule,
     ProjectModule,
+    TeamModule
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
