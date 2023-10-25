@@ -54,6 +54,7 @@ describe('CandidateService', () => {
         skills: [],
         location: null,
         experiences: [],
+        userTests: [],
       },
     ]; // Define aquí los usuarios esperados
 

@@ -2,7 +2,6 @@ import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { LoginDto, LoginResponseDto } from '../../dto/login.dto';
 import { UsersService } from '../../services/users.service';
 import { ApiBody, ApiResponse } from '@nestjs/swagger';
-import { UserLoginErrorException } from '../../../../commons/exceptions/user-login-error.exception';
 import { ExceptionDto } from '../../../../commons/filters/http-exception.filter';
 
 @Controller('login')
