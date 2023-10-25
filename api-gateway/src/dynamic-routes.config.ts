@@ -10,6 +10,7 @@ export class MicroserviceEnum {
   static readonly USERS = 'users-app';
   static readonly EVALUATIONS = 'evaluations-app';
   static readonly PROJECTS = 'projects-app';
+  static readonly SELECTION = 'selection-app';
 }
 
 export const dynamicRoutesConfig: RouteConfig[] = [
@@ -37,5 +38,10 @@ export const dynamicRoutesConfig: RouteConfig[] = [
     path: MicroserviceEnum.EVALUATIONS,
     microservice: 'evaluations-micro-service',
     endPoint: process.env.EVALUATIONS_ENDPOINT || 'http://localhost:3003',
+  },
+  {
+    path: MicroserviceEnum.SELECTION,
+    microservice: 'evaluations-micro-service',
+    endPoint: process.env.SELECTION || 'http://localhost:3005',
   },
 ];
