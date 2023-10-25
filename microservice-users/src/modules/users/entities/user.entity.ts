@@ -4,6 +4,7 @@ import { Experience } from '../../experience/entities/experience.entity';
 import { UserLanguage } from '../../userLanguage/entities/userLanguage.entity';
 import { UserLocation } from '../../userLocation/entities/userLocation.entity';
 import { UserAbility } from '../../userAbility/entities/userAbility.entity';
+import { UserTest } from '../../user-test/entities/user-test.entity';
 
 @Entity()
 export class User {
@@ -60,4 +61,7 @@ export class User {
 
   @OneToMany(() => UserAbility, (userAbility) => userAbility.user)
   skills: UserAbility[];
+
+  @OneToMany(() => UserTest, (userTest) => userTest.users)
+  userTests: UserTest[];
 }
