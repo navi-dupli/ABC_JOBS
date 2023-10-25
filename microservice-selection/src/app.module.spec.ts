@@ -6,7 +6,7 @@ import { AuthorizedController } from './commons/controllers/authorized/authorize
 import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
-import { ProjectModule } from './modules/project/project.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 
 describe('AppModule', () => {
   let module: TestingModule;
@@ -43,7 +43,7 @@ describe('AppModule', () => {
   });
 
   it('should have  ProjectsModule defined', () => {
-    const identificationModule = module.get(ProjectModule);
+    const identificationModule = module.get(AppointmentModule);
     expect(identificationModule).toBeDefined();
   });
 });
