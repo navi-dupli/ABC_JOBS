@@ -1,0 +1,41 @@
+name: Test projects Service
+on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'microservice-projects/**'
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          cd microservice-projects
+          npm install
+      - name: Test
+        run: |
+          cd microservice-projects
+          npm run test:cov
+      - name: Build image Test
+        run: |
+          cd microservice-projects
+          docker build -t microservice-projects-test .
+#  deploy:
+#    needs:
+#      - test
+#    name: Deploy
+#    uses: ./.github/workflows/deploy-microservice-workflow.yaml
+#    with:
+#      service: 'microservice-projects'
+#      region: 'us-central1'
+#      source: './microservice-projects'
+#    secrets:
+#      wif_provider: ${{ secrets.WIF_PROVIDER }}
+#      wif_service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
