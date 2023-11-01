@@ -6,6 +6,9 @@ export class Appointment {
   id: number;
 
   @Column()
+  title: string;
+
+  @Column()
   date: Date;
 
   @Column()
@@ -28,4 +31,10 @@ export class Appointment {
 
   @Column({ name: 'candidate_name' })
   candidateName: string;
+
+  @Column({ name: 'officer_id' })
+  officerId: number;
+
+  @Column({ name: 'officer_name' })
+  officerName: string;
 }
