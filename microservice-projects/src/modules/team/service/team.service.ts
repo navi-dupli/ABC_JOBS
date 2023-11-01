@@ -40,10 +40,11 @@ export class TeamService {
   async addMemberTeam(addMemberTeamDto: AddMemberTeamDto): Promise<TeamMember[]> {
     const createdItems: TeamMember[] = [];
 
-    for (const itemName of addMemberTeamDto.userId) {
+    for (const user of addMemberTeamDto.users) {
       const teamMember = new TeamMember();
       teamMember.teamId = addMemberTeamDto.teamId;
-      teamMember.userId = itemName;
+      teamMember.userId = user.id;
+      teamMember.userName = user.fullName;
       createdItems.push(await this.teamMemberRepository.save(teamMember))
     }
 

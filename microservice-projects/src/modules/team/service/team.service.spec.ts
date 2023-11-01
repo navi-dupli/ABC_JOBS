@@ -114,6 +114,7 @@ describe('TeamService', () => {
       {
         "id": 1,
         "userId": 1,
+        "userName": "Pedro Perez",
         "status": "Activo",
         "teamId": 1
       }
