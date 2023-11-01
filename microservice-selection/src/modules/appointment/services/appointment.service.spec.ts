@@ -46,7 +46,13 @@ describe('AppointmentService', () => {
         {
           candidateId: userId,
         },
+        {
+          officerId: userId,
+        },
       ],
+      order: {
+        date: 'DESC',
+      },
     });
     expect(result).toEqual(expectedAppointments);
   });
