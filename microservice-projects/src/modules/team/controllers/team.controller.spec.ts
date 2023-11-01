@@ -92,12 +92,16 @@ describe('TeamController', () => {
   it('should add member a team', async () => {
     const addMemberTeamDto: AddMemberTeamDto = {
       teamId: 1,
-      userId: [1]
+      users: [{
+        id: 1,
+        fullName: "Pedro Perez"
+      }]
     };
 
     const createdTeamMember: TeamMember[] = [{
       teamId: 1,
       userId: 1,
+      userName: "Pedro Perez",
       id: 1,
       status: "Activo"
     }];
