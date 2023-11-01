@@ -50,4 +50,10 @@ export class TeamService {
     return createdItems;
   }
 
+  async getCandidateByTeam(teamId: number) {
+    return await this.teamMemberRepository.find({
+      where: { teamId },
+    });
+  }
+
 }

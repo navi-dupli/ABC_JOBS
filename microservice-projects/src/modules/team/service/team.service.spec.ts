@@ -108,4 +108,22 @@ describe('TeamService', () => {
     expect(teamRepository.find).toHaveBeenCalledWith({ where: { projectId } });
   });
 
+  it('should get candidates by team', async () => {
+    const teamId = 1;
+    const candidates = [
+      {
+        "id": 1,
+        "userId": 1,
+        "status": "Activo",
+        "teamId": 1
+      }
+    ];
+    jest.spyOn(teamMemberRepository, 'find').mockResolvedValue(candidates);
+
+    const result = await teamService.getCandidateByTeam(teamId);
+
+    expect(result).toEqual(candidates);
+    expect(teamMemberRepository.find).toHaveBeenCalledWith({ where: { teamId } });
+  });
+
 });
