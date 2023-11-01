@@ -30,4 +30,9 @@ export class TeamController extends AuthorizedController {
   async addMemberTeam(@Body() addMemberTeamDto: AddMemberTeamDto) {
     return await this.teamService.addMemberTeam(addMemberTeamDto);
   }
+
+  @Get('/candidates/:teamId')
+  async getCandidatesByTeam(@Param('teamId') teamId: number) {
+    return await this.teamService.getCandidateByTeam(teamId);
+  }
 }

@@ -7,6 +7,10 @@ import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import {TestsModule} from "./modules/tests/tests.module";
+import {
+  DimensionModule
+} from "./modules/performance-evaluation/performance-evaluation.module";
+import {PerformanceEvaluationModule} from "./modules/dimension/dimension.module";
 
 @Module({
   imports: [
@@ -17,7 +21,9 @@ import {TestsModule} from "./modules/tests/tests.module";
     }),
     AuthzModule,
     TechnicalTestModule,
-    TestsModule
+    TestsModule,
+    PerformanceEvaluationModule,
+    DimensionModule
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
