@@ -18,7 +18,13 @@ export class AppointmentService {
         {
           candidateId: userId,
         },
+        {
+          officerId: userId,
+        },
       ],
+      order: {
+        date: 'DESC',
+      },
     });
   }
 }
