@@ -9,4 +9,9 @@ export class AppointmentController {
   findByUserId(@Param('userId') userId: number): Promise<Appointment[]> {
     return this.appointmentService.findByUserId(userId);
   }
+
+  @Get(':id')
+  findById(@Param('id') id: number): Promise<Appointment> {
+    return this.appointmentService.findById(id);
+  }
 }
