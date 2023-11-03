@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { InterviewNotesController } from './interview-notes.controller';
 import { InterviewNotesService } from '../services/interview-notes.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { InterviewNotes } from '../entities/interview.notes';
+import { InterviewNotesEntity } from '../entities/interview-notes.entity';
 import { Repository } from 'typeorm';
 
 describe('InterviewNotesController', () => {
@@ -15,7 +15,7 @@ describe('InterviewNotesController', () => {
       providers: [
         InterviewNotesService,
         {
-          provide: getRepositoryToken(InterviewNotes),
+          provide: getRepositoryToken(InterviewNotesEntity),
           useClass: Repository,
         },
       ],
@@ -31,7 +31,7 @@ describe('InterviewNotesController', () => {
 
   it('should call interviewNoteService.findByAppointmentId with the correct id', async () => {
     const appointmentId = 1;
-    const expectedInterviewNotes: InterviewNotes = {
+    const expectedInterviewNotes: InterviewNotesEntity = {
       id: 1,
       appointment: {
         id: 1,

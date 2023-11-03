@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InterviewNotes } from '../entities/interview.notes';
+import { InterviewNotesEntity } from '../entities/interview-notes.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class InterviewNotesService {
   constructor(
-    @InjectRepository(InterviewNotes)
-    private readonly interviewNotesRepository: Repository<InterviewNotes>,
+    @InjectRepository(InterviewNotesEntity)
+    private readonly interviewNotesRepository: Repository<InterviewNotesEntity>,
   ) {}
 
-  async findByAppointmentId(appointmentId: number): Promise<InterviewNotes> {
+  async findByAppointmentId(appointmentId: number): Promise<InterviewNotesEntity> {
     const interviewNotes = await this.interviewNotesRepository.findOne({
       relations: {
         appointment: true,

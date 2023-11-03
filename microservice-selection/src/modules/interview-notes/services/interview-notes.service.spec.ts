@@ -1,27 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InterviewNotesService } from './interview-notes.service';
 import { Repository } from 'typeorm';
-import { InterviewNotes } from '../entities/interview.notes';
+import { InterviewNotesEntity } from '../entities/interview-notes.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 
 describe('InterviewNotesService', () => {
   let service: InterviewNotesService;
-  let interviewNotesRepository: Repository<InterviewNotes>;
+  let interviewNotesRepository: Repository<InterviewNotesEntity>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         InterviewNotesService,
         {
-          provide: getRepositoryToken(InterviewNotes),
+          provide: getRepositoryToken(InterviewNotesEntity),
           useClass: Repository,
         },
       ],
     }).compile();
 
     service = module.get<InterviewNotesService>(InterviewNotesService);
-    interviewNotesRepository = module.get<Repository<InterviewNotes>>(getRepositoryToken(InterviewNotes));
+    interviewNotesRepository = module.get<Repository<InterviewNotesEntity>>(getRepositoryToken(InterviewNotesEntity));
   });
 
   it('should be defined', () => {
@@ -30,7 +30,7 @@ describe('InterviewNotesService', () => {
 
   it('should find interview notes for the given appointment ID', async () => {
     const appointmentId = 1;
-    const expectedInterviewNotes: InterviewNotes = {
+    const expectedInterviewNotes: InterviewNotesEntity = {
       id: 1,
       appointment: {
         id: 1,
