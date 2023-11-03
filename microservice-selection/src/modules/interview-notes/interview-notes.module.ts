@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { InterviewNotesController } from './controllers/interview-notes.controller';
 import { InterviewNotesService } from './services/interview-notes.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { InterviewNotes } from './entities/interview.notes';
+import { InterviewNotesEntity } from './entities/interview-notes.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InterviewNotes])],
+  imports: [TypeOrmModule.forFeature([InterviewNotesEntity])],
   controllers: [InterviewNotesController],
   providers: [InterviewNotesService],
 })
