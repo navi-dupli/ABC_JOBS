@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "da6a1abe-acfe-465b-8dec-550039a920f7",
+		"_postman_id": "f0fb8fba-8d7a-45a6-b280-6c040b3ce72f",
 		"name": "ABC_JOBS",
 		"description": "API to manage users ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8109655"
+		"_exporter_id": "1798844"
 	},
 	"item": [
 		{
@@ -595,6 +595,49 @@
 										"appointments",
 										"user",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get result of interview",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjN4QUhqaVFOVl9WbjctcXRTQWFVMyJ9.eyJpc3MiOiJodHRwczovL2FiYy1qb2JzLWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjUyYWM2MjgxMzViNTFhMTMyNGE5Y2YxIiwiYXVkIjoiaHR0cDovL2FiYy1qb2JzLnVzZXJzLWFwaS5kZXYiLCJpYXQiOjE2OTg5NzQ0NDQsImV4cCI6MTY5OTA2MDg0NCwiYXpwIjoicFdzWUtHRE02MGNkdERPd0FkR1p5VDlpcGlBY0hSNE4iLCJndHkiOiJwYXNzd29yZCIsInBlcm1pc3Npb25zIjpbInJlZ2lzdGVyOmNvbXBhbnkiLCJyZWdpc3Rlcjp0ZWNobmljYWwtdGVzdCIsInZpZXc6YXBwb2ludG1lbnQiXX0.h60R8Acjj8W6Yw7T3n77-ySM26fL4pZojpXEiEUIiaNWJy__ZTvOYzAjV0FILnr5ijmwRemy1D5fRMA-WNzWoWU0IwFZy_FCLBL7flM3CA2rdcWVXOAThvp7iLSoGNjGVRa_F9NN0xwJj-9ajl3bnDsvpS7sxxmXVXH1vlCkrzlXTzpa85qDq_2YV7Lp02cwLKXefiN8WEX5B264ftaJT8E5PIWBSGVmBJHogYTg3OLp3zwwLH03gH6woKVo7pWSYncAnybyACJPdFMBb8WuRgC_GHuV1Rc55H0fDoLy61xzQKRVatc3P2GM4v4OpJVqeZEVc3DcwbCUWxfWuiJigA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/selection-app/interview-notes/appointment/2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"selection-app",
+										"interview-notes",
+										"appointment",
+										"2"
 									]
 								}
 							},
