@@ -33,7 +33,7 @@ export class TeamService {
 
   async getTeamsByProject(projectId: number) {
     return await this.teamRepository.find({
-      where: { projectId },
+      where: { projectId, status: 'Activo' },
     });
   }
 

@@ -5,7 +5,7 @@ export class Team {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: 'Activo' })
+  @Column()
   status: string;
 
   @Column()
