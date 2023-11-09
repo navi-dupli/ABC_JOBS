@@ -6,6 +6,7 @@ import { databaseConfig } from './database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { InterviewNotesModule } from './modules/interview-notes/interview-notes.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
       useFactory: () => databaseConfig,
     }),
     AuthzModule,
-    AppointmentModule
+    AppointmentModule,
+    InterviewNotesModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
