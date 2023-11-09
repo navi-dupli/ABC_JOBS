@@ -61,7 +61,7 @@ describe('TeamService', () => {
       {
         projectId: 1,
         name: "Nuevo proyecto",
-        status: "Active",
+        status: "Activo",
         id: 1
       }
     ];
@@ -78,7 +78,7 @@ describe('TeamService', () => {
       {
         projectId: 1,
         name: "Nuevo proyecto",
-        status: "Active",
+        status: "Activo",
         id: 1
       }
     ];
@@ -96,7 +96,7 @@ describe('TeamService', () => {
       {
         projectId: 1,
         name: "Nuevo proyecto",
-        status: "Active",
+        status: "Activo",
         id: 1
       }
     ];
@@ -105,7 +105,7 @@ describe('TeamService', () => {
     const result = await teamService.getTeamsByProject(projectId);
 
     expect(result).toEqual(teams);
-    expect(teamRepository.find).toHaveBeenCalledWith({ where: { projectId } });
+    expect(teamRepository.find).toHaveBeenCalledWith({ where: { projectId, status: 'Activo' } });
   });
 
   it('should get candidates by team', async () => {
