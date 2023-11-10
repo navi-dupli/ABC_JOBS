@@ -8,6 +8,7 @@ import { AuthorizedController } from './commons/controllers/authorized/authorize
 import { UsersModule } from './modules/users/users.module';
 import { UserManagerModule } from './commons/modules/user-manager/user-manager.module';
 import { UserTestModule } from './modules/user-test/user-test.module';
+import { MonitoringModule } from './commons/modules/monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserTestModule } from './modules/user-test/user-test.module';
     UsersModule,
     UserManagerModule,
     UserTestModule,
+    MonitoringModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
