@@ -43,4 +43,30 @@ describe('AppointmentController', () => {
     expect(appointmentService.findByUserId).toHaveBeenCalledWith(userId);
     expect(result).toEqual(expectedAppointments);
   });
+
+  it('should call appointmentService.findById with the correct id', async () => {
+    const id = 1;
+    const expectedAppointment: Appointment = {
+      id: 1,
+      title: 'Software Engineer Interview',
+      date: new Date(),
+      description: 'Initial interview for the software engineering position.',
+      processName: 'Software Engineer Hiring',
+      processId: 1,
+      interviewerId: 7,
+      interviewerName: 'Natalie Santiago',
+      candidateId: 15,
+      candidateName: 'Pedro García',
+      officerId: 6,
+      officerName: 'Plinio Grijalba',
+    };
+
+    // Simulamos la respuesta del servicio
+    jest.spyOn(appointmentService, 'findById').mockResolvedValue(expectedAppointment);
+
+    const result = await controller.findById(id);
+
+    expect(appointmentService.findById).toHaveBeenCalledWith(id);
+    expect(result).toEqual(expectedAppointment);
+  });
 });

@@ -8,6 +8,9 @@ export class TeamMember {
   @Column()
   userId: number;
 
+  @Column()
+  userName: string;
+
   @Column({ default: "Activo", nullable: true })
   status: string;
 
