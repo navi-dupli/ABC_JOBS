@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {TeamService} from "./team.service";
-import {Team} from "../entities/team.entity";
-import {TeamMember} from "../entities/team-member.entity";
-import {CreateTeamDto} from "../dto/create-team.dto";
-import {AddMemberTeamDto} from "../dto/add-member-team.dto";
+import { TeamService } from './team.service';
+import { Team } from '../entities/team.entity';
+import { TeamMember } from '../entities/team-member.entity';
+import { CreateTeamDto } from '../dto/create-team.dto';
 
 describe('TeamService', () => {
   let teamService: TeamService;
@@ -23,7 +22,7 @@ describe('TeamService', () => {
         {
           provide: getRepositoryToken(TeamMember),
           useClass: Repository,
-        }
+        },
       ],
     }).compile();
 
@@ -38,15 +37,15 @@ describe('TeamService', () => {
 
   it('should create a team', async () => {
     const createTeamDto: CreateTeamDto = {
-      name: "Nuevo proyecto",
-      state: "Activo",
-      projectId: 1
+      name: 'Nuevo proyecto',
+      status: 'Activo',
+      projectId: 1,
     };
 
     const savedTeam = new Team();
     savedTeam.id = 1;
     savedTeam.name = createTeamDto.name;
-    savedTeam.status = createTeamDto.state;
+    savedTeam.status = createTeamDto.status;
     savedTeam.projectId = createTeamDto.projectId;
 
     jest.spyOn(teamRepository, 'save').mockResolvedValue(savedTeam);
@@ -60,10 +59,10 @@ describe('TeamService', () => {
     const createTeamDto: Team[] = [
       {
         projectId: 1,
-        name: "Nuevo proyecto",
-        status: "Activo",
-        id: 1
-      }
+        name: 'Nuevo proyecto',
+        status: 'Activo',
+        id: 1,
+      },
     ];
 
     jest.spyOn(teamRepository, 'find').mockResolvedValue(createTeamDto);
@@ -77,10 +76,10 @@ describe('TeamService', () => {
     const createTeamDto: Team[] = [
       {
         projectId: 1,
-        name: "Nuevo proyecto",
-        status: "Activo",
-        id: 1
-      }
+        name: 'Nuevo proyecto',
+        status: 'Activo',
+        id: 1,
+      },
     ];
 
     jest.spyOn(teamRepository, 'find').mockResolvedValue(createTeamDto);
@@ -95,10 +94,10 @@ describe('TeamService', () => {
     const teams = [
       {
         projectId: 1,
-        name: "Nuevo proyecto",
-        status: "Activo",
-        id: 1
-      }
+        name: 'Nuevo proyecto',
+        status: 'Activo',
+        id: 1,
+      },
     ];
     jest.spyOn(teamRepository, 'find').mockResolvedValue(teams);
 
@@ -112,12 +111,12 @@ describe('TeamService', () => {
     const teamId = 1;
     const candidates = [
       {
-        "id": 1,
-        "userId": 1,
-        "userName": "Pedro Perez",
-        "status": "Activo",
-        "teamId": 1
-      }
+        id: 1,
+        userId: 1,
+        userName: 'Pedro Perez',
+        status: 'Activo',
+        teamId: 1,
+      },
     ];
     jest.spyOn(teamMemberRepository, 'find').mockResolvedValue(candidates);
 
@@ -126,5 +125,4 @@ describe('TeamService', () => {
     expect(result).toEqual(candidates);
     expect(teamMemberRepository.find).toHaveBeenCalledWith({ where: { teamId } });
   });
-
 });
