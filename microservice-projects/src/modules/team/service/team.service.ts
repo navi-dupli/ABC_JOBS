@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {Project} from "../../project/entities/project.entity";
-import {Team} from "../entities/team.entity";
-import {CreateProjectDto} from "../../project/dto/create-project.dto";
-import {CreateTeamDto} from "../dto/create-team.dto";
-import {AddMemberTeamDto} from "../dto/add-member-team.dto";
-import {TeamMember} from "../entities/team-member.entity";
-
+import { Team } from '../entities/team.entity';
+import { CreateTeamDto } from '../dto/create-team.dto';
+import { AddMemberTeamDto } from '../dto/add-member-team.dto';
+import { TeamMember } from '../entities/team-member.entity';
 
 @Injectable()
 export class TeamService {
@@ -19,12 +16,7 @@ export class TeamService {
   ) {}
 
   async createTeam(createTeamDto: CreateTeamDto): Promise<Team> {
-    const team = new Team();
-    team.name = createTeamDto.name;
-    team.status = createTeamDto.state;
-    team.projectId = createTeamDto.projectId;
-
-    return this.teamRepository.save(team);
+    return this.teamRepository.save(createTeamDto);
   }
 
   async getTeams() {
@@ -45,7 +37,7 @@ export class TeamService {
       teamMember.teamId = addMemberTeamDto.teamId;
       teamMember.userId = user.id;
       teamMember.userName = user.fullName;
-      createdItems.push(await this.teamMemberRepository.save(teamMember))
+      createdItems.push(await this.teamMemberRepository.save(teamMember));
     }
 
     return createdItems;
@@ -56,5 +48,4 @@ export class TeamService {
       where: { teamId },
     });
   }
-
 }

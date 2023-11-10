@@ -38,7 +38,7 @@ describe('TeamController', () => {
 
   it('should create a team', async () => {
     const createTeamDto: CreateTeamDto = {
-      state: "Activo",
+      status: "Activo",
       projectId: 1,
       name: "Nuevo equipo",
     };
