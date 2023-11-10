@@ -6,13 +6,18 @@ import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
 import { groupBy } from 'lodash';
 import { MicroserviceStatusLiteDto } from '../dtos/microservice-status-lite.dto';
 import { MicroserviceStatusService } from '../microservice-status/microservice-status.service';
+import * as process from 'process';
 
 @Injectable()
 export class MonitoringScheduleService {
   private readonly _collectionName = 'hearth-beat-monitoring';
   private readonly logger = new Logger(MonitoringScheduleService.name);
-  private readonly _maxRowsToProcess: number = process.env.MAX_ROWS_TO_CHECK ? parseInt(process.env.MAX_ROWS_TO_CHECK) : 500;
-  private readonly _deltaTimeToProcess: number = process.env.DELTA_TIMIE_TO_PROCESS ? parseInt(process.env.DELTA_TIMIE_TO_PROCESS) : 5000;
+  private readonly _maxRowsToProcess: number = process.env.MAX_ROWS_TO_CHECK
+    ? parseInt(process.env.MAX_ROWS_TO_CHECK)
+    : 500;
+  private readonly _deltaTimeToProcess: number = process.env.DELTA_TIMIE_TO_PROCESS
+    ? parseInt(process.env.DELTA_TIMIE_TO_PROCESS)
+    : 5000;
   private readonly _instanceId = process.env.INSTANCE_ID || process.env.HOSTNAME || 'localhost';
   private static readonly _cronCheckInterval = process.env.CRON_CHECK_INTERVAL || CronExpression.EVERY_SECOND;
   private static readonly _cronReportInterval = process.env.CRON_REPORT_INTERVAL || CronExpression.EVERY_5_SECONDS;
@@ -30,23 +35,27 @@ export class MonitoringScheduleService {
 
   @Cron(MonitoringScheduleService._cronCheckInterval, {
     name: 'health_check_checking_job',
-    disabled: process.env.NODE_ENV !== 'production' || !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
+    disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
   })
   async healthCheckReportingJob() {
     this.logger.log(`Checking health status of ${this._instanceId}`);
     const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
-      // () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 300 }),
+      () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 300 }),
       () => this.memory.checkHeap('memory_heap', 200 * 1024 * 1024),
     ]);
     const date = new Date();
-    const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(healthCheckResultPromise, date);
-    const documentId = microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
+    const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(
+      healthCheckResultPromise,
+      date,
+    );
+    const documentId =
+      microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
     MonitoringScheduleService._store.set(documentId, microserviceStatusDto);
   }
 
   @Cron(MonitoringScheduleService._cronVerifyInterval, {
     name: 'health_check_consulting_job',
-    disabled: process.env.NODE_ENV !== 'production' || !process.env.SCHEDULE_VERIFY_STATUS_ENABLED,
+    disabled: !process.env.SCHEDULE_VERIFY_STATUS_ENABLED,
   })
   async healthCheckConsultingJob() {
     // consulta os ultimos 5 segundos
@@ -67,7 +76,7 @@ export class MonitoringScheduleService {
 
   @Cron(MonitoringScheduleService._cronReportInterval, {
     name: 'health_check_reporting_job',
-    disabled: process.env.NODE_ENV !== 'production' || !process.env.SCHEDULE_REPORTING_STATUS_ENABLED,
+    disabled: !process.env.SCHEDULE_REPORTING_STATUS_ENABLED,
   })
   async reportStatus() {
     const copyStore = new Map<string, any>(MonitoringScheduleService._store);

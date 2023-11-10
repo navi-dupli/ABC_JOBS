@@ -10,6 +10,7 @@ import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AbilityModule } from './modules/ability/abilityModule';
 import { LanguageModule } from './modules/languague/language.module';
 import { EducationTypeModule } from './modules/education-type/education-type.module';
+import { MonitoringModule } from './commons/modules/monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EducationTypeModule } from './modules/education-type/education-type.mod
     AbilityModule,
     LanguageModule,
     EducationTypeModule,
+    MonitoringModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],
