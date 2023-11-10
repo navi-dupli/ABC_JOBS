@@ -9,13 +9,7 @@ import { MicroserviceManagerModule } from './commons/modules/microservice-manage
 import { dynamicRoutesConfig } from './dynamic-routes.config';
 
 @Module({
-  imports: [
-    HttpModule,
-    AuthzModule,
-    UsersModule,
-    CompaniesModule,
-    MicroserviceManagerModule.forRoot(dynamicRoutesConfig),
-  ],
+  imports: [HttpModule, AuthzModule, UsersModule, CompaniesModule, MicroserviceManagerModule.forRoot(dynamicRoutesConfig)],
   controllers: [AuthorizedController],
   providers: [Logger],
 })
