@@ -17,6 +17,10 @@
     "main.ts",
     ".config.ts",
     ".filter.ts",
+    ".dto.ts",
+    ".enum.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
     ".exception.ts"
   ],
   "coveragePathIgnorePatterns": [
@@ -28,6 +32,10 @@
     "main.ts",
     ".config.ts",
     ".filter.ts",
+    ".dto.ts",
+    ".enum.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
     ".exception.ts"
   ],
   "moduleFileExtensions": [
