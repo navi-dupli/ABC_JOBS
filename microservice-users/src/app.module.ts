@@ -22,7 +22,6 @@ import { MonitoringModule } from './commons/modules/monitoring/monitoring.module
     UsersModule,
     UserManagerModule,
     UserTestModule,
-    MonitoringModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],

@@ -42,9 +42,4 @@ describe('MonitoringModule', () => {
     const onModuleInit = monitoringModule.onModuleInit();
     expect(onModuleInit).not.toBeNull();
   });
-  it('should report status on shutdown', () => {
-    jest.spyOn(service, 'save').mockReturnValue(new Promise((resolve) => resolve()));
-    const onApplicationShutdown = monitoringModule.onApplicationShutdown();
-    expect(onApplicationShutdown).not.toBeNull();
-  });
 });

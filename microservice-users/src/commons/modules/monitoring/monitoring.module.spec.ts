@@ -4,6 +4,7 @@ import { MonitoringScheduleService } from './monitoring-schedule/monitoring-sche
 import { FirebaseService } from './firebase-service/firebase.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { ScheduleModule } from '@nestjs/schedule';
+import { Firestore } from '@google-cloud/firestore';
 
 describe('MonitoringModule', () => {
   let module: TestingModule;
@@ -12,6 +13,19 @@ describe('MonitoringModule', () => {
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [MonitoringModule, TerminusModule.forRoot(), ScheduleModule.forRoot()],
+      providers: [
+        FirebaseService,
+        {
+          provide: Firestore,
+          useFactory: () => ({
+            // Mock todas las funciones necesarias de Firestore aquí
+            collection: jest.fn(),
+            doc: jest.fn(),
+            set: jest.fn(),
+            // ... más funciones según sea necesario
+          }),
+        },
+      ],
     }).compile();
     service = module.get<FirebaseService>(FirebaseService);
     monitoringModule = module.get<MonitoringModule>(MonitoringModule);
@@ -41,10 +55,5 @@ describe('MonitoringModule', () => {
     jest.spyOn(service, 'save').mockReturnValue(new Promise((resolve) => resolve()));
     const onModuleInit = monitoringModule.onModuleInit();
     expect(onModuleInit).not.toBeNull();
-  });
-  it('should report status on shutdown', () => {
-    jest.spyOn(service, 'save').mockReturnValue(new Promise((resolve) => resolve()));
-    const onApplicationShutdown = monitoringModule.onApplicationShutdown();
-    expect(onApplicationShutdown).not.toBeNull();
   });
 });

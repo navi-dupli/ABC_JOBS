@@ -1,10 +1,11 @@
-import { Logger, Module, OnApplicationShutdown, OnModuleInit } from '@nestjs/common';
+import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { MonitoringScheduleService } from './monitoring-schedule/monitoring-schedule.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { FirebaseService } from './firebase-service/firebase.service';
 import { MicroserviceStatusService } from './microservice-status/microservice-status.service';
 import InstanceDto from './dtos/instance.dto';
 import { ScheduleModule } from '@nestjs/schedule';
+import { Firestore } from '@google-cloud/firestore';
 
 @Module({
   imports: [
@@ -13,10 +14,22 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     ScheduleModule.forRoot(),
   ],
-  providers: [MonitoringScheduleService, FirebaseService, MicroserviceStatusService],
+  providers: [
+    MonitoringScheduleService,
+    FirebaseService,
+    MicroserviceStatusService,
+    {
+      provide: Firestore,
+      useFactory: () =>
+        new Firestore({
+          projectId: process.env.GCP_PROJET_ID || 'proyecto-final-xcloud-qa',
+          keyFilename: 'firestore-crendentials.json',
+        }),
+    },
+  ],
   exports: [MicroserviceStatusService],
 })
-export class MonitoringModule implements OnModuleInit, OnApplicationShutdown {
+export class MonitoringModule implements OnModuleInit {
   private readonly logger = new Logger(MonitoringModule.name);
   private instanceId = process.env.INSTANCE_ID || 'localhost';
   private collection = 'abc-microservice-instances';
@@ -25,7 +38,7 @@ export class MonitoringModule implements OnModuleInit, OnApplicationShutdown {
 
   constructor(private service: FirebaseService) {}
 
-  onModuleInit(): any {
+  async onModuleInit(): Promise<any> {
     this.logger.log('Monitoring module initialized');
     const instanceData: InstanceDto = {
       id: this.instanceId,
@@ -33,14 +46,6 @@ export class MonitoringModule implements OnModuleInit, OnApplicationShutdown {
       timestamp: new Date(),
       alive: true,
     };
-    this.service.save(this.collection, this.document, instanceData);
-  }
-
-  async onApplicationShutdown(signal?: string) {
-    this.logger.log('Monitoring module shutdown');
-    const instanceDocument = (await this.service.get(this.collection, this.document)) as InstanceDto;
-    instanceDocument.alive = false;
-    instanceDocument.timestamp = new Date();
-    this.service.update(this.collection, this.document, instanceDocument);
+    //return await this.service.save(this.collection, this.document, instanceData);
   }
 }
