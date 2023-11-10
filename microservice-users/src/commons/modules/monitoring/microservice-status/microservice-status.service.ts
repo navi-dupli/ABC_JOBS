@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { MicroserviceStatusLite } from '../dtos/microservice-status-lite';
+import { MicroserviceStatusLiteDto } from '../dtos/microservice-status-lite.dto';
 
 @Injectable()
 export class MicroserviceStatusService {
-  private microservicesStatus: Map<string, MicroserviceStatusLite> = new Map<string, MicroserviceStatusLite>();
-  private readonly healthIndex: number = process.env.HEALTH_INDEX ? parseInt(process.env.HEALTH_INDEX) : 0.8;
+  private microservicesStatus: Map<string, MicroserviceStatusLiteDto> = new Map<string, MicroserviceStatusLiteDto>();
+  private readonly healthIndex: number = process.env.HEALTH_INDEX ? parseFloat(process.env.HEALTH_INDEX) : 0.8;
 
   constructor() {}
 
-  public setMicroserviceStatus(microservice: string, status: MicroserviceStatusLite) {
+  public setMicroserviceStatus(microservice: string, status: MicroserviceStatusLiteDto) {
     this.microservicesStatus.set(microservice, status);
   }
 
-  public getMicroserviceStatus(microservice: string): MicroserviceStatusLite {
+  public getMicroserviceStatus(microservice: string): MicroserviceStatusLiteDto {
     return this.microservicesStatus.get(microservice);
   }
 
-  public getMicroservicesStatus(): Map<string, MicroserviceStatusLite> {
+  public getMicroservicesStatus(): Map<string, MicroserviceStatusLiteDto> {
     return this.microservicesStatus;
   }
 

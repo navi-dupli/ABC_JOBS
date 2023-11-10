@@ -17,6 +17,7 @@ import { MonitoringModule } from './commons/modules/monitoring/monitoring.module
       inject: [ConfigService],
       useFactory: () => databaseConfig,
     }),
+    MonitoringModule,
     AuthzModule,
     UsersModule,
     UserManagerModule,
