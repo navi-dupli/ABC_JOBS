@@ -31,7 +31,7 @@ export class MonitoringScheduleService {
 
   @Cron(MonitoringScheduleService._cronCheckInterval, {
     name: 'health_check_checking_job',
-    disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
+    disabled: process.env.NODE_ENV !== 'production' || !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
   })
   async healthCheckReportingJob() {
     this.logger.log(`Checking health status of ${this._instanceId}`);
@@ -47,7 +47,7 @@ export class MonitoringScheduleService {
 
   @Cron(MonitoringScheduleService._cronVerifyInterval, {
     name: 'health_check_consulting_job',
-    disabled: !process.env.SCHEDULE_VERIFY_STATUS_ENABLED,
+    disabled: process.env.NODE_ENV !== 'production' || !process.env.SCHEDULE_VERIFY_STATUS_ENABLED,
   })
   async healthCheckConsultingJob() {
     // consulta os ultimos 5 segundos
@@ -68,7 +68,7 @@ export class MonitoringScheduleService {
 
   @Cron(MonitoringScheduleService._cronReportInterval, {
     name: 'health_check_reporting_job',
-    disabled: !process.env.SCHEDULE_REPORTING_STATUS_ENABLED,
+    disabled: process.env.NODE_ENV !== 'production' || !process.env.SCHEDULE_REPORTING_STATUS_ENABLED,
   })
   async reportStatus() {
     const copyStore = new Map<string, any>(MonitoringScheduleService._store);
