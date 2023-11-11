@@ -2,7 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateTeamDto {
   @IsNotEmpty()
-  state: string;
+  status: string;
 
   @IsNotEmpty()
   projectId: number;
