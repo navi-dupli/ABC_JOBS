@@ -56,7 +56,7 @@ export class MonitoringScheduleService {
       const date = new Date();
       const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(
         {
-          error: err,
+          error: JSON.stringify(err),
         } as unknown as HealthCheckResult,
         date,
       );
