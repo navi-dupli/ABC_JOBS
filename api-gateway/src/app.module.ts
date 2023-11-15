@@ -10,7 +10,7 @@ import { dynamicRoutesConfig } from './dynamic-routes.config';
 import { CommonsModule } from './modules/commons/commons.module';
 
 @Module({
-  imports: [HttpModule, AuthzModule, UsersModule, CompaniesModule, MicroserviceManagerModule.forRoot(dynamicRoutesConfig), CommonsModule],
+  imports: [HttpModule, AuthzModule, UsersModule, CompaniesModule, CommonsModule, MicroserviceManagerModule.forRoot(dynamicRoutesConfig)],
   controllers: [AuthorizedController],
   providers: [Logger],
 })
