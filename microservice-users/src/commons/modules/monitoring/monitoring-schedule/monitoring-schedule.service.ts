@@ -6,7 +6,6 @@ import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
 import { groupBy } from 'lodash';
 import { MicroserviceStatusLiteDto } from '../dtos/microservice-status-lite.dto';
 import { MicroserviceStatusService } from '../microservice-status/microservice-status.service';
-import * as process from 'process';
 
 @Injectable()
 export class MonitoringScheduleService {
@@ -39,18 +38,32 @@ export class MonitoringScheduleService {
   })
   async healthCheckReportingJob() {
     this.logger.log(`Checking health status of ${this._instanceId}`);
-    const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
-      () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
-      () => this.memory.checkHeap('memory_heap', 200 * 1024 * 1024),
-    ]);
-    const date = new Date();
-    const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(
-      healthCheckResultPromise,
-      date,
-    );
-    const documentId =
-      microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
-    MonitoringScheduleService._store.set(documentId, microserviceStatusDto);
+    try {
+      const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
+        () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
+        () => this.memory.checkHeap('memory_heap', 200 * 1024 * 1024),
+      ]);
+      const date = new Date();
+      const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(
+        healthCheckResultPromise,
+        date,
+      );
+      const documentId =
+        microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
+      MonitoringScheduleService._store.set(documentId, microserviceStatusDto);
+    } catch (err) {
+      this.logger.error(err);
+      const date = new Date();
+      const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(
+        {
+          error: err,
+        } as unknown as HealthCheckResult,
+        date,
+      );
+      const documentId =
+        microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
+      MonitoringScheduleService._store.set(documentId, microserviceStatusDto);
+    }
   }
 
   @Cron(MonitoringScheduleService._cronVerifyInterval, {
@@ -114,11 +127,11 @@ export class MonitoringScheduleService {
       timestamp: date.toISOString(),
       microservice: `${process.env.NAME}-app` || 'unknown',
       instanceId: this._instanceId,
-      status: healthCheckResult.status,
+      status: healthCheckResult.status || 'down',
       healthy: healthCheckResult.status === 'ok',
-      info: healthCheckResult.info,
-      error: healthCheckResult.error,
-      healthInfo: healthCheckResult,
+      info: healthCheckResult.info || 'unknown',
+      error: healthCheckResult.error || 'unknown',
+      healthInfo: healthCheckResult || 'unknown',
     } as MicroserviceStatusDto;
   }
 }
