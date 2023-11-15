@@ -4,9 +4,8 @@ import { RegionsService } from '../../services/regions.service';
 import { AuthorizedController } from '../../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('regions')
-export class RegionsController extends AuthorizedController {
+export class RegionsController {
   constructor(private readonly regionsService: RegionsService) {
-    super();
   }
 
   @Get(':id')

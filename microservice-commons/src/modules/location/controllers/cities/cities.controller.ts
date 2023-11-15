@@ -4,10 +4,8 @@ import { CitiesService } from '../../services/cities.service';
 import { AuthorizedController } from '../../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('cities')
-export class CitiesController extends AuthorizedController {
-  constructor(private readonly citiesService: CitiesService) {
-    super();
-  }
+export class CitiesController {
+  constructor(private readonly citiesService: CitiesService) {}
 
   @Get(':id')
   async findOneById(@Param('id') id: number): Promise<City> {
