@@ -15,7 +15,13 @@
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "database.config.ts"
+    ".config.ts",
+    ".filter.ts",
+    ".dto.ts",
+    ".enum.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
+    ".exception.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -24,7 +30,13 @@
     "/coverage/",
     ".entity.ts",
     "main.ts",
-    "database.config.ts"
+    ".config.ts",
+    ".filter.ts",
+    ".dto.ts",
+    ".enum.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
+    ".exception.ts"
   ],
   "moduleFileExtensions": [
     "js",

@@ -14,11 +14,13 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    ".dto.ts",
-    ".enum.ts",
     "main.ts",
     ".config.ts",
     ".filter.ts",
+    ".dto.ts",
+    ".enum.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
     ".exception.ts"
   ],
   "coveragePathIgnorePatterns": [
@@ -27,11 +29,13 @@
     "/dist/",
     "/coverage/",
     ".entity.ts",
-    ".dto.ts",
-    ".enum.ts",
     "main.ts",
     ".config.ts",
     ".filter.ts",
+    ".dto.ts",
+    ".enum.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
     ".exception.ts"
   ],
   "moduleFileExtensions": [

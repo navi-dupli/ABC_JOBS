@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { AuthorizedController } from './commons/controllers/authorized/authorized.controller';
+import { MonitoringModule } from './commons/modules/monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthorizedController } from './commons/controllers/authorized/authorize
     }),
     AuthzModule,
     CompaniesModule,
+    MonitoringModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],

@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { ProjectModule } from './modules/project/project.module';
 import {TeamModule} from "./modules/team/team.module";
+import { MonitoringModule } from "./commons/modules/monitoring/monitoring.module";
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import {TeamModule} from "./modules/team/team.module";
     }),
     AuthzModule,
     ProjectModule,
-    TeamModule
+    TeamModule,
+    MonitoringModule
   ],
   controllers: [AuthorizedController],
   providers: [Logger],

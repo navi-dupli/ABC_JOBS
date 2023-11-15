@@ -1,5 +1,4 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import * as process from 'process';
 
 let configLoaded: TypeOrmModuleOptions;
 if (process.env.NODE_ENV === 'test') {

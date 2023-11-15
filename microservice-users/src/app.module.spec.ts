@@ -7,6 +7,8 @@ import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { UserManagerModule } from './commons/modules/user-manager/user-manager.module';
+import { Firestore } from '@google-cloud/firestore';
+import { FirebaseService } from './commons/modules/monitoring/firebase-service/firebase.service';
 
 describe('AppModule', () => {
   let module: TestingModule;
@@ -15,13 +17,10 @@ describe('AppModule', () => {
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [AppModule],
+      providers: [],
     }).compile();
     app = module.createNestApplication<NestExpressApplication>();
-    app.use(LoggerMiddleware);
     await app.init();
-  });
-  afterAll(async () => {
-    await module.close();
   });
   it('should be defined', () => {
     expect(module).toBeDefined();

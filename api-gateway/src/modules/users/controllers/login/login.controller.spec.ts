@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoginController } from './login.controller';
 import { Request } from 'express';
-import { GenericDelegateModule } from '../../../../commons/modules/generic-delegate/generic-delegate.module';
 import { MicroserviceClientService } from '../../../../commons/modules/microservice-manager/services/microservice-client.service';
 import { Observable } from 'rxjs';
+import { MicroserviceEnum } from '../../../../dynamic-routes.config';
+import { HttpModule } from '@nestjs/axios';
+import { MonitoringModule } from '../../../../commons/modules/monitoring/monitoring.module';
 
 describe('LoginController', () => {
   let controller: LoginController;
@@ -11,13 +13,18 @@ describe('LoginController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [GenericDelegateModule],
+      imports: [HttpModule, MonitoringModule],
       controllers: [LoginController],
-      providers: [],
+      providers: [
+        {
+          provide: MicroserviceEnum.USERS,
+          useClass: MicroserviceClientService,
+        },
+      ],
     }).compile();
 
     controller = module.get<LoginController>(LoginController);
-    microserviceClient = module.get<MicroserviceClientService>(MicroserviceClientService);
+    microserviceClient = module.get<MicroserviceClientService>(MicroserviceEnum.USERS);
   });
 
   it('should be defined', () => {

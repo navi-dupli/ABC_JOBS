@@ -1,4 +1,4 @@
-export interface RouteConfig {
+export class RouteConfig {
   path: MicroserviceEnum;
   microservice: string;
   endPoint: string;
@@ -44,4 +44,4 @@ export const dynamicRoutesConfig: RouteConfig[] = [
     microservice: 'evaluations-micro-service',
     endPoint: process.env.SELECTION || 'http://localhost:3005',
   },
-];
+] as unknown as RouteConfig[];

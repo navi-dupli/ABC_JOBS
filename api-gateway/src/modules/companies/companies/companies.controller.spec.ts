@@ -4,6 +4,10 @@ import { CompaniesService } from '../services/companies.service';
 import { Request } from 'express';
 import { CreateCompanyDto } from '../dto/create-companie.dto';
 import { MicroserviceManagerModule } from '../../../commons/modules/microservice-manager/microservice-manager.module';
+import { MicroserviceEnum } from '../../../dynamic-routes.config';
+import { MicroserviceClientService } from '../../../commons/modules/microservice-manager/services/microservice-client.service';
+import { MonitoringModule } from '../../../commons/modules/monitoring/monitoring.module';
+import { HttpModule } from '@nestjs/axios';
 
 describe('CompaniesController', () => {
   let controller: CompaniesController;
@@ -11,9 +15,19 @@ describe('CompaniesController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MicroserviceManagerModule],
+      imports: [MicroserviceManagerModule, MonitoringModule, HttpModule],
       controllers: [CompaniesController],
-      providers: [CompaniesService],
+      providers: [
+        CompaniesService,
+        {
+          provide: MicroserviceEnum.COMPANIES,
+          useClass: MicroserviceClientService,
+        },
+        {
+          provide: MicroserviceEnum.USERS,
+          useClass: MicroserviceClientService,
+        },
+      ],
     }).compile();
 
     controller = module.get<CompaniesController>(CompaniesController);

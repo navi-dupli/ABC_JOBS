@@ -325,7 +325,4 @@ describe('UserController', () => {
       expect(result).toBe(mockUser);
     });
   });
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
 });
