@@ -6,6 +6,8 @@ import { MicroserviceStatusService } from './microservice-status/microservice-st
 import InstanceDto from './dtos/instance.dto';
 import { ScheduleModule } from '@nestjs/schedule';
 import { Firestore } from '@google-cloud/firestore';
+import * as process from 'process';
+import FirestoreConfig from '../../../firestore.config';
 
 @Module({
   imports: [
@@ -20,11 +22,7 @@ import { Firestore } from '@google-cloud/firestore';
     MicroserviceStatusService,
     {
       provide: Firestore,
-      useFactory: () =>
-        new Firestore({
-          projectId: process.env.GCP_PROJET_ID || 'proyecto-final-xcloud-qa',
-          keyFilename: 'firestore-crendentials.json',
-        }),
+      useFactory: () => new Firestore(FirestoreConfig.getFirestoreConfig()),
     },
   ],
   exports: [MicroserviceStatusService],
