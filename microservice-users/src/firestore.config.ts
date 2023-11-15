@@ -3,7 +3,7 @@ export default class FirestoreConfig {
     if (process.env.NODE_ENV === 'production') {
       return {
         projectId: process.env.GCP_PROJET_ID || 'proyecto-final-xcloud',
-        credentials: process.env.FIRESTORE_CREDENTIALS,
+        credentials: (process.env.FIRESTORE_CREDENTIALS || '').replace(/\\n/g, '\n'),
       };
     } else {
       return {
