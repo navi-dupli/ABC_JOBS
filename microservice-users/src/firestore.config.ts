@@ -1,6 +1,8 @@
+import * as process from 'process';
+
 export default class FirestoreConfig {
   static getFirestoreConfig(): any {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV == 'production') {
       return JSON.parse(process.env.FIRESTORE_CREDENTIALS || '{}');
     } else {
       return {
