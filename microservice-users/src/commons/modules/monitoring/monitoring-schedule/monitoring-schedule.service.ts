@@ -1,9 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  HealthCheckService,
-  MemoryHealthIndicator,
-  TypeOrmHealthIndicator,
-} from '@nestjs/terminus';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { FirebaseService } from '../firebase-service/firebase.service';
 import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
