@@ -40,7 +40,7 @@ export class MonitoringScheduleService {
     this.logger.log(`Checking health status of ${this._instanceId}`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
-        () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
+        // () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
         () => this.memory.checkHeap('memory_heap', 200 * 1024 * 1024),
       ]);
       const date = new Date();
