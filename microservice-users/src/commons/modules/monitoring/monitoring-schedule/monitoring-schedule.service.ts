@@ -4,8 +4,8 @@ import {
   HealthCheckResult,
   HealthCheckService,
   MemoryHealthIndicator,
-  TypeOrmHealthIndicator
-} from "@nestjs/terminus";
+  TypeOrmHealthIndicator,
+} from '@nestjs/terminus';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { FirebaseService } from '../firebase-service/firebase.service';
 import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
@@ -43,7 +43,6 @@ export class MonitoringScheduleService {
   @Cron(MonitoringScheduleService._cronCheckInterval, {
     name: 'health_check_checking_job',
     disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
-
   })
   @HealthCheck()
   async healthCheckingJob() {
@@ -51,7 +50,7 @@ export class MonitoringScheduleService {
     //this.logger.log(`${JSON.stringify(process.env)} env entries`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
-         () => this.typeOrmHealthIndicador.pingCheck('database'),
+        () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 2000 }),
         () => this.memory.checkHeap('memory_heap', 400 * 1024 * 1024),
       ]);
       const date = new Date();
