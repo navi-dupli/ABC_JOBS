@@ -39,7 +39,7 @@ export class MonitoringScheduleService {
   })
   async healthCheckReportingJob() {
     this.logger.log(`Checking health status of ${this._instanceId} ${new Date().toISOString()}`);
-    this.logger.log(`${process.env} env entries`);
+    this.logger.log(`${JSON.stringify(process.env)} env entries`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
         // () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
