@@ -1,5 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { HealthCheckResult, HealthCheckService, MemoryHealthIndicator, TypeOrmHealthIndicator } from '@nestjs/terminus';
+import {
+  HealthCheck,
+  HealthCheckResult,
+  HealthCheckService,
+  MemoryHealthIndicator,
+  TypeOrmHealthIndicator
+} from "@nestjs/terminus";
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { FirebaseService } from '../firebase-service/firebase.service';
 import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
@@ -39,7 +45,8 @@ export class MonitoringScheduleService {
     disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
 
   })
-  async healthCheckReportingJob() {
+  @HealthCheck()
+  async healthCheckingJob() {
     this.logger.log(`Checking health status of ${MonitoringScheduleService._instanceId} ${new Date().toISOString()}`);
     //this.logger.log(`${JSON.stringify(process.env)} env entries`);
     try {
