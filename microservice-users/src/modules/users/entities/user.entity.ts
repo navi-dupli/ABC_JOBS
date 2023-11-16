@@ -47,6 +47,12 @@ export class User {
   @Column({ nullable: true })
   experienceYears: number;
 
+  @Column({ nullable: true })
+  address: string;
+
+  @Column({ nullable: true })
+  dateBirthDate: Date;
+
   @OneToMany(() => Education, (education) => education.user)
   education: Education[];
 
