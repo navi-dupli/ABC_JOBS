@@ -37,14 +37,15 @@ export class MonitoringScheduleService {
   @Cron(MonitoringScheduleService._cronCheckInterval, {
     name: 'health_check_checking_job',
     disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
+
   })
   async healthCheckReportingJob() {
     this.logger.log(`Checking health status of ${MonitoringScheduleService._instanceId} ${new Date().toISOString()}`);
     //this.logger.log(`${JSON.stringify(process.env)} env entries`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
-        // () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
-        () => this.memory.checkHeap('memory_heap', 200 * 1024 * 1024),
+         () => this.typeOrmHealthIndicador.pingCheck('database'),
+        () => this.memory.checkHeap('memory_heap', 400 * 1024 * 1024),
       ]);
       const date = new Date();
       const microserviceStatusDto: MicroserviceStatusDto = this.mapHealthCheckResultToFirebase(
