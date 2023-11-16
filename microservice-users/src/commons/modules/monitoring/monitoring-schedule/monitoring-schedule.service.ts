@@ -7,6 +7,7 @@ import { groupBy } from 'lodash';
 import { MicroserviceStatusLiteDto } from '../dtos/microservice-status-lite.dto';
 import { MicroserviceStatusService } from '../microservice-status/microservice-status.service';
 import * as process from 'process';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class MonitoringScheduleService {
@@ -18,7 +19,7 @@ export class MonitoringScheduleService {
   private readonly _deltaTimeToProcess: number = process.env.DELTA_TIMIE_TO_PROCESS
     ? parseInt(process.env.DELTA_TIMIE_TO_PROCESS)
     : 5000;
-  private readonly _instanceId = process.env.INSTANCE_ID || process.env.HOSTNAME || 'localhost';
+  private static readonly _instanceId = process.env.K_REVISION + ':' + uuidv4();
   private static readonly _cronCheckInterval = process.env.CRON_CHECK_INTERVAL || CronExpression.EVERY_SECOND;
   private static readonly _cronReportInterval = process.env.CRON_REPORT_INTERVAL || CronExpression.EVERY_5_SECONDS;
   private static readonly _cronVerifyInterval = process.env.CRON_VERIFY_INTERVAL || CronExpression.EVERY_SECOND;
@@ -38,8 +39,8 @@ export class MonitoringScheduleService {
     disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
   })
   async healthCheckReportingJob() {
-    this.logger.log(`Checking health status of ${this._instanceId} ${new Date().toISOString()}`);
-    this.logger.log(`${JSON.stringify(process.env)} env entries`);
+    this.logger.log(`Checking health status of ${MonitoringScheduleService._instanceId} ${new Date().toISOString()}`);
+    //this.logger.log(`${JSON.stringify(process.env)} env entries`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
         // () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
@@ -50,8 +51,7 @@ export class MonitoringScheduleService {
         healthCheckResultPromise,
         date,
       );
-      const documentId =
-        microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
+      const documentId = MonitoringScheduleService._instanceId + ':' + microserviceStatusDto.timestamp;
       MonitoringScheduleService._store.set(documentId, microserviceStatusDto);
     } catch (err) {
       this.logger.error(err);
@@ -62,8 +62,7 @@ export class MonitoringScheduleService {
         } as unknown as HealthCheckResult,
         date,
       );
-      const documentId =
-        microserviceStatusDto.microservice + ':' + this._instanceId + ':' + microserviceStatusDto.timestamp;
+      const documentId = MonitoringScheduleService._instanceId + ':' + microserviceStatusDto.timestamp;
       MonitoringScheduleService._store.set(documentId, microserviceStatusDto);
     }
   }
@@ -73,7 +72,7 @@ export class MonitoringScheduleService {
     disabled: !process.env.SCHEDULE_VERIFY_STATUS_ENABLED,
   })
   async healthCheckConsultingJob() {
-    this.logger.log(`Consulting health status of ${this._instanceId} ${new Date().toISOString()}`);
+    this.logger.log(`Consulting health status of ${MonitoringScheduleService._instanceId} ${new Date().toISOString()}`);
     // consulta os ultimos 5 segundos
     const currentDate = new Date();
     const date = new Date(currentDate.getTime() - this._deltaTimeToProcess);
@@ -97,7 +96,7 @@ export class MonitoringScheduleService {
   async reportStatus() {
     const copyStore = new Map<string, any>(MonitoringScheduleService._store);
     MonitoringScheduleService._store.clear();
-    this.logger.log(`reporting status : ${copyStore.size} ${new Date().toISOString()}`);
+    this.logger.log(`reporting status: ${copyStore.size} ${new Date().toISOString()}`);
     await this.firebaseService.saveBatch(this._collectionName, copyStore);
   }
 
@@ -129,12 +128,13 @@ export class MonitoringScheduleService {
     return {
       timestamp: date.toISOString(),
       microservice: `${process.env.NAME}-app` || 'unknown',
-      instanceId: this._instanceId,
+      instanceId: MonitoringScheduleService._instanceId,
       status: healthCheckResult.status || 'down',
       healthy: healthCheckResult.status === 'ok',
       info: healthCheckResult.info || 'unknown',
       error: healthCheckResult.error || 'unknown',
       healthInfo: healthCheckResult || 'unknown',
+      instanceRevision: process.env.K_REVISION || 'unknown',
     } as MicroserviceStatusDto;
   }
 }

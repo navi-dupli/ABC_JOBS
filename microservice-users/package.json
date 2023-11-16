@@ -32,11 +32,13 @@
     "@nestjs/swagger": "^7.1.13",
     "@nestjs/terminus": "^10.1.1",
     "@nestjs/typeorm": "^10.0.0",
+    "@types/lodash": "^4.14.200",
     "axios": "^1.5.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
+    "lodash": "^4.17.21",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.11.3",
@@ -44,9 +46,8 @@
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.6",
     "swagger-ui-express": "^5.0.0",
-    "lodash": "^4.17.21",
-    "@types/lodash": "^4.14.200",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
