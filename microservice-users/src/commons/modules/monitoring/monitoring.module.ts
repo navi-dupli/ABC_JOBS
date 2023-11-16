@@ -3,11 +3,12 @@ import { MonitoringScheduleService } from './monitoring-schedule/monitoring-sche
 import { TerminusModule } from '@nestjs/terminus';
 import { FirebaseService } from './firebase-service/firebase.service';
 import { MicroserviceStatusService } from './microservice-status/microservice-status.service';
-import InstanceDto from './dtos/instance.dto';
 import { ScheduleModule } from '@nestjs/schedule';
 import { Firestore } from '@google-cloud/firestore';
-import * as process from 'process';
 import FirestoreConfig from '../../../firestore.config';
+import { CheckingScheduleService } from "./monitoring-schedule/checking-schedule.service";
+import { ReportingScheduleService } from "./monitoring-schedule/reporting-schedule.service";
+import { StoringService } from "./monitoring-schedule/storing-schedule.service";
 
 @Module({
   imports: [
@@ -18,6 +19,9 @@ import FirestoreConfig from '../../../firestore.config';
   ],
   providers: [
     MonitoringScheduleService,
+    CheckingScheduleService,
+    ReportingScheduleService,
+    StoringService,
     FirebaseService,
     MicroserviceStatusService,
     {
@@ -29,21 +33,19 @@ import FirestoreConfig from '../../../firestore.config';
 })
 export class MonitoringModule implements OnModuleInit {
   private readonly logger = new Logger(MonitoringModule.name);
-  private instanceId = process.env.INSTANCE_ID || 'localhost';
   private collection = 'abc-microservice-instances';
   private microservice = `${process.env.NAME}-app`;
-  private document = this.microservice + ':' + this.instanceId;
 
   constructor(private service: FirebaseService) {}
 
   async onModuleInit(): Promise<any> {
     this.logger.log('Monitoring module initialized');
-    const instanceData: InstanceDto = {
+   /** const instanceData: InstanceDto = {
       id: this.instanceId,
       name: this.document,
       timestamp: new Date(),
       alive: true,
-    };
+    };*/
     //return await this.service.save(this.collection, this.document, instanceData);
   }
 }
