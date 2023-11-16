@@ -6,6 +6,7 @@ import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
 import { groupBy } from 'lodash';
 import { MicroserviceStatusLiteDto } from '../dtos/microservice-status-lite.dto';
 import { MicroserviceStatusService } from '../microservice-status/microservice-status.service';
+import * as process from 'process';
 
 @Injectable()
 export class MonitoringScheduleService {
@@ -37,7 +38,8 @@ export class MonitoringScheduleService {
     disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
   })
   async healthCheckReportingJob() {
-    this.logger.log(`Checking health status of ${this._instanceId}`);
+    this.logger.log(`Checking health status of ${this._instanceId} ${new Date().toISOString()}`);
+    this.logger.log(`${process.env} env entries`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
         // () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 1000 }),
@@ -71,6 +73,7 @@ export class MonitoringScheduleService {
     disabled: !process.env.SCHEDULE_VERIFY_STATUS_ENABLED,
   })
   async healthCheckConsultingJob() {
+    this.logger.log(`Consulting health status of ${this._instanceId} ${new Date().toISOString()}`);
     // consulta os ultimos 5 segundos
     const currentDate = new Date();
     const date = new Date(currentDate.getTime() - this._deltaTimeToProcess);
@@ -94,7 +97,7 @@ export class MonitoringScheduleService {
   async reportStatus() {
     const copyStore = new Map<string, any>(MonitoringScheduleService._store);
     MonitoringScheduleService._store.clear();
-    this.logger.log(`reporting status : ${copyStore.size}`);
+    this.logger.log(`reporting status : ${copyStore.size} ${new Date().toISOString()}`);
     await this.firebaseService.saveBatch(this._collectionName, copyStore);
   }
 
