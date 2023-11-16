@@ -7,9 +7,10 @@ import { UsersModule } from './modules/users/users.module';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { MicroserviceManagerModule } from './commons/modules/microservice-manager/microservice-manager.module';
 import { dynamicRoutesConfig } from './dynamic-routes.config';
+import { CommonsModule } from './modules/commons/commons.module';
 
 @Module({
-  imports: [HttpModule, AuthzModule, UsersModule, CompaniesModule, MicroserviceManagerModule.forRoot(dynamicRoutesConfig)],
+  imports: [HttpModule, AuthzModule, UsersModule, CompaniesModule, CommonsModule, MicroserviceManagerModule.forRoot(dynamicRoutesConfig)],
   controllers: [AuthorizedController],
   providers: [Logger],
 })

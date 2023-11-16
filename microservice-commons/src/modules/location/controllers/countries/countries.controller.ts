@@ -4,10 +4,8 @@ import { Country } from '../../entities/country.entity';
 import { AuthorizedController } from '../../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('countries')
-export class CountriesController extends AuthorizedController {
-  constructor(private readonly countriesService: CountriesService) {
-    super();
-  }
+export class CountriesController {
+  constructor(private readonly countriesService: CountriesService) {}
 
   @Get('')
   async findAll(): Promise<Country[]> {
