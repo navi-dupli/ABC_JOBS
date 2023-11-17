@@ -13,8 +13,10 @@ export class MicroserviceClientService {
   private readonly logger = new Logger(MicroserviceClientService.name);
   public routeConfig: RouteConfig;
 
-  constructor(private readonly httpService: HttpService, private readonly microserviceStatusService: MicroserviceStatusService) {
-  }
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly microserviceStatusService: MicroserviceStatusService,
+  ) {}
 
   call(
     path: string,
@@ -49,7 +51,7 @@ export class MicroserviceClientService {
           // Step 7: mapping the Axios response and return the data
           return response.data || {};
         }),
-        catchError((error, observable): Observable<any> => {
+        catchError((error): Observable<any> => {
           // Step 8: Logging the microservice error
           this.logger.error(error);
           this.logger.log(`[${originalRequest.headers['x-request-id']}] Response ${method}:${url} => ${error?.response?.status}`);
@@ -73,8 +75,10 @@ export class MicroserviceClientService {
    */
   private checkMicroServiceStatus(originalRequest: Request) {
     const currentMicroservice = this.routeConfig.path;
-    if (!!process.env.MONITORING_CHECK_SERVICE_STATUS_ENABLED &&
-      !this.microserviceStatusService.isMicroserviceHealthy(currentMicroservice.toString())) {
+    if (
+      !!process.env.MONITORING_CHECK_SERVICE_STATUS_ENABLED &&
+      !this.microserviceStatusService.isMicroserviceHealthy(currentMicroservice.toString())
+    ) {
       this.logger.error(`[${originalRequest.headers['x-request-id']}] Microservice ${currentMicroservice} is not healthy`);
       throw new InternalServerErrorException(`Microservice ${currentMicroservice} is not healthy`);
     }
