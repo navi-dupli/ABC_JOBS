@@ -55,6 +55,8 @@ describe('CandidateService', () => {
         location: null,
         experiences: [],
         userTests: [],
+        address: 'Calle 123',
+        dateBirthDate: new Date(),
       },
     ]; // Define aquí los usuarios esperados
 

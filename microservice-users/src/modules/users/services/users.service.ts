@@ -14,6 +14,7 @@ import { Auth0LoginService } from './auth0-login/auth0-login.service';
 import * as jwt from 'jsonwebtoken';
 import { UserLoginErrorException } from '../../../commons/exceptions/user-login-error.exception';
 import { UserLoginFailedException } from '../../../commons/exceptions/user-login-failed.exception';
+import { UserLocation } from '../../userLocation/entities/userLocation.entity';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +23,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(UserLocation)
+    private readonly userLocationRepository: Repository<UserLocation>,
     private readonly authService: Auth0ExternalApiService,
     private readonly aut0LoginService: Auth0LoginService,
   ) {}
@@ -48,13 +51,39 @@ export class UsersService {
       }
       newUser.typeIdentificationId = createUserDto.typeIdentificationId;
       newUser.nameIdentification = createUserDto.nameIdentification;
-      newUser.location = createUserDto.locationId;
+      newUser.phone = createUserDto.phone;
+      newUser.address = createUserDto.address;
+      newUser.dateBirthDate = createUserDto.dateBirthDate;
+      if (createUserDto.locationId) {
+        let location = await this.userLocationRepository.findOneBy({
+          idCity: createUserDto.locationId.idCity,
+          idRegion: createUserDto.locationId.idRegion,
+          idCountry: createUserDto.locationId.idCountry,
+        });
+        if (location) {
+          location = {
+            ...location,
+            nameCity: createUserDto.locationId.nameCity,
+            nameRegion: createUserDto.locationId.nameRegion,
+            nameCountry: createUserDto.locationId.nameCountry,
+          };
+          newUser.location = location;
+        } else {
+          const newLocation = new UserLocation();
+          newLocation.idCity = createUserDto.locationId.idCity;
+          newLocation.idRegion = createUserDto.locationId.idRegion;
+          newLocation.idCountry = createUserDto.locationId.idCountry;
+          newLocation.nameCity = createUserDto.locationId.nameCity;
+          newLocation.nameRegion = createUserDto.locationId.nameRegion;
+          newLocation.nameCountry = createUserDto.locationId.nameCountry;
+        }
+      }
       newUser.identification = createUserDto.identification;
-      const userCreated: User = await this.userRepository.save(newUser);
-      if (userCreated) {
+      try {
+        const userCreated: User = await this.userRepository.save(newUser);
         await this.createAndUpdateUser(auth0User, userCreated, Auth0RoleEnum.findByName(userCreated.rol));
         return userCreated;
-      } else {
+      } catch (error) {
         throw new UserCreationErrorException(`Usuario con email ${createUserDto.email} no pudo ser creado`);
       }
     }

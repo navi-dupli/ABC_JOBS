@@ -1,8 +1,7 @@
-import { UserLocation } from '../../userLocation/entities/userLocation.entity';
-import { IsEmail, IsNotEmpty } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import {ApiProperty} from "@nestjs/swagger";
+import {IsEmail, IsNotEmpty} from "class-validator";
 
-export class CreateUserDto {
+export class CreateCandidateDto {
   @ApiProperty({ example: 'John', description: 'Nombres del usuario' })
   @IsNotEmpty()
   readonly names: string;
@@ -20,23 +19,18 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly password: string;
 
-  @ApiProperty({ example: 'user', description: 'Rol del usuario' })
-  @IsNotEmpty()
-  readonly rol: string;
-
-  @ApiProperty({ example: '12345', description: 'ID de la empresa a la que pertenece el usuario' })
-  readonly company_id: string;
-
   @ApiProperty({ example: 1, description: 'ID del tipo de identificación' })
   @IsNotEmpty()
   readonly typeIdentificationId: number;
 
-  @ApiProperty({ example: 1, description: 'Nombre del tipo de identificación' })
-  @IsNotEmpty()
-  readonly nameIdentification: string;
+  @ApiProperty({ example: 1, description: 'ID de la ciudad' })
+  readonly cityId: number;
 
-  @ApiProperty({ type: () => UserLocation, description: 'Ubicación del usuario' })
-  readonly locationId: UserLocation;
+  @ApiProperty({ example: 1, description: 'ID de la región' })
+  readonly regionId: number;
+
+  @ApiProperty({ example: 1, description: 'ID del país' })
+  readonly countryId: number;
 
   @ApiProperty({ example: 'A12345', description: 'Número de identificación' })
   readonly identification: string;
