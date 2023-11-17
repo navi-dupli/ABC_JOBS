@@ -13,7 +13,7 @@ export class GenericRequestDelegatedService {
 
   delegateRequest(microservice: RouteConfig, request: Request): Observable<any> {
     const service: MicroserviceClientService = this.moduleRef.get(microservice.path.toString());
-    const url = request.originalUrl;
+    const url = request.originalUrl.replace('/' + microservice.path.toString(), '');
     const method = request.method as 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH' | 'OPTIONS' | 'HEAD' | 'CONNECT' | 'TRACE';
     const body = request.body;
     if (request.method.toUpperCase() === 'POST' || request.method.toUpperCase() === 'PUT' || request.method.toUpperCase() === 'PATCH') {
