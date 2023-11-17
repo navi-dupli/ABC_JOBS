@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InterviewNotesEntity } from '../entities/interview-notes.entity';
 import { Repository } from 'typeorm';
@@ -10,17 +10,18 @@ export class InterviewNotesService {
     private readonly interviewNotesRepository: Repository<InterviewNotesEntity>,
   ) {}
 
-  async findByAppointmentId(appointmentId: number): Promise<InterviewNotesEntity> {
-    const interviewNotes = await this.interviewNotesRepository.findOne({
-      relations: {
-        appointment: true,
-      },
-      where: {
-        appointment: { id: appointmentId },
-      },
-    });
+  async findByAppointmentId(appointmentId: number, userId: number): Promise<InterviewNotesEntity> {
+    const interviewNotes = await this.interviewNotesRepository
+      .createQueryBuilder('interviewNotes')
+      .innerJoinAndSelect('interviewNotes.appointment', 'appointment')
+      .where('appointment.id= :id', { id: appointmentId })
+      .where('appointment.interviewerId= :userId or appointment.officerId=:userId', { userId: userId })
+      .getOne();
+
     if (!interviewNotes) {
-      throw new NotFoundException(`Interview notes for appointment with id ${appointmentId} not found`);
+      throw new UnauthorizedException(
+        `Interview notes for appointment with id ${appointmentId} not found for user with id ${userId}`,
+      );
     }
     return interviewNotes;
   }

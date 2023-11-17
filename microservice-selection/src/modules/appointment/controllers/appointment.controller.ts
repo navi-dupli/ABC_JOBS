@@ -13,8 +13,8 @@ export class AppointmentController extends AuthorizedController {
     return this.appointmentService.findByUserId(userId);
   }
 
-  @Get(':id/:userId')
-  findById(@Param('id') id: number, @Param('userId') userId: number): Promise<Appointment> {
-    return this.appointmentService.findById(id, userId);
+  @Get(':id')
+  findById(@Param('id') id: number): Promise<Appointment> {
+    return this.appointmentService.findById(id);
   }
 }
