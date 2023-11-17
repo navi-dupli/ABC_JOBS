@@ -9,9 +9,10 @@ import { Auth0LoginService } from './services/auth0-login/auth0-login.service';
 import { HttpModule } from '@nestjs/axios';
 import { CandidateController } from './controllers/candidate/candidate.controller';
 import { CandidateService } from './services/candidate/candidate.service';
+import { UserLocation } from '../userLocation/entities/userLocation.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), UserManagerModule, HttpModule],
+  imports: [TypeOrmModule.forFeature([User, UserLocation]), UserManagerModule, HttpModule],
   controllers: [UsersController, LoginController, CandidateController],
   providers: [UsersService, Auth0LoginService, CandidateService],
 })
