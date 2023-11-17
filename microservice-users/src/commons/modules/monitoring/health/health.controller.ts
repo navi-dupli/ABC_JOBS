@@ -8,7 +8,7 @@ export class HealthController {
 
   @Get()
   healthCheck() {
-    return this.service.healthCheckingJob();
+    return this.service.checkStatus();
   }
 
 }
