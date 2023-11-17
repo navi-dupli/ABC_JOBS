@@ -46,6 +46,7 @@ export class CheckingScheduleService {
       );
       const documentId = StoringService._instanceId + ':' + microserviceStatusDto.timestamp;
       StoringService._store.set(documentId, microserviceStatusDto);
+      return  microserviceStatusDto;
     } catch (err) {
       this.logger.error(err);
       const date = new Date();
@@ -57,7 +58,9 @@ export class CheckingScheduleService {
       );
       const documentId = StoringService._instanceId + ':' + microserviceStatusDto.timestamp;
       StoringService._store.set(documentId, microserviceStatusDto);
+      return microserviceStatusDto;
     }
+    return null;
   }
 
 
