@@ -9,6 +9,7 @@ import FirestoreConfig from '../../../firestore.config';
 import { CheckingScheduleService } from "./monitoring-schedule/checking-schedule.service";
 import { ReportingScheduleService } from "./monitoring-schedule/reporting-schedule.service";
 import { StoringService } from "./monitoring-schedule/storing-schedule.service";
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { StoringService } from "./monitoring-schedule/storing-schedule.service";
     },
   ],
   exports: [MicroserviceStatusService],
+  controllers: [HealthController],
 })
 export class MonitoringModule implements OnModuleInit {
   private readonly logger = new Logger(MonitoringModule.name);
