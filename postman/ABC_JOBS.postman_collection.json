@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "f0fb8fba-8d7a-45a6-b280-6c040b3ce72f",
+		"_postman_id": "f2c6d51a-f63f-4efc-97a7-4d3052a4e21f",
 		"name": "ABC_JOBS",
 		"description": "API to manage users ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1798844"
+		"_exporter_id": "8109655"
 	},
 	"item": [
 		{
@@ -558,6 +558,284 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "Register candidate",
+					"item": [
+						{
+							"name": "Register candidate success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, 401, 403, or 500\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 401, 403, 500]);",
+											"    ",
+											"    if (pm.response.code === 201) {",
+											"        // Realiza las validaciones para el caso de código 201",
+											"        pm.response.to.have.status(201);",
+											"        pm.response.to.have.jsonBody(\"access_token\");",
+											"        pm.response.to.have.jsonBody(\"expires_in\");",
+											"        pm.response.to.have.jsonBody(\"token_type\");",
+											"        pm.response.to.have.jsonBody(\"id\");",
+											"        pm.response.to.have.jsonBody(\"names\");",
+											"        pm.response.to.have.jsonBody(\"surnames\");",
+											"        pm.response.to.have.jsonBody(\"email\");",
+											"        pm.response.to.have.jsonBody(\"authId\");",
+											"        pm.response.to.have.jsonBody(\"picture\");",
+											"        pm.response.to.have.jsonBody(\"rol\");",
+											"        pm.response.to.have.jsonBody(\"company_id\");",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.collectionVariables.set(\"token\", jsonData.access_token);",
+											"    }",
+											"    else if (pm.response.code === 401) {",
+											"        // Realiza las validaciones para el caso de código 401",
+											"        pm.response.to.have.status(401);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 401);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Unauthorized\");",
+											"    }",
+											"    else if (pm.response.code === 403) {",
+											"        // Realiza las validaciones para el caso de código 403",
+											"        pm.response.to.have.status(403);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 403);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Forbidden\");",
+											"    }",
+											"    else if (pm.response.code === 500) {",
+											"        // Realiza las validaciones para el caso de código 500",
+											"        pm.response.to.have.status(500);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 500);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Internal Server Error\");",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"mi13dj22@gmail.com\",\n  \"password\": \"prueba$123\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Datos de autenticación exitosos",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"<string>\",\n    \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"access_token\": \"<string>\",\n  \"expires_in\": \"<number>\",\n  \"token_type\": \"<string>\",\n  \"id\": \"<number>\",\n  \"names\": \"<string>\",\n  \"surnames\": \"<string>\",\n  \"email\": \"<string>\",\n  \"authId\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"rol\": \"<string>\",\n  \"company_id\": \"<string>\"\n}"
+								},
+								{
+									"name": "No autorizado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": {},\n  \"message\": \"<string>\",\n  \"timestamp\": \"<string>\",\n  \"path\": \"<string>\"\n}"
+								},
+								{
+									"name": "Prohibido",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": {},\n  \"message\": \"<string>\",\n  \"timestamp\": \"<string>\",\n  \"path\": \"<string>\"\n}"
+								},
+								{
+									"name": "Error interno del servidor",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": {},\n  \"message\": \"<string>\",\n  \"timestamp\": \"<string>\",\n  \"path\": \"<string>\"\n}"
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -595,49 +873,6 @@
 										"appointments",
 										"user",
 										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get result of interview",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjN4QUhqaVFOVl9WbjctcXRTQWFVMyJ9.eyJpc3MiOiJodHRwczovL2FiYy1qb2JzLWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjUyYWM2MjgxMzViNTFhMTMyNGE5Y2YxIiwiYXVkIjoiaHR0cDovL2FiYy1qb2JzLnVzZXJzLWFwaS5kZXYiLCJpYXQiOjE2OTg5NzQ0NDQsImV4cCI6MTY5OTA2MDg0NCwiYXpwIjoicFdzWUtHRE02MGNkdERPd0FkR1p5VDlpcGlBY0hSNE4iLCJndHkiOiJwYXNzd29yZCIsInBlcm1pc3Npb25zIjpbInJlZ2lzdGVyOmNvbXBhbnkiLCJyZWdpc3Rlcjp0ZWNobmljYWwtdGVzdCIsInZpZXc6YXBwb2ludG1lbnQiXX0.h60R8Acjj8W6Yw7T3n77-ySM26fL4pZojpXEiEUIiaNWJy__ZTvOYzAjV0FILnr5ijmwRemy1D5fRMA-WNzWoWU0IwFZy_FCLBL7flM3CA2rdcWVXOAThvp7iLSoGNjGVRa_F9NN0xwJj-9ajl3bnDsvpS7sxxmXVXH1vlCkrzlXTzpa85qDq_2YV7Lp02cwLKXefiN8WEX5B264ftaJT8E5PIWBSGVmBJHogYTg3OLp3zwwLH03gH6woKVo7pWSYncAnybyACJPdFMBb8WuRgC_GHuV1Rc55H0fDoLy61xzQKRVatc3P2GM4v4OpJVqeZEVc3DcwbCUWxfWuiJigA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/selection-app/interview-notes/appointment/2",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"selection-app",
-										"interview-notes",
-										"appointment",
-										"2"
 									]
 								}
 							},
@@ -757,6 +992,52 @@
 										"projects-app",
 										"teams",
 										"add-member-team"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "performance-evaluation",
+					"item": [
+						{
+							"name": "Registrar evaluacion de desempeño",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects-app/performance-evaluation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects-app",
+										"performance-evaluation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "create-team",
+					"item": [
+						{
+							"name": "Crear equipo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects-app/performance-evaluation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects-app",
+										"performance-evaluation"
 									]
 								}
 							},
