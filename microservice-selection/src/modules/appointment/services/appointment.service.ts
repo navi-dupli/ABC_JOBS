@@ -29,14 +29,10 @@ export class AppointmentService {
     });
   }
 
-  async findById(id: number, userId: number): Promise<Appointment> {
-    const appointment = await this.appointmentRepository
-      .createQueryBuilder('appointment')
-      .where('appointment.id = :id', { id: id })
-      .andWhere('appointment.interviewerId = :userId or appointment.officerId = :userId ', { userId: userId })
-      .getOne();
+  async findById(id: number): Promise<Appointment> {
+    const appointment = await this.appointmentRepository.findOneBy({ id: id });
     if (!appointment) {
-      throw new UnauthorizedException(`Cita con id ${id} no existe para el usuario ${userId}`);
+      throw new NotFoundException(`Appointment with id ${id} not found`);
     }
     return appointment;
   }
