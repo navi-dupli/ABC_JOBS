@@ -6,7 +6,7 @@ import {
   MemoryHealthIndicator,
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron, CronExpression, Interval } from "@nestjs/schedule";
 import { FirebaseService } from '../firebase-service/firebase.service';
 import { MicroserviceStatusDto } from '../dtos/microservice-status.dto';
 import { groupBy } from 'lodash';
@@ -19,19 +19,20 @@ import { StoringService } from "./storing-schedule.service";
 @Injectable()
 export class CheckingScheduleService {
   private readonly logger = new Logger(CheckingScheduleService.name);
-  private static readonly _cronCheckInterval = process.env.CRON_CHECK_INTERVAL || CronExpression.EVERY_SECOND;
+  //private static readonly _cronCheckInterval = process.env.CRON_CHECK_INTERVAL || CronExpression.EVERY_SECOND;
+  private static readonly _cronCheckInterval = parseInt(process.env.CRON_CHECK_INTERVAL) || 1000;
 
   constructor(
     private healthCheckService: HealthCheckService,
     private typeOrmHealthIndicador: TypeOrmHealthIndicator,
     private memory: MemoryHealthIndicator,
   ) {}
-
+/*
   @Cron(CheckingScheduleService._cronCheckInterval, {
     name: 'health_check_checking_job',
     disabled: !process.env.SCHEDULE_CHECKING_STATUS_ENABLED,
-  })
-  @HealthCheck()
+  })*/
+  @Interval('health_check_checking_job',CheckingScheduleService._cronCheckInterval)
   async healthCheckingJob() {
     this.logger.log(`Checking health status of ${StoringService._instanceId} ${new Date().toISOString()}`);
     try {
