@@ -64,9 +64,9 @@ describe('AppointmentController', () => {
     // Simulamos la respuesta del servicio
     jest.spyOn(appointmentService, 'findById').mockResolvedValue(expectedAppointment);
 
-    const result = await controller.findById(id);
+    const result = await controller.findById(id, 1);
 
-    expect(appointmentService.findById).toHaveBeenCalledWith(id);
+    expect(appointmentService.findById).toHaveBeenCalledWith(id, 1);
     expect(result).toEqual(expectedAppointment);
   });
 });
