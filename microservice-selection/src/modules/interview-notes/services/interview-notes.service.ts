@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InterviewNotesEntity } from '../entities/interview-notes.entity';
 import { Repository } from 'typeorm';
@@ -14,8 +14,10 @@ export class InterviewNotesService {
     const interviewNotes = await this.interviewNotesRepository
       .createQueryBuilder('interviewNotes')
       .innerJoinAndSelect('interviewNotes.appointment', 'appointment')
-      .where('appointment.id= :id', { id: appointmentId })
-      .where('appointment.interviewerId= :userId or appointment.officerId=:userId', { userId: userId })
+      .where('appointment.id= :id and (appointment.interviewerId= :userId or appointment.officerId=:userId)', {
+        id: appointmentId,
+        userId: userId,
+      })
       .getOne();
 
     if (!interviewNotes) {
