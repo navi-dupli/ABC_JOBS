@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
-import {PerformanceEvaluationDto} from "../dto/performance-evaluation.dto";
-import {PerformanceEvaluation} from "../entities/performance-evaluation.entity";
+import { PerformanceEvaluationDto } from '../dto/performance-evaluation.dto';
+import { PerformanceEvaluation } from '../entities/performance-evaluation.entity';
 
 @Injectable()
 export class PerformanceEvaluationService extends AuthorizedController {
@@ -14,7 +14,9 @@ export class PerformanceEvaluationService extends AuthorizedController {
     super();
   }
 
-  async registerPerformanceEvaluation(performanceEvaluationDto: PerformanceEvaluationDto): Promise<PerformanceEvaluation> {
+  async registerPerformanceEvaluation(
+    performanceEvaluationDto: PerformanceEvaluationDto,
+  ): Promise<PerformanceEvaluation> {
     const techTest = this.performanceEvaluationRepository.create(performanceEvaluationDto);
     return await this.performanceEvaluationRepository.save(techTest);
   }
@@ -22,5 +24,4 @@ export class PerformanceEvaluationService extends AuthorizedController {
   async getPerformanceEvaluations() {
     return await this.performanceEvaluationRepository.find();
   }
-
 }
