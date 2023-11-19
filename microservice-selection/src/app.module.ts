@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './commons/middleware/logger.middleware';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { InterviewNotesModule } from './modules/interview-notes/interview-notes.module';
+import { MonitoringModule } from './commons/modules/monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { InterviewNotesModule } from './modules/interview-notes/interview-notes.
     AuthzModule,
     AppointmentModule,
     InterviewNotesModule,
+    MonitoringModule,
   ],
   controllers: [AuthorizedController],
   providers: [Logger],

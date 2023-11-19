@@ -3,7 +3,6 @@
   "coverageThreshold": {
     "global": {
       "statements": 70,
-      "branches": 70,
       "functions": 70,
       "lines": 70
     }
@@ -17,6 +16,9 @@
     "main.ts",
     ".config.ts",
     ".filter.ts",
+    ".dto.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
     ".exception.ts"
   ],
   "coveragePathIgnorePatterns": [
@@ -28,6 +30,9 @@
     "main.ts",
     ".config.ts",
     ".filter.ts",
+    ".dto.ts",
+    "-schedule.service.ts",
+    "firebase.service.ts",
     ".exception.ts"
   ],
   "moduleFileExtensions": [

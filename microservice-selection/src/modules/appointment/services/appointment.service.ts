@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from '../entities/appointment.entity';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ export class AppointmentService {
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
   ) {}
+
   async findByUserId(userId: number): Promise<Appointment[]> {
     return this.appointmentRepository.find({
       where: [

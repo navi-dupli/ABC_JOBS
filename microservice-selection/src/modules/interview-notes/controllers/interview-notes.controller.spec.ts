@@ -54,9 +54,9 @@ describe('InterviewNotesController', () => {
 
     jest.spyOn(interviewNotesService, 'findByAppointmentId').mockResolvedValue(expectedInterviewNotes);
 
-    const result = await controller.findByAppointmentId(appointmentId);
+    const result = await controller.findByAppointmentId(appointmentId, 1);
 
-    expect(interviewNotesService.findByAppointmentId).toHaveBeenCalledWith(appointmentId);
+    expect(interviewNotesService.findByAppointmentId).toHaveBeenCalledWith(appointmentId, 1);
     expect(result).toEqual(expectedInterviewNotes);
   });
 });

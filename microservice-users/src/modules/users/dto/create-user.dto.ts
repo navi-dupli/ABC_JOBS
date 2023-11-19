@@ -40,4 +40,13 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'A12345', description: 'Número de identificación' })
   readonly identification: string;
+
+  @ApiProperty({ example: '000000', description: 'Número de teléfono' })
+  readonly phone: string;
+
+  @ApiProperty({ example: '2021-01-01', description: 'Fecha de nacimiento' })
+  readonly dateBirthDate: Date;
+
+  @ApiProperty({ example: '1', description: 'Dirección' })
+  readonly address: string;
 }

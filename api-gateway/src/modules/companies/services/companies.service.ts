@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CompanyCreatedDto, CreateCompanyDto, CreateUserDto } from '../dto/create-companie.dto';
 import { MicroserviceClientService } from '../../../commons/modules/microservice-manager/services/microservice-client.service';
 import { MicroserviceEnum } from '../../../dynamic-routes.config';
@@ -6,7 +6,13 @@ import { Request } from 'express';
 
 @Injectable()
 export class CompaniesService {
-  constructor(private readonly microserviceClientService: MicroserviceClientService) {}
+  constructor(
+    @Inject(MicroserviceEnum.USERS)
+    private readonly usersRestClient: MicroserviceClientService,
+    @Inject(MicroserviceEnum.COMPANIES)
+    private readonly companiesRestClient: MicroserviceClientService,
+  ) {
+  }
 
   async createCompany(request: Request, body: any): Promise<any> {
     const createCompanyDto = body as CreateCompanyDto;
@@ -27,9 +33,7 @@ export class CompaniesService {
 
   private async registerCompany(request: Request, body: any): Promise<any> {
     try {
-      return await this.microserviceClientService
-        .call(MicroserviceEnum.COMPANIES, '/companies', 'POST', request, body)
-        .toPromise();
+      return await this.companiesRestClient.call('/companies', 'POST', request, body).toPromise();
     } catch (error) {
       return null;
     }
@@ -40,22 +44,20 @@ export class CompaniesService {
     const userToCreate: CreateUserDto = {
       email: createCompanyDto.representativeEmail,
       password: createCompanyDto.representativePassword,
-      company_id: company.id,
+      company_id: companyCreated.id,
       names: createCompanyDto.representativeName,
       surnames: createCompanyDto.representativeName,
       rol: 'REPRESENTANTE_EMPRESA',
     } as CreateUserDto;
 
     try {
-      return await this.microserviceClientService
-        .call(MicroserviceEnum.USERS, '/users', 'POST', request, userToCreate)
-        .toPromise();
+      return await this.usersRestClient.call('/users', 'POST', request, userToCreate).toPromise();
     } catch (error) {
       return null;
     }
   }
 
   private deleteCompany(request: Request, id: number): void {
-    this.microserviceClientService.call(MicroserviceEnum.COMPANIES, `/companies/${id}`, 'DELETE', request).toPromise();
+    this.companiesRestClient.call(`/companies/${id}`, 'DELETE', request).toPromise();
   }
 }

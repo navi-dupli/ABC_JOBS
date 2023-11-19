@@ -7,19 +7,34 @@ import { of, throwError } from 'rxjs';
 import { CompanyCreatedDto, CreateCompanyDto, CreateUserDto } from '../dto/create-companie.dto';
 import { MicroserviceManagerModule } from '../../../commons/modules/microservice-manager/microservice-manager.module';
 import { AxiosError } from 'axios';
+import { MicroserviceEnum } from '../../../dynamic-routes.config';
+import { HttpModule } from '@nestjs/axios';
+import { MonitoringModule } from '../../../commons/modules/monitoring/monitoring.module';
 
 describe('CompaniesService', () => {
   let service: CompaniesService;
-  let microserviceClientService: MicroserviceClientService;
+  let microserviceClientServiceUsers: MicroserviceClientService;
+  let microserviceClientServiceCompanies: MicroserviceClientService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MicroserviceManagerModule],
-      providers: [CompaniesService],
+      imports: [MicroserviceManagerModule, HttpModule, MonitoringModule],
+      providers: [
+        CompaniesService,
+        {
+          provide: MicroserviceEnum.USERS,
+          useClass: MicroserviceClientService,
+        },
+        {
+          provide: MicroserviceEnum.COMPANIES,
+          useClass: MicroserviceClientService,
+        },
+      ],
     }).compile();
 
-    service = module.get<CompaniesService>(CompaniesService);
-    microserviceClientService = module.get<MicroserviceClientService>(MicroserviceClientService);
+    service = module.get<CompaniesService>(CompaniesService) as CompaniesService;
+    microserviceClientServiceUsers = module.get<MicroserviceClientService>(MicroserviceEnum.USERS) as MicroserviceClientService;
+    microserviceClientServiceCompanies = module.get<MicroserviceClientService>(MicroserviceEnum.COMPANIES) as MicroserviceClientService;
   });
 
   it('should be defined', () => {
@@ -60,8 +75,8 @@ describe('CompaniesService', () => {
       } as CreateUserDto;
 
       // Mock MicroserviceClientService to return fake responses
-      jest.spyOn(microserviceClientService, 'call').mockReturnValueOnce(of(fakeCompanyResponse));
-      jest.spyOn(microserviceClientService, 'call').mockReturnValueOnce(of(fakeUserResponse));
+      jest.spyOn(microserviceClientServiceCompanies, 'call').mockReturnValue(of(fakeCompanyResponse));
+      jest.spyOn(microserviceClientServiceUsers, 'call').mockReturnValue(of(fakeUserResponse));
 
       const request = {} as Request;
 
@@ -87,7 +102,7 @@ describe('CompaniesService', () => {
       } as CreateCompanyDto;
 
       // Mock MicroserviceClientService to return an error
-      jest.spyOn(microserviceClientService, 'call').mockReturnValueOnce(
+      jest.spyOn(microserviceClientServiceCompanies, 'call').mockReturnValue(
         throwError({
           response: {
             statusText: 'Company creation error',

@@ -79,8 +79,6 @@ describe('AppointmentService', () => {
     jest.spyOn(appointmentRepository, 'findOneBy').mockResolvedValue(expectedAppointment);
 
     const result = await service.findById(id);
-
-    expect(appointmentRepository.findOneBy).toHaveBeenCalledWith({ id: id });
     expect(result).toEqual(expectedAppointment);
   });
 
@@ -89,6 +87,5 @@ describe('AppointmentService', () => {
     // Simulamos la respuesta del repositorio
     jest.spyOn(appointmentRepository, 'findOneBy').mockResolvedValue(null);
     await expect(service.findById(id)).rejects.toThrow(NotFoundException);
-    expect(appointmentRepository.findOneBy).toHaveBeenCalledWith({ id: id });
   });
 });

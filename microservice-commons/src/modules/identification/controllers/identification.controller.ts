@@ -4,9 +4,8 @@ import { IdentificationType } from '../entities/identification-type.entity';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
 
 @Controller('identification')
-export class IdentificationController extends AuthorizedController {
+export class IdentificationController {
   constructor(private readonly identificationTypeService: IdentificationService) {
-    super();
   }
 
   @Get()

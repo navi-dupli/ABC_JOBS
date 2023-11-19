@@ -4,7 +4,6 @@ import { SwaggerConfigModule } from './commons/modules/swagger/swagger-config.mo
 
 async function bootstrap() {
   const port = process.env.PORT || 3000;
-
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   SwaggerConfigModule.setup(app);
