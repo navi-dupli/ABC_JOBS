@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {   Interval } from '@nestjs/schedule';
+import { Interval } from '@nestjs/schedule';
 import { FirebaseService } from '../firebase-service/firebase.service';
 
 import { StoringService } from './storing-schedule.service';
