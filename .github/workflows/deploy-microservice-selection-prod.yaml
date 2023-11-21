@@ -6,7 +6,7 @@ on:
 #    paths:
 #      - 'microservice-selection/**'
 env:
-  PROJECT_ID: proyecto-final-xcloud-qa
+  PROJECT_ID: proyecto-final-xcloud-prod
   SERVICE: microservice-selection
   REGION: us-central1
   SOURCE: './microservice-selection'

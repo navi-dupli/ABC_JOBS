@@ -6,7 +6,7 @@ on:
 #    paths:
 #      - 'microservice-commons/**'
 env:
-  PROJECT_ID: proyecto-final-xcloud-qa
+  PROJECT_ID: proyecto-final-xcloud-prod
   SERVICE: microservice-commons
   REGION: us-central1
   SOURCE: './microservice-commons'
