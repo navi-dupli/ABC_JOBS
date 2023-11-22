@@ -1,4 +1,4 @@
-import { Controller, Get, ParseArrayPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseArrayPipe, Query } from '@nestjs/common';
 import { CandidateService } from '../../services/candidate/candidate.service';
 import { User } from '../../entities/user.entity';
 import { ApiQuery } from '@nestjs/swagger';
@@ -25,5 +25,10 @@ export class CandidateController extends AuthorizedController {
     experienceYears: string[] = [],
   ): Promise<User[]> {
     return await this.candidateService.search(skills, languages, countries, education, experienceYears);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<User> {
+    return await this.candidateService.findOne(id);
   }
 }
