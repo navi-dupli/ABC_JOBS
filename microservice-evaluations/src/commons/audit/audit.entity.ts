@@ -14,7 +14,7 @@ export class AuditEntity {
   @Column()
   entityId: number; // Nombre de la entidad (tabla)
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'text', nullable: true })
   data: Record<string, any>; // Datos de la entidad
 
   @CreateDateColumn()

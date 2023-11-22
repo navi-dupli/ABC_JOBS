@@ -27,15 +27,20 @@ export class PerformanceEvaluationService extends AuthorizedController {
     const techTest = this.performanceEvaluationRepository.create(performanceEvaluationDto);
     return await this.performanceEvaluationRepository.save(techTest);
   }
-  private validateHash(performanceEvaluationDto: PerformanceEvaluationDto): boolean {
+  validateHash(performanceEvaluationDto: PerformanceEvaluationDto): boolean {
     const hashReceived = performanceEvaluationDto.hash;
+    const hashGenerated = this.createHash(performanceEvaluationDto);
+    return hashReceived === hashGenerated;
+  }
+
+  createHash(performanceEvaluationDto: PerformanceEvaluationDto) {
     const hashGenerated = crypto
       .createHash('sha256')
       .update(
         `${performanceEvaluationDto.performance}${performanceEvaluationDto.observations}${performanceEvaluationDto.project_id}${performanceEvaluationDto.team_id}${performanceEvaluationDto.user_id}${performanceEvaluationDto.qualifying_user_id}${performanceEvaluationDto.dimension_id}`,
       )
       .digest('hex');
-    return hashReceived === hashGenerated;
+    return hashGenerated;
   }
 
   async getPerformanceEvaluations() {

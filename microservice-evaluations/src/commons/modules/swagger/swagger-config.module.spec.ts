@@ -16,10 +16,6 @@ describe('SwaggerModule', () => {
     await app.init();
   });
 
-  afterEach(async () => {
-    await app.close();
-  });
-
   it('should set up Swagger', () => {
     const setupSpy = jest.spyOn(SwaggerConfigModule, 'setup');
 

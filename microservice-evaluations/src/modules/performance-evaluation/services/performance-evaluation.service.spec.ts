@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { PerformanceEvaluationService } from './performance-evaluation.service';
 import { PerformanceEvaluation } from '../entities/performance-evaluation.entity';
 import { PerformanceEvaluationDto } from '../dto/performance-evaluation.dto';
+import { has } from 'lodash';
 
 describe('PerformanceEvaluationService', () => {
   let service: PerformanceEvaluationService;
@@ -37,7 +38,9 @@ describe('PerformanceEvaluationService', () => {
       user_id: 1,
       qualifying_user_id: 1,
       dimension_id: 1,
+      hash: 'hash',
     };
+    registerPerformanceEval.hash = service.createHash(registerPerformanceEval);
     const performanceEval = {
       performance: 'Alto',
       observations: 'NA',

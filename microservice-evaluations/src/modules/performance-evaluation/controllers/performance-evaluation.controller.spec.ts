@@ -60,6 +60,7 @@ describe('PerformanceEvaluationController', () => {
       user_id: 1,
       qualifying_user_id: 1,
       dimension_id: 1,
+      hash: 'hash',
     };
     const registerPerformanceEval: PerformanceEvaluation = {
       performance: 'Alto',
@@ -88,6 +89,7 @@ describe('PerformanceEvaluationController', () => {
       user_id: 1,
       qualifying_user_id: 1,
       dimension_id: 1,
+      hash: 'hash',
     };
     const error = new Error('Internal Server Error');
     jest.spyOn(service, 'registerPerformanceEvaluation').mockRejectedValue(error);
