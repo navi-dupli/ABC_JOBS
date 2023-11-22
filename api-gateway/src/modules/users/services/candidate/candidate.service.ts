@@ -1,8 +1,8 @@
-import {HttpException, Inject, Injectable} from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import {MicroserviceEnum} from "../../../../dynamic-routes.config";
-import {MicroserviceClientService} from "../../../../commons/modules/microservice-manager/services/microservice-client.service";
-import {CreateCandidateDto} from "../../dto/create-candidate.dto";
+import { MicroserviceEnum } from '../../../../dynamic-routes.config';
+import { MicroserviceClientService } from '../../../../commons/modules/microservice-manager/services/microservice-client.service';
+import { CreateCandidateDto } from '../../dto/create-candidate.dto';
 
 @Injectable()
 export class CandidateService {
@@ -11,8 +11,7 @@ export class CandidateService {
     private readonly usersRestClient: MicroserviceClientService,
     @Inject(MicroserviceEnum.COMMONS)
     private readonly commonsRestClient: MicroserviceClientService,
-  ) {
-  }
+  ) {}
 
   async createCandidate(req: Request, candidateDto: CreateCandidateDto): Promise<any> {
     const country = await this.commonsRestClient.call(`/countries/${candidateDto.countryId}`, 'GET', req).toPromise();
@@ -21,7 +20,9 @@ export class CandidateService {
       if (region) {
         const city = await this.commonsRestClient.call(`/cities/${candidateDto.cityId}`, 'GET', req).toPromise();
         if (city) {
-          const identificationType = await this.commonsRestClient.call(`/identification/${candidateDto.typeIdentificationId}`, 'GET', req).toPromise();
+          const identificationType = await this.commonsRestClient
+            .call(`/identification/${candidateDto.typeIdentificationId}`, 'GET', req)
+            .toPromise();
           if (identificationType) {
             const candidate = {
               ...candidateDto,
@@ -32,8 +33,8 @@ export class CandidateService {
                 nameCity: city.name,
                 nameRegion: region.name,
                 nameCountry: country.name,
-              }
-            }
+              },
+            };
             const user = await this.registerCandidate(req, candidate);
             if (user) {
               return user;

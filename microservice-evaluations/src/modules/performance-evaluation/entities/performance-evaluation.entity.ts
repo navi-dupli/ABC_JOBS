@@ -49,6 +49,6 @@ export class PerformanceEvaluation {
       this.user_id +
       this.qualifying_user_id +
       this.dimension_id;
-    this.hash = crypto.createHash('md5').update(dataToBeHashed).digest('hex');
+    this.hash = crypto.createHash('sha256').update(dataToBeHashed).digest('hex');
   }
 }

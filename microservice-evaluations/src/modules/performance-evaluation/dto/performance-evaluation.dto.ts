@@ -21,4 +21,7 @@ export class PerformanceEvaluationDto {
 
   @IsNotEmpty()
   dimension_id: number;
+
+  @IsNotEmpty()
+  hash: string;
 }
