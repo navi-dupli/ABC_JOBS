@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MonitoringModule } from './monitoring.module';
-import { MonitoringScheduleService } from './monitoring-schedule/monitoring-schedule.service';
+import { VerifyScheduleService } from './monitoring-schedule/verify-schedule.service';
 import { FirebaseService } from './firebase-service/firebase.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -37,7 +37,7 @@ describe('MonitoringModule', () => {
   });
 
   it('should have MonitoringScheduleService', () => {
-    const service = module.get<MonitoringScheduleService>(MonitoringScheduleService);
+    const service = module.get<VerifyScheduleService>(VerifyScheduleService);
     expect(service).toBeDefined();
   });
   //FirebaseService

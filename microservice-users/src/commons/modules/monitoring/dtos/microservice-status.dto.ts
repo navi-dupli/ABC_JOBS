@@ -4,4 +4,5 @@ export class MicroserviceStatusDto {
   public healthy: boolean;
   public timestamp: string;
   public healthInfo: any;
+  public time: number;
 }
