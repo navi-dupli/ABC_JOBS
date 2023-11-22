@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository, In, Between, MoreThan, And } from 'typeorm';
+import { And, Between, In, MoreThan, Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -66,16 +66,17 @@ export class CandidateService {
     const usersMap = users.map((user) => user.id);
 
     return this.userRepository.find({
-      relations: {
-        skills: true,
-        location: true,
-        languages: true,
-        education: true,
-        experiences: true,
-      },
+      relations: ['skills', 'location', 'languages', 'education', 'experiences'],
       where: {
         id: In(usersMap),
       },
+    });
+  }
+
+  async findOne(id: number): Promise<User> {
+    return await this.userRepository.findOne({
+      where: { id: id, rol: 'CANDIDATO' },
+      relations: ['skills', 'location', 'languages', 'education', 'experiences'],
     });
   }
 }

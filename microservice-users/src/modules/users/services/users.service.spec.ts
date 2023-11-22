@@ -13,7 +13,7 @@ import { UserAlreadyExistException } from '../../../commons/exceptions/user-alre
 import { Auth0ResponseLoginDto, LoginDto } from '../dto/login.dto';
 import { UserLoginErrorException } from '../../../commons/exceptions/user-login-error.exception';
 import { UserLoginFailedException } from '../../../commons/exceptions/user-login-failed.exception';
-import {UserLocation} from "../../userLocation/entities/userLocation.entity";
+import { UserLocation } from '../../userLocation/entities/userLocation.entity';
 
 const fakeIdentity = new Identity('Username-Password-Authentication', 'fakeUserId', 'auth0', false);
 const fakeExternalApiResponseDto = new ExternalApiResponseDto(
