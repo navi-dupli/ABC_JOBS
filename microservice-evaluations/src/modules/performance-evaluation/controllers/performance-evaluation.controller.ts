@@ -1,8 +1,8 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
-import {PerformanceEvaluationService} from "../services/performance-evaluation.service";
-import {PerformanceEvaluation} from "../entities/performance-evaluation.entity";
-import {PerformanceEvaluationDto} from "../dto/performance-evaluation.dto";
+import { PerformanceEvaluationService } from '../services/performance-evaluation.service';
+import { PerformanceEvaluation } from '../entities/performance-evaluation.entity';
+import { PerformanceEvaluationDto } from '../dto/performance-evaluation.dto';
 
 @Controller('performance-evaluation')
 export class PerformanceEvaluationController extends AuthorizedController {
@@ -20,11 +20,9 @@ export class PerformanceEvaluationController extends AuthorizedController {
   }
 
   @Post()
-  async registerPerformanceEval(@Body() performanceEvaluationDto: PerformanceEvaluationDto): Promise<PerformanceEvaluation> {
-    try {
-      return await this.performanceEvaluationService.registerPerformanceEvaluation(performanceEvaluationDto);
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  async registerPerformanceEval(
+    @Body() performanceEvaluationDto: PerformanceEvaluationDto,
+  ): Promise<PerformanceEvaluation> {
+    return await this.performanceEvaluationService.registerPerformanceEvaluation(performanceEvaluationDto);
   }
 }

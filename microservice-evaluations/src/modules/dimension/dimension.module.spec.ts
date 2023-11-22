@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from '../../database.config';
-import {DimensionModule} from "../performance-evaluation/performance-evaluation.module";
+import { DimensionModule } from '../performance-evaluation/performance-evaluation.module';
 
 describe('DimensionModule', () => {
   let module: TestingModule;
@@ -10,14 +10,11 @@ describe('DimensionModule', () => {
     module = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(databaseConfig), DimensionModule],
       controllers: [],
-      providers: [
-
-      ],
+      providers: [],
     }).compile();
   });
 
   it('should be defined', () => {
     expect(module).toBeDefined();
   });
-
 });
