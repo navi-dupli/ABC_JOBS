@@ -15,24 +15,23 @@ export class CheckingScheduleService {
     private typeOrmHealthIndicador: TypeOrmHealthIndicator,
     private memory: MemoryHealthIndicator,
   ) {}
+
   @Interval('health_check_checking_job', CheckingScheduleService._cronCheckInterval)
   async checkStatusJob() {
     if (process.env.SCHEDULE_CHECKING_STATUS_ENABLED === 'true') {
       await this.checkStatus();
     }
   }
+
   async checkStatus() {
     this.logger.log(`Checking health status of ${StoringService._instanceId} ${new Date().toISOString()}`);
     try {
       const healthCheckResultPromise: HealthCheckResult = await this.healthCheckService.check([
-        () => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 2000 }),
+        //() => this.typeOrmHealthIndicador.pingCheck('database', { timeout: 2000 }),
         () => this.memory.checkHeap('memory_heap', 400 * 1024 * 1024),
       ]);
       const date = new Date();
-      const microserviceStatusDto: MicroserviceStatusDto = StoringService.mapHealthCheckResultToFirebase(
-        healthCheckResultPromise,
-        date,
-      );
+      const microserviceStatusDto: MicroserviceStatusDto = StoringService.mapHealthCheckResultToFirebase(healthCheckResultPromise, date);
       const documentId = StoringService._instanceId + ':' + microserviceStatusDto.timestamp;
       StoringService._store.set(documentId, microserviceStatusDto);
       return microserviceStatusDto;
