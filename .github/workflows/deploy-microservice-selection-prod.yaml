@@ -2,7 +2,7 @@ name: Deploy cloud run service selection prod
 on:
   push:
     branches:
-      - feature/*
+      - test/*
 #    paths:
 #      - 'microservice-selection/**'
 env:

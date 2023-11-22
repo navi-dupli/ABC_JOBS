@@ -2,7 +2,7 @@ name: Deploy cloud run service companies prod
 on:
   push:
     branches:
-      - feature/*
+      - test/*
 #    paths:
 #      - 'microservice-companies/**'
 env:

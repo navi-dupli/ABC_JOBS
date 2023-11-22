@@ -2,7 +2,7 @@ name: Deploy cloud run service commons prod
 on:
   push:
     branches:
-      - feature/*
+      - test/*
 #    paths:
 #      - 'microservice-commons/**'
 env:
