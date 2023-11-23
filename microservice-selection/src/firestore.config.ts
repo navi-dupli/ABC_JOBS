@@ -1,5 +1,3 @@
-import process from 'process';
-
 export default class FirestoreConfig {
   static getFirestoreConfig(): any {
     if (process.env.NODE_ENV === 'production') {
