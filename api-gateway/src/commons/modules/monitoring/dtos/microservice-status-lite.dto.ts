@@ -3,6 +3,6 @@ export class MicroserviceStatusLiteDto {
   index: number;
   lastCheck: number;
   instancesSize: number;
-  instances: Set<string>;
+  instances: string[];
   healthy: boolean;
 }

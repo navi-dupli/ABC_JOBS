@@ -68,7 +68,7 @@ export class VerifyScheduleService {
         healthy: false,
         lastCheck: maxTimestamp,
         instancesSize: uniqueInstanceCount,
-        instances: uniqueInstanceIds,
+        instances: Array.from(uniqueInstanceIds),
       };
       microservicesStatus.set(microservice, microserviceStatusLite);
       if (report) {

@@ -66,13 +66,19 @@
     },
     scales: {
       xAxes: [{
-        type: "linear",
-        position: "bottom",
+        type: "time",
+        time: {
+          unit: "second",
+          tooltipFormat: "HH:mm:ss"
+        },
+        distribution: "series",
         ticks: {
-          callback: function(value, index, values) {
-            return value;
-          }
+          source: "auto"
+        },
+        gridLines: {
+          display: true
         }
+
       }],
       yAxes: [{
         scaleLabel: {
@@ -108,12 +114,19 @@
     },
     scales: {
       xAxes: [{
-        type: "linear",
+        type: "time",
+        time: {
+          unit: "second",
+          displayFormats: {
+            second: "HH:mm:ss"
+          },
+          tooltipFormat: {
+            second: "HH:mm:ss"
+          }
+        },
         position: "bottom",
         ticks: {
-          callback: function(value, index, values) {
-            return value;
-          }
+          source: "data"
         }
       }],
       yAxes: [{
@@ -133,6 +146,8 @@
   });
 
   // Función para agregar datos a la gráfica
+  const labels = {};
+
   function addData(chart, time, value, appName) {
     let dataset = chart.data.datasets.find(ds => ds.label === appName);
 
@@ -141,19 +156,30 @@
         label: appName,
         data: [],
         borderColor: getRandomColor(),
-        fill: false
+        fill: false,
+        lineTension: 0.1,
+        tension: 0.1
       };
       chart.data.datasets.push(dataset);
     }
 
+    const labelTime = moment(time).format("mm:ss");
     dataset.data.push({
-      x: time,
+      x: labelTime,
       y: value
     });
-    chart.data.labels.push("" + time);
 
+    const label = labels[labelTime];
+    if (!label) {
+      chart.data.labels.push(labelTime);
+      // sort labels
+      chart.data.labels.sort((a, b) => {
+        return moment(a, "mm:ss").diff(moment(b, "mm:ss"));
+      });
+      labels[labelTime] = true;
+    }
     // Limitar la cantidad de datos mostrados para mejorar el rendimiento
-    const maxDataPoints = 50;
+    const maxDataPoints = 500;
     if (chart.data.labels.length > maxDataPoints) {
       chart.data.labels.shift();
       chart.data.datasets.forEach(ds => ds.data.shift());
@@ -168,41 +194,16 @@
     $.get(apiUrl, function(data) {
       console.table(data);
 
-      // Obtener datos almacenados en el localStorage (si existen)
-      const storedData = JSON.parse(localStorage.getItem("chartData")) || {};
-
       data.forEach(entry => {
         // Actualizar la gráfica de health-index
-        let time = moment(entry.lastCheck).format("HH:mm:ss");
+        let time = moment(entry.lastCheck);
+        console.log(entry.name + ":" + moment(time).format("HH:mm:ss"));
         addData(healthIndexChart, time, entry.index, entry.name);
 
         // Actualizar la gráfica de instances-count
         addData(instancesCountChart, time, entry.instancesSize, entry.name);
 
-        // Guardar la entrada en el localStorage
-        if (!storedData[entry.name]) {
-          storedData[entry.name] = [];
-        }
-        storedData[entry.name].push({
-          time,
-          index: entry.index,
-          instancesSize: entry.instancesSize
-        });
       });
-
-      // Verificar y agregar objetos mock
-      Object.keys(storedData).forEach(name => {
-        if (!data.find(entry => entry.name === name)) {
-          storedData[name].push({
-            time: moment().format("HH:mm:ss"),
-            index: 0,
-            instancesSize: 0
-          });
-        }
-      });
-
-      // Guardar los datos actualizados en el localStorage
-      localStorage.setItem("chartData", JSON.stringify(storedData));
     });
   }
 

@@ -49,7 +49,7 @@ export class MicroserviceStatusService {
           index: 0,
           healthy: false,
           lastCheck: new Date().getTime(),
-          instances: {} as Set<string>,
+          instances: [],
           instancesSize: 0,
           totalStatusRows: 0,
         } as MicroserviceStatusLiteDto;
