@@ -32,6 +32,10 @@ export class MicroserviceStatusService {
     return false;
   }
 
+  public getMicroserviceStatusDataSet() {
+    return this.map(this.microservicesStatus);
+  }
+
   private map(microserviceStatusDtos: Map<string, MicroserviceStatusLiteDto>) {
     const microservicesStatusObject: any[] = [];
     microserviceStatusDtos.forEach((value, key) => {
