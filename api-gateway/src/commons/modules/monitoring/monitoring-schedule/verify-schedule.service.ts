@@ -11,12 +11,8 @@ import { StoringService } from './storing-schedule.service';
 @Injectable()
 export class VerifyScheduleService {
   private readonly logger = new Logger(VerifyScheduleService.name);
-  private readonly _maxRowsToProcess: number = process.env.MAX_ROWS_TO_CHECK
-    ? parseInt(process.env.MAX_ROWS_TO_CHECK)
-    : 500;
-  private readonly _deltaTimeToProcess: number = process.env.DELTA_TIMIE_TO_PROCESS
-    ? parseInt(process.env.DELTA_TIMIE_TO_PROCESS)
-    : 5000;
+  private readonly _maxRowsToProcess: number = process.env.MAX_ROWS_TO_CHECK ? parseInt(process.env.MAX_ROWS_TO_CHECK) : 500;
+  private readonly _deltaTimeToProcess: number = process.env.DELTA_TIMIE_TO_PROCESS ? parseInt(process.env.DELTA_TIMIE_TO_PROCESS) : 5000;
   private static readonly _cronVerifyInterval: number = parseInt(process.env.CRON_VERIFY_INTERVAL) || 5000;
 
   constructor(
@@ -62,14 +58,15 @@ export class VerifyScheduleService {
         return dto.time > maxTimestamp ? dto.time : maxTimestamp;
       }, 0);
       //  lógica para contar instancias únicas
-      const uniqueInstanceIds = new Set(microserviceStatus.map((dto) => dto.instanceId));
+      const uniqueInstanceIds: Set<string> = new Set(microserviceStatus.map((dto) => dto.instanceId));
       const uniqueInstanceCount = uniqueInstanceIds.size;
 
       const microserviceStatusLite: MicroserviceStatusLiteDto = {
         totalStatusRows: count,
         index: round(count / healthyCount, 2),
         lastCheck: maxTimestamp,
-        instances: uniqueInstanceCount,
+        instancesSize: uniqueInstanceCount,
+        instances: uniqueInstanceIds,
       };
       microservicesStatus.set(microservice, microserviceStatusLite);
       if (report) {
@@ -79,6 +76,7 @@ export class VerifyScheduleService {
     }
     return this.logStatus(microservicesStatus);
   }
+
   private logStatus(microserviceStatusDtos: Map<string, MicroserviceStatusLiteDto>) {
     const microservicesStatusObject: any[] = [];
 
