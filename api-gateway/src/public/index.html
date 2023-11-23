@@ -179,7 +179,7 @@
       labels[labelTime] = true;
     }
     // Limitar la cantidad de datos mostrados para mejorar el rendimiento
-    const maxDataPoints = 500;
+    const maxDataPoints = 5000;
     if (chart.data.labels.length > maxDataPoints) {
       chart.data.labels.shift();
       chart.data.datasets.forEach(ds => ds.data.shift());
@@ -208,7 +208,7 @@
   }
 
   // Actualizar la gráfica cada 5 segundos
-  setInterval(fetchDataAndRefreshChart, 5000);
+  setInterval(fetchDataAndRefreshChart, 2000);
 
   // Llamar a fetchDataAndRefreshChart al cargar la página
   fetchDataAndRefreshChart();
