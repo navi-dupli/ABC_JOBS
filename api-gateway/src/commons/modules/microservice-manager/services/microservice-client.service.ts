@@ -75,6 +75,7 @@ export class MicroserviceClientService {
    */
   private checkMicroServiceStatus(originalRequest: Request) {
     const currentMicroservice = this.routeConfig.path;
+    this.logger.log(`[${originalRequest.headers['x-request-id']}] Checking microservice ${currentMicroservice} status`);
     if (
       !!process.env.MONITORING_CHECK_SERVICE_STATUS_ENABLED &&
       !this.microserviceStatusService.isMicroserviceHealthy(currentMicroservice.toString())
