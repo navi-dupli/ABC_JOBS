@@ -61,9 +61,11 @@ export class VerifyScheduleService {
       const uniqueInstanceIds: Set<string> = new Set(microserviceStatus.map((dto) => dto.instanceId));
       const uniqueInstanceCount = uniqueInstanceIds.size;
 
+      const index = round(count / healthyCount, 2);
       const microserviceStatusLite: MicroserviceStatusLiteDto = {
         totalStatusRows: count,
-        index: round(count / healthyCount, 2),
+        index: index,
+        healthy: false,
         lastCheck: maxTimestamp,
         instancesSize: uniqueInstanceCount,
         instances: uniqueInstanceIds,

@@ -4,4 +4,5 @@ export class MicroserviceStatusLiteDto {
   lastCheck: number;
   instancesSize: number;
   instances: Set<string>;
+  healthy: boolean;
 }

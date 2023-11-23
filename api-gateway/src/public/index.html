@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,30 +12,41 @@
   <style>
     #chart-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+
+    #healthIndexChart,
+    #instancesCountChart {
+      height: 45vh;
+      margin: 20px;
       width: 100%;
     }
 
-    #healthIndexChart, #instancesCountChart {
-      flex: 1;
-      width: 50%;
+    #clock {
+      margin-top: 20px;
+      font-size: 24px;
     }
   </style>
 </head>
+
 <body>
 <h1>Monitoreo de la aplicación ABC JOBS</h1>
+<div id="clock"></div>
 
 <div id="chart-container">
   <div id="healthIndexChart">
-    <canvas id="realTimeChart" width="400" height="400"></canvas>
+    <canvas id="realTimeChart"></canvas>
   </div>
   <div id="instancesCountChart">
-    <canvas id="instancesCountChartCanvas" width="400" height="400"></canvas>
+    <canvas id="instancesCountChartCanvas" width="400" height="200"></canvas>
   </div>
 </div>
 
 <script>
-  const apiUrl = "https://api-gateway-44q73j2oha-uc.a.run.app/health/dataset";
+  //const apiUrl = "https://api-gateway-44q73j2oha-uc.a.run.app/health/dataset";
+  const apiUrl = "http://localhost:4000/health/dataset";
 
   // Inicializar datos para health-index
   const healthIndexData = {
@@ -134,7 +146,10 @@
       chart.data.datasets.push(dataset);
     }
 
-    dataset.data.push({ x: time, y: value });
+    dataset.data.push({
+      x: time,
+      y: value
+    });
     chart.data.labels.push("" + time);
 
     // Limitar la cantidad de datos mostrados para mejorar el rendimiento
@@ -152,6 +167,10 @@
   function fetchDataAndRefreshChart() {
     $.get(apiUrl, function(data) {
       console.table(data);
+
+      // Obtener datos almacenados en el localStorage (si existen)
+      const storedData = JSON.parse(localStorage.getItem("chartData")) || {};
+
       data.forEach(entry => {
         // Actualizar la gráfica de health-index
         let time = moment(entry.lastCheck).format("HH:mm:ss");
@@ -159,7 +178,31 @@
 
         // Actualizar la gráfica de instances-count
         addData(instancesCountChart, time, entry.instancesSize, entry.name);
+
+        // Guardar la entrada en el localStorage
+        if (!storedData[entry.name]) {
+          storedData[entry.name] = [];
+        }
+        storedData[entry.name].push({
+          time,
+          index: entry.index,
+          instancesSize: entry.instancesSize
+        });
       });
+
+      // Verificar y agregar objetos mock
+      Object.keys(storedData).forEach(name => {
+        if (!data.find(entry => entry.name === name)) {
+          storedData[name].push({
+            time: moment().format("HH:mm:ss"),
+            index: 0,
+            instancesSize: 0
+          });
+        }
+      });
+
+      // Guardar los datos actualizados en el localStorage
+      localStorage.setItem("chartData", JSON.stringify(storedData));
     });
   }
 
@@ -178,6 +221,16 @@
     }
     return color;
   }
+
+  // Actualizar el reloj cada segundo
+  setInterval(updateClock, 1000);
+
+  function updateClock() {
+    const now = moment();
+    const formattedTime = now.format("HH:mm:ss");
+    document.getElementById("clock").innerText = formattedTime;
+  }
 </script>
 </body>
+
 </html>

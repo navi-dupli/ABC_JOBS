@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { MicroserviceStatusLiteDto } from '../dtos/microservice-status-lite.dto';
+import { dynamicRoutesConfig, RouteConfig } from '../../../../dynamic-routes.config';
 
 @Injectable()
 export class MicroserviceStatusService {
@@ -32,8 +33,28 @@ export class MicroserviceStatusService {
     return false;
   }
 
+  // for echas dynamicRoutesConfig, generate an objet similar to the one returnet by map method, but with the microservice name as key,
   public getMicroserviceStatusDataSet() {
-    return this.map(this.microservicesStatus);
+    return dynamicRoutesConfig.map((route: RouteConfig) => {
+      const microserviceStatusLite = this.microservicesStatus.get(route.path.toString());
+      if (microserviceStatusLite) {
+        return {
+          name: route.path.toString(),
+          ...microserviceStatusLite,
+          healthy: microserviceStatusLite.index >= this.healthIndex,
+        };
+      } else {
+        return {
+          name: route.path.toString(),
+          index: 0,
+          healthy: false,
+          lastCheck: new Date().getTime(),
+          instances: {} as Set<string>,
+          instancesSize: 0,
+          totalStatusRows: 0,
+        } as MicroserviceStatusLiteDto;
+      }
+    });
   }
 
   private map(microserviceStatusDtos: Map<string, MicroserviceStatusLiteDto>) {
