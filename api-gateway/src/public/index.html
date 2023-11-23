@@ -6,12 +6,15 @@
   <title>Monitoring ABC JOBS</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
   <style>
     #chart-container {
       display: flex;
       flex-direction: row;
       width: 100%;
     }
+
     #healthIndexChart, #instancesCountChart {
       flex: 1;
       width: 50%;
@@ -31,7 +34,7 @@
 </div>
 
 <script>
-  const apiUrl = 'http://localhost:3002/users-app/health/dataset';
+  const apiUrl = "https://api-gateway-44q73j2oha-uc.a.run.app/health/dataset";
 
   // Inicializar datos para health-index
   const healthIndexData = {
@@ -40,30 +43,29 @@
   };
 
   // Obtener referencia al elemento canvas para health-index
-  const healthIndexCtx = document.getElementById('realTimeChart').getContext('2d');
+  const healthIndexCtx = document.getElementById("realTimeChart").getContext("2d");
 
   // Configurar la opción de la gráfica para health-index
   const healthIndexOptions = {
     responsive: true,
     title: {
       display: true,
-      text: 'Health-Index'
+      text: "Health-Index"
     },
     scales: {
       xAxes: [{
-        type: 'linear',
-        position: 'bottom',
+        type: "linear",
+        position: "bottom",
         ticks: {
           callback: function(value, index, values) {
-            const date = new Date(value);
-            return date.toISOString().substr(11, 8);
+            return value;
           }
         }
       }],
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: 'Index'
+          labelString: "Index"
         }
       }]
     }
@@ -71,7 +73,7 @@
 
   // Crear la gráfica para health-index
   const healthIndexChart = new Chart(healthIndexCtx, {
-    type: 'line',
+    type: "line",
     data: healthIndexData,
     options: healthIndexOptions
   });
@@ -83,30 +85,29 @@
   };
 
   // Obtener referencia al elemento canvas para instances-count
-  const instancesCountCtx = document.getElementById('instancesCountChartCanvas').getContext('2d');
+  const instancesCountCtx = document.getElementById("instancesCountChartCanvas").getContext("2d");
 
   // Configurar la opción de la gráfica para instances-count
   const instancesCountOptions = {
     responsive: true,
     title: {
       display: true,
-      text: 'Instances Count'
+      text: "Instances Count"
     },
     scales: {
       xAxes: [{
-        type: 'linear',
-        position: 'bottom',
+        type: "linear",
+        position: "bottom",
         ticks: {
           callback: function(value, index, values) {
-            const date = new Date(value);
-            return date.toISOString().substr(11, 8);
+            return value;
           }
         }
       }],
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: 'Instances'
+          labelString: "Instances"
         }
       }]
     }
@@ -114,7 +115,7 @@
 
   // Crear la gráfica para instances-count
   const instancesCountChart = new Chart(instancesCountCtx, {
-    type: 'line',
+    type: "line",
     data: instancesCountData,
     options: instancesCountOptions
   });
@@ -134,7 +135,7 @@
     }
 
     dataset.data.push({ x: time, y: value });
-    chart.data.labels.push(''+time);
+    chart.data.labels.push("" + time);
 
     // Limitar la cantidad de datos mostrados para mejorar el rendimiento
     const maxDataPoints = 50;
@@ -149,14 +150,15 @@
 
   // Función para hacer la solicitud GET y actualizar la gráfica
   function fetchDataAndRefreshChart() {
-    $.get(apiUrl, function (data) {
-
+    $.get(apiUrl, function(data) {
+      console.table(data);
       data.forEach(entry => {
         // Actualizar la gráfica de health-index
-        addData(healthIndexChart, entry.lastCheck, entry.index, entry.name);
+        let time = moment(entry.lastCheck).format("HH:mm:ss");
+        addData(healthIndexChart, time, entry.index, entry.name);
 
         // Actualizar la gráfica de instances-count
-        addData(instancesCountChart, entry.lastCheck, entry.instances, entry.name);
+        addData(instancesCountChart, time, entry.instancesSize, entry.name);
       });
     });
   }
@@ -169,8 +171,8 @@
 
   // Función para generar un color aleatorio
   function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
+    const letters = "0123456789ABCDEF";
+    let color = "#";
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
