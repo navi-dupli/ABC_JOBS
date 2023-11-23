@@ -1,13 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { And, Between, In, MoreThan, Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Education } from '../../../education/entities/education.entity';
+import { Experience } from '../../../experience/entities/experience.entity';
 
 @Injectable()
 export class CandidateService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Education)
+    private readonly educationRepository: Repository<Education>,
+    @InjectRepository(Experience)
+    private readonly experienceRepository: Repository<Experience>,
   ) {}
 
   async search(
@@ -78,5 +84,27 @@ export class CandidateService {
       where: { id: id, rol: 'CANDIDATO' },
       relations: ['skills', 'location', 'languages', 'education', 'experiences'],
     });
+  }
+
+  async addEducation(id: number, education: Education): Promise<Education> {
+    const user: User = await this.userRepository.findOne({
+      where: { id: id, rol: 'CANDIDATO' },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    education.user = user;
+    return await this.educationRepository.save(education);
+  }
+
+  async addExperience(id: number, experience: Experience) {
+    const user: User = await this.userRepository.findOne({
+      where: { id: id, rol: 'CANDIDATO' },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    experience.user = user;
+    return await this.experienceRepository.save(experience);
   }
 }

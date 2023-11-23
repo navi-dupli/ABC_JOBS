@@ -1,8 +1,13 @@
-import { Controller, Get, Param, ParseArrayPipe, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseArrayPipe, Post, Query } from '@nestjs/common';
 import { CandidateService } from '../../services/candidate/candidate.service';
 import { User } from '../../entities/user.entity';
 import { ApiQuery } from '@nestjs/swagger';
 import { AuthorizedController } from '../../../../commons/controllers/authorized/authorized.controller';
+import { EducationDto } from '../../../education/dtos/education.dto';
+import { Education } from '../../../education/entities/education.entity';
+import { plainToInstance } from 'class-transformer';
+import { ExperienceDto } from '../../../experience/dtos/experience.dto';
+import { Experience } from '../../../experience/entities/experience.entity';
 
 @Controller('candidate')
 export class CandidateController extends AuthorizedController {
@@ -30,5 +35,17 @@ export class CandidateController extends AuthorizedController {
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<User> {
     return await this.candidateService.findOne(id);
+  }
+
+  @Post(':id/education')
+  async addEducation(@Param('id') id: number, @Body() educationDto: EducationDto): Promise<Education> {
+    const education: Education = plainToInstance(Education, educationDto);
+    return await this.candidateService.addEducation(id, education);
+  }
+
+  @Post(':id/experience')
+  async addExperience(@Param('id') id: number, @Body() experienceDto: ExperienceDto): Promise<Experience> {
+    const experience: Experience = plainToInstance(Experience, experienceDto);
+    return await this.candidateService.addExperience(id, experience);
   }
 }
