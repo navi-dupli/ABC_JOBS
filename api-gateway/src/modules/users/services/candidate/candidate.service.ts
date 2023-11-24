@@ -67,7 +67,9 @@ export class CandidateService {
 
   async addLanguageAndSkill(req: Request, id: number, userAbilityLanguageDto: UserAbilityLanguageDto) {
     for (let i = 0; i < userAbilityLanguageDto.languages.length; i++) {
+      console.log(userAbilityLanguageDto.languages[i]);
       const language = await this.commonsRestClient.call(`/languages/${userAbilityLanguageDto.languages[i]}`, 'GET', req).toPromise();
+      console.log(language);
       if (language) {
         const userLanguage = {
           name: language.name,
