@@ -25,22 +25,31 @@
     }
 
     #clock {
-      margin-top: 20px;
+      margin: 20px;
       font-size: 24px;
+    }
+
+    #clock-server {
+      margin: 20px;
+      font-size: 24px;
+      color: brown;
     }
   </style>
 </head>
 
 <body>
 <h1>Monitoreo de la aplicación ABC JOBS</h1>
-<div id="clock"></div>
+<div>
+  <span id="clock"></span>
+  <span id="clock-server"></span>
+</div>
 
 <div id="chart-container">
   <div id="healthIndexChart">
     <canvas id="realTimeChart"></canvas>
   </div>
   <div id="instancesCountChart">
-    <canvas id="instancesCountChartCanvas" width="400" height="200"></canvas>
+    <canvas id="instancesCountChartCanvas"></canvas>
   </div>
 </div>
 
@@ -117,16 +126,14 @@
         type: "time",
         time: {
           unit: "second",
-          displayFormats: {
-            second: "HH:mm:ss"
-          },
-          tooltipFormat: {
-            second: "HH:mm:ss"
-          }
+          tooltipFormat: "HH:mm:ss"
         },
-        position: "bottom",
+        distribution: "series",
         ticks: {
-          source: "data"
+          source: "auto"
+        },
+        gridLines: {
+          display: true
         }
       }],
       yAxes: [{
@@ -147,10 +154,11 @@
 
   // Función para agregar datos a la gráfica
   const labels = {};
+  labels[instancesCountChart.id] = {};
+  labels[healthIndexChart.id] = {};
 
   function addData(chart, time, value, appName) {
     let dataset = chart.data.datasets.find(ds => ds.label === appName);
-
     if (!dataset) {
       dataset = {
         label: appName,
@@ -165,11 +173,11 @@
 
     const labelTime = moment(time).format("mm:ss");
     dataset.data.push({
-      x: labelTime,
+      x: time.toDate(),
       y: value
     });
 
-    const label = labels[labelTime];
+    const label = labels[chart.id][labelTime];
     if (!label) {
       chart.data.labels.push(labelTime);
       // sort labels
@@ -179,7 +187,7 @@
       labels[labelTime] = true;
     }
     // Limitar la cantidad de datos mostrados para mejorar el rendimiento
-    const maxDataPoints = 5000;
+    const maxDataPoints = 50000;
     if (chart.data.labels.length > maxDataPoints) {
       chart.data.labels.shift();
       chart.data.datasets.forEach(ds => ds.data.shift());
@@ -190,7 +198,7 @@
   }
 
   // Función para hacer la solicitud GET y actualizar la gráfica
-  function fetchDataAndRefreshChart() {
+  function fetchDataAndRefreshChart2() {
     $.get(apiUrl, function(data) {
       console.table(data);
 
@@ -204,6 +212,36 @@
         addData(instancesCountChart, time, entry.instancesSize, entry.name);
 
       });
+    });
+  }
+
+  function fetchDataAndRefreshChart() {
+    $.ajax({
+      url: apiUrl,
+      method: "GET",
+      success: function(data, textStatus, jqXHR) {
+        console.table(data);
+
+        // Obtener la fecha de la cabecera del servidor
+        const serverDate = jqXHR.getResponseHeader("x-timestamp");
+
+        const formattedTime = moment(serverDate).format("HH:mm:ss");
+        console.log("Fecha del servidor:", formattedTime);
+        document.getElementById("clock-server").innerText = formattedTime;
+
+        data.forEach(entry => {
+          // Actualizar la gráfica de health-index
+          let time = moment(entry.lastCheck);
+          console.log(entry.name + ":" + moment(time).format("HH:mm:ss"));
+          addData(healthIndexChart, time, entry.index, entry.name);
+
+          // Actualizar la gráfica de instances-count
+          addData(instancesCountChart, time, entry.instancesSize, entry.name);
+        });
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error("Error en la solicitud:", textStatus, errorThrown);
+      }
     });
   }
 
