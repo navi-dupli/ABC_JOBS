@@ -28,6 +28,10 @@ export class MicroserviceStatusService {
     this.logger.log(JSON.stringify(this.map(this.microservicesStatus), null, 2));
     this.logger.log(`isMicroserviceHealthy: ${microservice}`);
     const microserviceStatusLite = this.microservicesStatus.get(microservice);
+    const serverTime = new Date().getTime();
+    if (serverTime - microserviceStatusLite.lastCheck > this.maxTimeWithOutData) {
+      return false;
+    }
     if (microserviceStatusLite) {
       return microserviceStatusLite.index >= this.healthIndex;
     }
