@@ -81,7 +81,7 @@ export class MicroserviceClientService {
       !this.microserviceStatusService.isMicroserviceHealthy(currentMicroservice.toString())
     ) {
       this.logger.error(`[${originalRequest.headers['x-request-id']}] Microservice ${currentMicroservice} is not healthy`);
-      throw new InternalServerErrorException(`Microservice ${currentMicroservice} is not healthy`);
+      throw new InternalServerErrorException(`The application is having problems, please try again later`);
     }
   }
 
