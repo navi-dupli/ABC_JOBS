@@ -19,6 +19,8 @@ export class LoggerMiddleware implements NestMiddleware {
         res.statusCode
       } (Elapsed Time: ${elapsedTime}ms)`;
 
+      res.setHeader('x-request-id', headers['x-request-id']);
+      res.set('x-timestamp', `${new Date().getTime()}`);
       if (res.statusCode >= 500) {
         this.logger.error(logMessage);
       }
