@@ -12,7 +12,7 @@
   <style>
     #chart-container {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       width: 100%;
       height: 100%;
     }
@@ -34,6 +34,18 @@
       font-size: 24px;
       color: brown;
     }
+
+    #data-table {
+      margin: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #data-table th, #data-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
   </style>
 </head>
 
@@ -51,6 +63,23 @@
   <div id="instancesCountChart">
     <canvas id="instancesCountChartCanvas"></canvas>
   </div>
+</div>
+<div>
+  <table id="data-table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Total Status Rows</th>
+      <th>Index</th>
+      <th>Healthy</th>
+      <th>Last Check</th>
+      <th>Instances Size</th>
+      <th>Instances</th>
+      <th>Server Time</th>
+    </tr>
+    </thead>
+    <tbody id="data-table-body"></tbody>
+  </table>
 </div>
 
 <script>
@@ -178,13 +207,14 @@
     });
 
     const label = labels[chart.id][labelTime];
+    console.log(labels);
     if (!label) {
       chart.data.labels.push(labelTime);
       // sort labels
       chart.data.labels.sort((a, b) => {
         return moment(a, "mm:ss").diff(moment(b, "mm:ss"));
       });
-      labels[labelTime] = true;
+      labels[chart.id][labelTime] = true;
     }
     // Limitar la cantidad de datos mostrados para mejorar el rendimiento
     const maxDataPoints = 50000;
@@ -198,16 +228,16 @@
   }
 
   // Función para hacer la solicitud GET y actualizar la gráfica
-  function fetchDataAndRefreshChart2() {
+  function fetchDataAndRefreshChart() {
     $.get(apiUrl, function(data) {
-      console.table(data);
-
+      displayDataInTable(data);
+      const formattedTime = moment(data[0].serverTime).format("HH:mm:ss");
+      document.getElementById("clock-server").innerText = `Monitoring Server time ${formattedTime}`;
       data.forEach(entry => {
         // Actualizar la gráfica de health-index
-        let time = moment(entry.lastCheck);
-        console.log(entry.name + ":" + moment(time).format("HH:mm:ss"));
-        addData(healthIndexChart, time, entry.index, entry.name);
 
+        let time = moment(entry.lastCheck);
+        addData(healthIndexChart, time, entry.index, entry.name);
         // Actualizar la gráfica de instances-count
         addData(instancesCountChart, time, entry.instancesSize, entry.name);
 
@@ -215,38 +245,28 @@
     });
   }
 
-  function fetchDataAndRefreshChart() {
-    $.ajax({
-      url: apiUrl,
-      method: "GET",
-      success: function(data, textStatus, jqXHR) {
-        console.table(data);
+  function displayDataInTable(data) {
+    const tableBody = document.getElementById("data-table-body");
+    tableBody.innerHTML = ""; // Limpiar el contenido actual de la tabla
 
-        // Obtener la fecha de la cabecera del servidor
-        const serverDate = jqXHR.getResponseHeader("x-timestamp");
-
-        const formattedTime = moment(serverDate).format("HH:mm:ss");
-        console.log("Fecha del servidor:", formattedTime);
-        document.getElementById("clock-server").innerText = formattedTime;
-
-        data.forEach(entry => {
-          // Actualizar la gráfica de health-index
-          let time = moment(entry.lastCheck);
-          console.log(entry.name + ":" + moment(time).format("HH:mm:ss"));
-          addData(healthIndexChart, time, entry.index, entry.name);
-
-          // Actualizar la gráfica de instances-count
-          addData(instancesCountChart, time, entry.instancesSize, entry.name);
-        });
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        console.error("Error en la solicitud:", textStatus, errorThrown);
-      }
+    data.forEach(entry => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+                    <td>${entry.name}</td>
+                    <td>${entry.totalStatusRows}</td>
+                    <td>${entry.index}</td>
+                    <td>${entry.healthy ? "Yes" : "No"}</td>
+                    <td>${moment(entry.lastCheck).format("YYYY-MM-DD HH:mm:ss")}</td>
+                    <td>${entry.instancesSize}</td>
+                    <td>${entry.instances.join(", ")}</td>
+                    <td>${moment(entry.serverTime).format("YYYY-MM-DD HH:mm:ss")}</td>
+                `;
+      tableBody.appendChild(row);
     });
   }
 
   // Actualizar la gráfica cada 5 segundos
-  setInterval(fetchDataAndRefreshChart, 2000);
+  setInterval(fetchDataAndRefreshChart, 1000);
 
   // Llamar a fetchDataAndRefreshChart al cargar la página
   fetchDataAndRefreshChart();
