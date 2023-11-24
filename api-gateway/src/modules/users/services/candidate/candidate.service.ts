@@ -66,28 +66,28 @@ export class CandidateService {
   }
 
   async addLanguageAndSkill(req: Request, id: number, userAbilityLanguageDto: UserAbilityLanguageDto) {
+    const userLanguage = [];
     for (let i = 0; i < userAbilityLanguageDto.languages.length; i++) {
-      console.log(userAbilityLanguageDto.languages[i]);
       const language = await this.commonsRestClient.call(`/languages/${userAbilityLanguageDto.languages[i]}`, 'GET', req).toPromise();
-      console.log(language);
-      if (language) {
-        const userLanguage = {
+      if (language && language.code && language.name) {
+        userLanguage.push({
           name: language.name,
           code: language.code,
-        };
-        await this.usersRestClient.call(`/candidate/${id}/language`, 'POST', req, userLanguage).toPromise();
+        });
       }
     }
+    await this.usersRestClient.call(`/candidate/${id}/language`, 'POST', req, userLanguage).toPromise();
+    const userSkill = [];
     for (let i = 0; i < userAbilityLanguageDto.abilities.length; i++) {
       const skill = await this.commonsRestClient.call(`/skills/${userAbilityLanguageDto.abilities[i]}`, 'GET', req).toPromise();
-      if (skill) {
-        const userSkill = {
+      if (skill && skill.id && skill.name) {
+        userSkill.push({
           idAbility: skill.id,
           name: skill.name,
-        };
-        await this.usersRestClient.call(`/candidate/${id}/skills`, 'POST', req, userSkill).toPromise();
+        });
       }
     }
+    await this.usersRestClient.call(`/candidate/${id}/skills`, 'POST', req, userSkill).toPromise();
     return await this.usersRestClient.call(`/candidate/${id}`, 'GET', req).toPromise();
   }
 }

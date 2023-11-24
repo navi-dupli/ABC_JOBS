@@ -54,14 +54,13 @@ export class CandidateController extends AuthorizedController {
   }
 
   @Post(':id/language')
-  async addLanguage(@Param('id') id: number, @Body() languageDto: LanguageDto): Promise<UserLanguage> {
-    const language: UserLanguage = plainToInstance(UserLanguage, languageDto);
+  async addLanguage(@Param('id') id: number, @Body() languageDto: LanguageDto[]): Promise<User> {
+    const language = plainToInstance(UserLanguage, languageDto);
     return await this.candidateService.addLanguage(id, language);
   }
-
   @Post(':id/skills')
-  async addSkills(@Param('id') id: number, @Body() skillsDto: UserAbilityDto): Promise<UserAbility> {
-    const skills: UserAbility = plainToInstance(UserAbility, skillsDto);
+  async addSkills(@Param('id') id: number, @Body() skillsDto: UserAbilityDto[]): Promise<User> {
+    const skills = plainToInstance(UserAbility, skillsDto);
     return await this.candidateService.addSkills(id, skills);
   }
 }
