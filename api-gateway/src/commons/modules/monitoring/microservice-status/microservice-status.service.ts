@@ -51,9 +51,9 @@ export class MicroserviceStatusService {
             index: 0,
             healthy: false,
             lastCheck: serverTime,
-            instances: [],
-            instancesSize: 0,
-            totalStatusRows: 0,
+            instances: microserviceStatusLite.instances,
+            instancesSize: microserviceStatusLite.instancesSize,
+            totalStatusRows: microserviceStatusLite.totalStatusRows,
             serverTime: serverTime,
           } as MicroserviceStatusLiteDto;
         }

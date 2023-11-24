@@ -10,6 +10,8 @@
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+  <script src="https://unpkg.com/simple-statistics@7.8.2/dist/simple-statistics.min.js">
+  </script>
 
   <style>
     .chart-container {
@@ -53,6 +55,12 @@
       padding: 8px;
       text-align: left;
     }
+
+    .statistics span {
+      margin: 20px;
+      font-size: 16px;
+      color: cadetblue;
+    }
   </style>
 </head>
 
@@ -76,6 +84,13 @@
     <div id="deltaTimeChart">
       <canvas id="deltaTime" width="1280" height="400"></canvas>
     </div>
+
+  </div>
+  <div class="statistics">
+    <span id="count"></span>
+    <span id="average"></span>
+    <span id="p99"></span>
+    <span id="p95"></span>
   </div>
   <hr>
   <div>
@@ -282,7 +297,6 @@
     });
 
     const label = labels[chart.id][labelTime];
-    console.log(labels);
     if (!label) {
       chart.data.labels.push(labelTime);
       // sort labels
@@ -302,12 +316,34 @@
     chart.update();
   }
 
+  let count = 0;
+
+  function getStatistics(data) {
+    count += data.length;
+    deltaTimes = data.map((entry) => entry.serverTime - entry.lastCheck);
+    console.table(deltaTimes);
+    // Calcular promedio, percentil 99 y percentil 95
+    const average = ss.mean(deltaTimes);
+    const p99 = ss.quantile(deltaTimes, 0.99);
+    const p95 = ss.quantile(deltaTimes, 0.95);
+
+    console.log(`Promedio del DeltaTime: ${average}`);
+    console.log(`Percentil 99 del DeltaTime: ${p99}`);
+    console.log(`Percentil 95 del DeltaTime: ${p95}`);
+
+    document.getElementById("count").innerText = `Count: ${count}`;
+    document.getElementById("average").innerText = `Average: ${Math.round(average, 0)}`;
+    document.getElementById("p99").innerText = `P99: ${p99}`;
+    document.getElementById("p95").innerText = `P95: ${p95}`;
+  }
+
   // Función para hacer la solicitud GET y actualizar la gráfica
   function fetchDataAndRefreshChart() {
     $.get(apiUrl, function(data) {
       displayDataInTable(data);
       const formattedTime = moment(data[0].serverTime).format("HH:mm:ss");
       document.getElementById("clock-server").innerText = `Monitoring Server time ${formattedTime}`;
+      getStatistics(data);
       data.forEach(entry => {
         // Actualizar la gráfica de health-index
 

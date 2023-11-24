@@ -42,7 +42,7 @@ export class MicroserviceClientService {
         url,
         data,
         headers: clientHeaders,
-        timeout: timeout || parseInt(process.env.REQUEST_TIMEOUT) || 10000,
+        timeout: timeout || parseInt(process.env.REQUEST_TIMEOUT) || 15000,
       } as AxiosRequestConfig)
       .pipe(
         map((response) => {
