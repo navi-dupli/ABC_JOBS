@@ -49,4 +49,7 @@ export class CreateUserDto {
 
   @ApiProperty({ example: '1', description: 'Dirección' })
   readonly address: string;
+
+  @ApiProperty({ example: 1, description: 'Años de experiencia' })
+  readonly experienceYears: number;
 }

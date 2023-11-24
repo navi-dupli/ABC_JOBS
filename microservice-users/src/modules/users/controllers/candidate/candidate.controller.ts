@@ -63,4 +63,9 @@ export class CandidateController extends AuthorizedController {
     const skills = plainToInstance(UserAbility, skillsDto);
     return await this.candidateService.addSkills(id, skills);
   }
+
+  @Post(':id/experience-years')
+  async updateEducation(@Param('id') id: number, @Body() experienceYears: { experienceYears: number }): Promise<User> {
+    return await this.candidateService.updateExperienceYears(id, experienceYears);
+  }
 }
