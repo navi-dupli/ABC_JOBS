@@ -88,8 +88,8 @@ export class VerifyScheduleService {
       microservicesStatusObject.push(microserviceStatus);
     });
 
-    const microservicesStatusJson = JSON.stringify(microservicesStatusObject, null, 2);
-    this.logger.log(microservicesStatusJson);
+    //const microservicesStatusJson = JSON.stringify(microservicesStatusObject, null, 2);
+    //this.logger.log(microservicesStatusJson);
     return microservicesStatusObject;
   }
 }
