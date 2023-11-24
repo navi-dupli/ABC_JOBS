@@ -16,4 +16,7 @@ export class LanguageService {
     return await this.languageRepository.find();
   }
 
+  findOne(code: string) {
+    return this.languageRepository.findOne({ where: { code: code }})
+  }
 }

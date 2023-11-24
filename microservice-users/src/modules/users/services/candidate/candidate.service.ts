@@ -4,6 +4,8 @@ import { User } from '../../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Education } from '../../../education/entities/education.entity';
 import { Experience } from '../../../experience/entities/experience.entity';
+import { UserLanguage } from '../../../userLanguage/entities/userLanguage.entity';
+import { UserAbility } from '../../../userAbility/entities/userAbility.entity';
 
 @Injectable()
 export class CandidateService {
@@ -14,6 +16,10 @@ export class CandidateService {
     private readonly educationRepository: Repository<Education>,
     @InjectRepository(Experience)
     private readonly experienceRepository: Repository<Experience>,
+    @InjectRepository(UserLanguage)
+    private readonly userLanguageRepository: Repository<UserLanguage>,
+    @InjectRepository(UserAbility)
+    private readonly userAbilityRepository: Repository<UserAbility>,
   ) {}
 
   async search(
@@ -106,5 +112,36 @@ export class CandidateService {
     }
     experience.user = user;
     return await this.experienceRepository.save(experience);
+  }
+
+  async addLanguage(id: number, language: UserLanguage) {
+    const user: User = await this.userRepository.findOne({
+      where: { id: id, rol: 'CANDIDATO' },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const languageExist = await this.userLanguageRepository.findOne({
+      where: { name: language.name, user: user, code: language.code },
+    });
+    if (languageExist) return languageExist;
+
+    language.user = user;
+    return await this.userLanguageRepository.save(language);
+  }
+
+  async addSkills(id: number, skills: UserAbility) {
+    const user: User = await this.userRepository.findOne({
+      where: { id: id, rol: 'CANDIDATO' },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const skillExist = await this.userAbilityRepository.findOne({
+      where: { idAbility: skills.idAbility, user: user },
+    });
+    if (skillExist) return skillExist;
+    skills.user = user;
+    return await this.userAbilityRepository.save(skills);
   }
 }
