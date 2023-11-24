@@ -15,14 +15,12 @@ export class CheckingScheduleService {
     private typeOrmHealthIndicador: TypeOrmHealthIndicator,
     private memory: MemoryHealthIndicator,
   ) {}
-
   @Interval('health_check_checking_job', CheckingScheduleService._cronCheckInterval)
   async checkStatusJob() {
     if (process.env.SCHEDULE_CHECKING_STATUS_ENABLED === 'true') {
       await this.checkStatus();
     }
   }
-
   async checkStatus() {
     this.logger.log(`Checking health status of ${StoringService._instanceId} ${new Date().toISOString()}`);
     try {
