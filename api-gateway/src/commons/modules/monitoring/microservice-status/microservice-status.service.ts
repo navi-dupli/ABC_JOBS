@@ -12,7 +12,6 @@ export class MicroserviceStatusService {
   constructor() {}
 
   public setMicroserviceStatus(microservice: string, status: MicroserviceStatusLiteDto) {
-    this.logger.debug(`setMicroserviceStatus: ${microservice} ${JSON.stringify(status, null, 2)}`);
     this.microservicesStatus.set(microservice, status);
   }
 
@@ -25,7 +24,6 @@ export class MicroserviceStatusService {
   }
 
   public isMicroserviceHealthy(microservice: string): boolean {
-    this.logger.log(JSON.stringify(this.map(this.microservicesStatus), null, 2));
     this.logger.log(`isMicroserviceHealthy: ${microservice}`);
     const microserviceStatusLite = this.microservicesStatus.get(microservice);
     const serverTime = new Date().getTime();
