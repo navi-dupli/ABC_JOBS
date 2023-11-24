@@ -121,6 +121,11 @@ export class CandidateService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    const languageExist = await this.userLanguageRepository.findOne({
+      where: { name: language.name, user: user, code: language.code },
+    });
+    if (languageExist) return languageExist;
+
     language.user = user;
     return await this.userLanguageRepository.save(language);
   }
@@ -132,6 +137,10 @@ export class CandidateService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    const skillExist = await this.userAbilityRepository.findOne({
+      where: { idAbility: skills.idAbility, user: user },
+    });
+    if (skillExist) return skillExist;
     skills.user = user;
     return await this.userAbilityRepository.save(skills);
   }

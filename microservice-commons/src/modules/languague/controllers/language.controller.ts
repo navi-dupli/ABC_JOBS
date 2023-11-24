@@ -13,4 +13,9 @@ export class LanguageController extends AuthorizedController{
   findAll(): Promise<Language[]> {
     return this.languageService.findAll();
   }
+
+  @Get(':code')
+  findOne(code: string): Promise<Language> {
+    return this.languageService.findOne(code);
+  }
 }

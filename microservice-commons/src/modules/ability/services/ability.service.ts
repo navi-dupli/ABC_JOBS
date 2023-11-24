@@ -14,4 +14,7 @@ export class AbilityService {
     return await this.abilityRepository.find();
   }
 
+  findOne(id: number) {
+    return this.abilityRepository.findOne({ where: { id: id }});
+  }
 }
