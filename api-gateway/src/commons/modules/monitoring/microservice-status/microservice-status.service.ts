@@ -43,19 +43,20 @@ export class MicroserviceStatusService {
     return dynamicRoutesConfig.map((route: RouteConfig) => {
       const microserviceStatusLite = this.microservicesStatus.get(route.path.toString());
       const serverTime = new Date().getTime();
-      if (serverTime - microserviceStatusLite.lastCheck > this.maxTimeWithOutData) {
-        return {
-          name: route.path.toString(),
-          index: 0,
-          healthy: false,
-          lastCheck: serverTime,
-          instances: [],
-          instancesSize: 0,
-          totalStatusRows: 0,
-          serverTime: serverTime,
-        } as MicroserviceStatusLiteDto;
-      }
-      if (microserviceStatusLite.lastCheck) {
+
+      if (microserviceStatusLite) {
+        if (serverTime - microserviceStatusLite.lastCheck > this.maxTimeWithOutData) {
+          return {
+            name: route.path.toString(),
+            index: 0,
+            healthy: false,
+            lastCheck: serverTime,
+            instances: [],
+            instancesSize: 0,
+            totalStatusRows: 0,
+            serverTime: serverTime,
+          } as MicroserviceStatusLiteDto;
+        }
         return {
           name: route.path.toString(),
           ...microserviceStatusLite,
