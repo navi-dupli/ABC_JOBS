@@ -7,6 +7,7 @@ export class MicroserviceStatusService {
   private readonly logger = new Logger(MicroserviceStatusService.name);
   private microservicesStatus: Map<string, MicroserviceStatusLiteDto> = new Map<string, MicroserviceStatusLiteDto>();
   private readonly healthIndex: number = process.env.HEALTH_INDEX ? parseFloat(process.env.HEALTH_INDEX) : 0.8;
+  private readonly maxTimeWithOutData: number = parseInt(process.env.MAX_TIME_WITHOUT_DATA) || 2000;
 
   constructor() {}
 
@@ -37,23 +38,36 @@ export class MicroserviceStatusService {
   public getMicroserviceStatusDataSet() {
     return dynamicRoutesConfig.map((route: RouteConfig) => {
       const microserviceStatusLite = this.microservicesStatus.get(route.path.toString());
-      if (microserviceStatusLite) {
+      const serverTime = new Date().getTime();
+      if (serverTime - microserviceStatusLite.lastCheck > this.maxTimeWithOutData) {
+        return {
+          name: route.path.toString(),
+          index: 0,
+          healthy: false,
+          lastCheck: serverTime,
+          instances: [],
+          instancesSize: 0,
+          totalStatusRows: 0,
+          serverTime: serverTime,
+        } as MicroserviceStatusLiteDto;
+      }
+      if (microserviceStatusLite.lastCheck) {
         return {
           name: route.path.toString(),
           ...microserviceStatusLite,
           healthy: microserviceStatusLite.index >= this.healthIndex,
-          serverTime: new Date().getTime(),
+          serverTime: serverTime,
         };
       } else {
         return {
           name: route.path.toString(),
           index: 0,
           healthy: false,
-          lastCheck: new Date().getTime(),
+          lastCheck: serverTime,
           instances: [],
           instancesSize: 0,
           totalStatusRows: 0,
-          serverTime: new Date().getTime(),
+          serverTime: serverTime,
         } as MicroserviceStatusLiteDto;
       }
     });

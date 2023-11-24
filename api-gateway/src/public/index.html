@@ -5,23 +5,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monitoring ABC JOBS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
 
   <style>
-    #chart-container {
+    .chart-container {
       display: flex;
       flex-direction: row;
       width: 100%;
-      height: 100%;
     }
 
     #healthIndexChart,
+    #deltaTimeChart,
     #instancesCountChart {
-      height: 45vh;
       margin: 20px;
+      width: 1000px;
+      height: 300px;
+    }
+
+    #deltaTimeChart {
       width: 100%;
+      height: 500px;
     }
 
     #clock {
@@ -37,8 +44,8 @@
 
     #data-table {
       margin: 20px;
-      border-collapse: collapse;
       width: 100%;
+      font-size: 12px;
     }
 
     #data-table th, #data-table td {
@@ -49,37 +56,46 @@
   </style>
 </head>
 
-<body>
-<h1>Monitoreo de la aplicación ABC JOBS</h1>
-<div>
-  <span id="clock"></span>
-  <span id="clock-server"></span>
-</div>
+<body class="bg-light">
+<div class="container-fluid">
+  <h1 class="mt-4">Monitoreo de la aplicación ABC JOBS</h1>
+  <div>
+    <span id="clock" class="mr-2"></span>
+    <span id="clock-server"></span>
+  </div>
 
-<div id="chart-container">
-  <div id="healthIndexChart">
-    <canvas id="realTimeChart"></canvas>
+  <div class="chart-container">
+    <div id="healthIndexChart">
+      <canvas id="realTimeChart"></canvas>
+    </div>
+    <div id="instancesCountChart">
+      <canvas id="instancesCountChartCanvas"></canvas>
+    </div>
   </div>
-  <div id="instancesCountChart">
-    <canvas id="instancesCountChartCanvas"></canvas>
+  <div class="chart-container">
+    <div id="deltaTimeChart">
+      <canvas id="deltaTime" width="1280" height="400"></canvas>
+    </div>
   </div>
-</div>
-<div>
-  <table id="data-table">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Total Status Rows</th>
-      <th>Index</th>
-      <th>Healthy</th>
-      <th>Last Check</th>
-      <th>Instances Size</th>
-      <th>Instances</th>
-      <th>Server Time</th>
-    </tr>
-    </thead>
-    <tbody id="data-table-body"></tbody>
-  </table>
+  <hr>
+  <div>
+    <table id="data-table" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Total Status Rows</th>
+        <th>Index</th>
+        <th>Healthy</th>
+        <th>Last Check</th>
+        <th>Server Time</th>
+        <th>Delta Time</th>
+        <th>Instances Size</th>
+        <th>Instances</th>
+      </tr>
+      </thead>
+      <tbody id="data-table-body"></tbody>
+    </table>
+  </div>
 </div>
 
 <script>
@@ -181,10 +197,69 @@
     options: instancesCountOptions
   });
 
+
+  // Obtener referencia al elemento canvas para health-index
+  const deltaTime = document.getElementById("deltaTime").getContext("2d");
+
+  // Configurar la opción de la gráfica para health-index
+  const deltaTimeOptions = {
+    responsive: false,
+    title: {
+      display: true,
+      text: "Delta time"
+    },
+    scales: {
+      xAxes: [{
+        type: "time",
+        time: {
+          unit: "second",
+          tooltipFormat: "HH:mm:ss"
+        },
+        distribution: "series",
+        ticks: {
+          source: "auto"
+        },
+        gridLines: {
+          display: true
+        }
+
+      }]
+    },
+    yAxes: [{
+      scaleLabel: {
+        display: true,
+        labelString: "Delta time"
+      }
+    }],
+    pan: {
+      enabled: true,
+      mode: "xy"
+    },
+    zoom: {
+      enabled: true,
+      mode: "xy"
+    }
+
+  };
+
+  // Inicializar datos para instances-count
+  const deltaTimeData = {
+    labels: [],
+    datasets: []
+  };
+  // Crear la gráfica para health-index
+  const deltaTimeChart = new Chart(deltaTime, {
+    type: "line",
+    data: deltaTimeData,
+    options: deltaTimeOptions
+  });
+
+
   // Función para agregar datos a la gráfica
   const labels = {};
   labels[instancesCountChart.id] = {};
   labels[healthIndexChart.id] = {};
+  labels[deltaTimeChart.id] = {};
 
   function addData(chart, time, value, appName) {
     let dataset = chart.data.datasets.find(ds => ds.label === appName);
@@ -240,6 +315,7 @@
         addData(healthIndexChart, time, entry.index, entry.name);
         // Actualizar la gráfica de instances-count
         addData(instancesCountChart, time, entry.instancesSize, entry.name);
+        addData(deltaTimeChart, moment(new Date().getTime()), (entry.serverTime - entry.lastCheck), entry.name);
 
       });
     });
@@ -251,15 +327,32 @@
 
     data.forEach(entry => {
       const row = document.createElement("tr");
+      let instances = "";
+      if (entry.instancesSize > 0) {
+        instances += "<ol>";
+        entry.instances.map((instance, i) => {
+          let revision = instance.split(":")[0];
+          let instanceId = instance.split(":")[1];
+          if (i == 0) {
+            instances += `<li><b>Revisión:</b> ${revision}</br><ul>`;
+          }
+          instances += `<li><b>Instance Id:</b> ${instanceId}</li>`;
+          if (i == entry.instancesSize - 1) {
+            instances += `</ul> </ol>`;
+          }
+        });
+        instances += "</ol>";
+      }
       row.innerHTML = `
                     <td>${entry.name}</td>
                     <td>${entry.totalStatusRows}</td>
                     <td>${entry.index}</td>
                     <td>${entry.healthy ? "Yes" : "No"}</td>
                     <td>${moment(entry.lastCheck).format("YYYY-MM-DD HH:mm:ss")}</td>
-                    <td>${entry.instancesSize}</td>
-                    <td>${entry.instances.join(", ")}</td>
                     <td>${moment(entry.serverTime).format("YYYY-MM-DD HH:mm:ss")}</td>
+                    <td>${moment(entry.serverTime - entry.lastCheck).format("ss:SSS")}</td>
+                    <td>${entry.instancesSize}</td>
+                    <td>${instances}</td>
                 `;
       tableBody.appendChild(row);
     });
