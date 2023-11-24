@@ -32,4 +32,14 @@ describe('CandidateController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it('should add ability and language to candidate', async () => {
+    const request = {
+      body: {
+        id: 1,
+        ability: 'ability',
+        language: 'language',
+      },
+    };
+  });
 });
