@@ -111,37 +111,62 @@ export class CandidateService {
       throw new NotFoundException('User not found');
     }
     experience.user = user;
+
     return await this.experienceRepository.save(experience);
   }
 
-  async addLanguage(id: number, language: UserLanguage) {
+  async addLanguage(id: number, language: UserLanguage[]) {
     const user: User = await this.userRepository.findOne({
       where: { id: id, rol: 'CANDIDATO' },
+      relations: ['languages'],
     });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const languageExist = await this.userLanguageRepository.findOne({
-      where: { name: language.name, user: user, code: language.code },
-    });
-    if (languageExist) return languageExist;
-
-    language.user = user;
-    return await this.userLanguageRepository.save(language);
+    const languages = [];
+    for (const userLanguage of language) {
+      let languageExist = await this.userLanguageRepository.findOne({
+        where: { name: userLanguage.name, user: user, code: userLanguage.code },
+      });
+      if (!languageExist) {
+        userLanguage.user = user;
+        languageExist = await this.userLanguageRepository.save(userLanguage);
+      }
+      languages.push(languageExist);
+    }
+    for (const language of user.languages) {
+      if (!languages.find((l) => l.id === language.id)) {
+        await this.userLanguageRepository.remove(language);
+      }
+    }
+    user.languages = languages;
+    return user;
   }
 
-  async addSkills(id: number, skills: UserAbility) {
+  async addSkills(id: number, skills: UserAbility[]) {
     const user: User = await this.userRepository.findOne({
       where: { id: id, rol: 'CANDIDATO' },
+      relations: ['skills'],
     });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const skillExist = await this.userAbilityRepository.findOne({
-      where: { idAbility: skills.idAbility, user: user },
-    });
-    if (skillExist) return skillExist;
-    skills.user = user;
-    return await this.userAbilityRepository.save(skills);
+    const skillsExist = [];
+    for (const skill of skills) {
+      let skillExist = await this.userAbilityRepository.findOne({
+        where: { idAbility: skill.idAbility, user: user },
+      });
+      if (!skillExist) {
+        skillExist = await this.userAbilityRepository.save(skill);
+      }
+      skillsExist.push(skillExist);
+    }
+    for (const skill of user.skills) {
+      if (!skillsExist.find((s) => s.id === skill.id)) {
+        await this.userAbilityRepository.remove(skill);
+      }
+    }
+    user.skills = skillsExist;
+    return user;
   }
 }
