@@ -88,6 +88,11 @@ export class CandidateService {
       }
     }
     await this.usersRestClient.call(`/candidate/${id}/skills`, 'POST', req, userSkill).toPromise();
+
+    if (userAbilityLanguageDto.experienceYears) {
+      await this.usersRestClient.call(`/candidate/${id}/experience-years`, 'POST', req, userAbilityLanguageDto.experienceYears).toPromise();
+    }
+
     return await this.usersRestClient.call(`/candidate/${id}`, 'GET', req).toPromise();
   }
 }

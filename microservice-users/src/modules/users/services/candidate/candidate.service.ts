@@ -111,7 +111,6 @@ export class CandidateService {
       throw new NotFoundException('User not found');
     }
     experience.user = user;
-
     return await this.experienceRepository.save(experience);
   }
 
@@ -168,5 +167,18 @@ export class CandidateService {
     }
     user.skills = skillsExist;
     return user;
+  }
+
+  async updateExperienceYears(id: number, experienceYears) {
+    const user: User = await this.userRepository.findOne({
+      where: { id: id, rol: 'CANDIDATO' }
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.experienceYears = experienceYears.experienceYears;
+    return await this.userRepository.save(user);
   }
 }
