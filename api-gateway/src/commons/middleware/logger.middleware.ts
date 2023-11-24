@@ -11,6 +11,10 @@ export class LoggerMiddleware implements NestMiddleware {
     req.headers['x-request-id'] = `abcjobs:${uuidv4()}`;
     const { method, originalUrl, params, headers } = req;
     const logMessage = `[${headers['x-request-id']}] Request ${method}:${originalUrl}?${JSON.stringify(params)}`;
+    // headert to response
+    res.setHeader('x-request-id', headers['x-request-id']);
+    res.set('x-timestamp', `${new Date().getTime()}`);
+
     this.logger.log(logMessage);
     res.on('finish', () => {
       const endTime = new Date();
@@ -19,8 +23,6 @@ export class LoggerMiddleware implements NestMiddleware {
         res.statusCode
       } (Elapsed Time: ${elapsedTime}ms)`;
 
-      res.setHeader('x-request-id', headers['x-request-id']);
-      res.set('x-timestamp', `${new Date().getTime()}`);
       if (res.statusCode >= 500) {
         this.logger.error(logMessage);
       }
