@@ -42,6 +42,7 @@ export class MicroserviceStatusService {
           name: route.path.toString(),
           ...microserviceStatusLite,
           healthy: microserviceStatusLite.index >= this.healthIndex,
+          serverTime: new Date().getTime(),
         };
       } else {
         return {
@@ -52,6 +53,7 @@ export class MicroserviceStatusService {
           instances: [],
           instancesSize: 0,
           totalStatusRows: 0,
+          serverTime: new Date().getTime(),
         } as MicroserviceStatusLiteDto;
       }
     });

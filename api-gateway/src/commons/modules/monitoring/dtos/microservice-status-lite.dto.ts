@@ -5,4 +5,5 @@ export class MicroserviceStatusLiteDto {
   instancesSize: number;
   instances: string[];
   healthy: boolean;
+  serverTime?: number;
 }
