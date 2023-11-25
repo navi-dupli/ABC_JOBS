@@ -35,6 +35,8 @@ export class CandidateService {
                 nameRegion: region.name,
                 nameCountry: country.name,
               },
+              typeIdentificationId: identificationType.id,
+              nameIdentification: identificationType.code,
             };
             const user = await this.registerCandidate(req, candidate);
             if (user) {
