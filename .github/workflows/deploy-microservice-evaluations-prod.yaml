@@ -2,7 +2,7 @@ name: Deploy cloud run service evaluations prod
 on:
   push:
     branches:
-      - test/*
+      - main
 #    paths:
 #      - 'microservice-evaluations/**'
 env:
