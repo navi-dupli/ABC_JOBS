@@ -93,6 +93,7 @@ describe('UsersService', () => {
         phone: '123456789',
         address: 'Calle 123',
         dateBirthDate: new Date(),
+        experienceYears: 1,
       };
       const userEntity: User = {
         id: 12341234,
@@ -140,6 +141,7 @@ describe('UsersService', () => {
         phone: '123456789',
         address: 'Calle 123',
         dateBirthDate: new Date(),
+        experienceYears: 1,
       };
       const userEntity: User = {
         id: 12341234,
