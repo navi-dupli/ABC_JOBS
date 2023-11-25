@@ -45,8 +45,11 @@ export class CreateUserDto {
   readonly phone: string;
 
   @ApiProperty({ example: '2021-01-01', description: 'Fecha de nacimiento' })
-  readonly dateBirthDate: Date;
+  readonly dateBirthday: Date;
 
   @ApiProperty({ example: '1', description: 'Dirección' })
   readonly address: string;
+
+  @ApiProperty({ example: 1, description: 'Años de experiencia' })
+  readonly experienceYears: number;
 }

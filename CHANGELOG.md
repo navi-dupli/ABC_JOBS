@@ -2,12 +2,20 @@
 
 Todas las notas de lanzamiento se registran en este archivo. Este proyecto sigue la especificación [Semantic Versioning](https://semver.org/).
 
+## 3.0.0
+
+### Cambios Generales
+- [ABCJ-52] Se ha agregado la funcionalidad de [MOVIL] -Registro de candidato. [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-52?atlOrigin=eyJpIjoiOGRhMzgxYzA3MWQ0NDEzOTg3ZTBjMTNlYmI3NDI4OTQiLCJwIjoiaiJ9)
+- [ABCJ-54] Se ha agregado la funcionalidad de [MOVIL]-Registro de candidato [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-52?atlOrigin=eyJpIjoiYTM5NTI5OTdmMzU3NDM2MzhiZjIzMmNmNWQyNTgwYTciLCJwIjoiaiJ9)
+- [ABCJ-111] Se ha agregado la funcionalidad de [BACKEND]-Completar perfil candidato. [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-111?atlOrigin=eyJpIjoiY2JlYjkzMmQ3NzlmNGRkM2IzNjZiNzg5MjQxOTZhYzIiLCJwIjoiaiJ9)
+- [ABCJ-53] Se ha agregado la funcionalidad de [WEB]-Completar perfil candidato. [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-53?atlOrigin=eyJpIjoiNjc4YTUwZDZhYWIzNDc2MWEwZTY3MDBlNzJlOWVjZWEiLCJwIjoiaiJ9)
+
+
 ## 2.2.0
 
 ### Cambios Generales
-
-- [ABCJ-51] [WEB] - Registro de candidato [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-51?atlOrigin=eyJpIjoiYzgwYTQ0ZjEyNzQzNGJhN2JmNjEyZTM0NmRhZWZhNjIiLCJwIjoic2hlZXRzLWppcmEifQ)
-- [ABCJ-327] [BACKEND] - Registro de candidato [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-327?atlOrigin=eyJpIjoiYzgwYTQ0ZjEyNzQzNGJhN2JmNjEyZTM0NmRhZWZhNjIiLCJwIjoic2hlZXRzLWppcmEifQ)
+- [ABCJ-51] Se ha agregado la funcionalidad de [WEB]-Registro de candidato. [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-51?atlOrigin=eyJpIjoiNGFjMmQ3MzI2NDQ0NGY4YWJkYzkyNGJmMWRkNjc5ZDciLCJwIjoiaiJ9)
+- [ABCJ-327] Se ha agregado la funcionalidad de -[BACKEND]-Registro de candidato. [Ver Detalles](https://abcjobsg16.atlassian.net/browse/ABCJ-327?atlOrigin=eyJpIjoiMTA3Yzg1YTA2MWNjNGFjODgyNDM0OTE2OTc1NDE3M2YiLCJwIjoiaiJ9)
 
 ## 2.1.0
 

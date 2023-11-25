@@ -74,6 +74,7 @@ describe('MicroserviceClientService', () => {
       expect(error.message).toBe('Not Found');
     }
   });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

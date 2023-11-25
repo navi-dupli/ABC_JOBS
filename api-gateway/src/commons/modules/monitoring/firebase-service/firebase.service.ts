@@ -1,8 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Firestore, WhereFilterOp } from '@google-cloud/firestore';
-
 export type Filter = { field: string; condition: WhereFilterOp; value: any };
-
 @Injectable()
 export class FirebaseService {
   private readonly logger = new Logger(FirebaseService.name);
@@ -28,17 +26,8 @@ export class FirebaseService {
     return doc.data();
   }
 
-  async getFiltered(collection: string, filters: Filter[], limit: number) {
-    const collectionReference = this.db.collection(collection);
-    if (filters.length > 0) {
-      filters.forEach((filterDef) => {
-        collectionReference.where(filterDef.field, filterDef.condition, filterDef.value);
-      });
-    }
-    if (limit > 0) {
-      collectionReference.limit(limit);
-    }
-    return await collectionReference.get();
+  async getFiltered(collection: string, timestamp: number) {
+    return await this.db.collection(collection).where('time', '>', timestamp).limit(100).get();
   }
 
   update(collection: string, document: string, instanceDocument: any) {

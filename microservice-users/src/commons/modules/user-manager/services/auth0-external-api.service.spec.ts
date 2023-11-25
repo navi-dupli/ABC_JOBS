@@ -68,8 +68,9 @@ describe('Auth0ExternalApiService', () => {
       identification: '123456789',
       nameIdentification: 'Cédula de ciudadanía',
       phone: '123456789',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
       address: 'Calle 123',
+      experienceYears: 1,
     };
     const result = await service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto));
     expect(result).toBeDefined();
@@ -98,8 +99,9 @@ describe('Auth0ExternalApiService', () => {
       identification: '123456789',
       nameIdentification: 'Cédula de ciudadanía',
       phone: '123456789',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
       address: 'Calle 123',
+      experienceYears: 1,
     };
 
     await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(
@@ -125,9 +127,10 @@ describe('Auth0ExternalApiService', () => {
       locationId: null,
       identification: '123456789',
       nameIdentification: 'Cédula de ciudadanía',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
       phone: '123456789',
       address: 'Calle 123',
+      experienceYears: 1,
     };
 
     await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(

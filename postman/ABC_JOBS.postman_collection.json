@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f2c6d51a-f63f-4efc-97a7-4d3052a4e21f",
+		"_postman_id": "045a51d6-60af-4dee-b67b-196923c355c3",
 		"name": "ABC_JOBS",
 		"description": "API to manage users ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -79,7 +79,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"mi13dj22@gmail.com\",\n  \"password\": \"prueba$123\"\n}",
+									"raw": "{\n  \"email\": \"nataliesantiago6@gmail.com\",\n  \"password\": \"empresa123.\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -836,6 +836,423 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "Complete profile candidate",
+					"item": [
+						{
+							"name": "Complete profile languages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, 401, 403, or 500\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 401, 403, 500]);",
+											"    ",
+											"    if (pm.response.code === 201) {",
+											"        // Realiza las validaciones para el caso de código 201",
+											"        pm.response.to.have.status(201);",
+											"    }",
+											"    else if (pm.response.code === 401) {",
+											"        // Realiza las validaciones para el caso de código 401",
+											"        pm.response.to.have.status(401);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 401);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Unauthorized\");",
+											"    }",
+											"    else if (pm.response.code === 403) {",
+											"        // Realiza las validaciones para el caso de código 403",
+											"        pm.response.to.have.status(403);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 403);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Forbidden\");",
+											"    }",
+											"    else if (pm.response.code === 500) {",
+											"        // Realiza las validaciones para el caso de código 500",
+											"        pm.response.to.have.status(500);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 500);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Internal Server Error\");",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjN4QUhqaVFOVl9WbjctcXRTQWFVMyJ9.eyJpc3MiOiJodHRwczovL2FiYy1qb2JzLWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjU1NjlkZDMyZjIwYWU4NTg0MjVlYmY3IiwiYXVkIjoiaHR0cDovL2FiYy1qb2JzLnVzZXJzLWFwaS5kZXYiLCJpYXQiOjE3MDA4NDUxNTgsImV4cCI6MTcwMDkzMTU1OCwiYXpwIjoicFdzWUtHRE02MGNkdERPd0FkR1p5VDlpcGlBY0hSNE4iLCJndHkiOiJwYXNzd29yZCIsInBlcm1pc3Npb25zIjpbInJlYWQ6bG9jYXRpb24iLCJyZWFkOnVzZXJzIiwicmVnaXN0ZXI6cHJvZmlsZS1jYW5kaWRhdGUiLCJ2aWV3OmFwcG9pbnRtZW50Il19.ZemqSPyqQFyy7Ovj28w1C0QegqiuYy2MhyYnhNgC-kaNwOaOy_8PeOQLig1KbMAACC3vN7vF7J3O38N0mLAS30spQpiyn0DyJUqi8XtLF16ZCc3Pu-ITJAuauaJDyimBKJr1lRwNx2Vym-ZtVHf3bj4nk4DQcQ3DJ2FER6xGPgmvhZ-dY3uVjUoS9uSNgDX4D9i3esTyQ_XDA9IsMZXT20xKur8lu33_-FNrkGu0HjmuOH9suJEdm3WyR6v1VFSkYD9J37ggn_RhPzXRSr913ek1C5D8GE9wNYqjCfzle2xDv560C01D94qNkzCmP4ACaWIG457sYetDdkDrsdYQ4A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"languages\": [\n        \"IT\",\n        \"ES\",\n        \"COR\",\n        \"FR\"\n    ],\n    \"abilities\": [\n        7,\n        171,\n        9,\n        1,\n        30,\n        96\n    ],\n    \"experienceYears\": 2\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/candidate/31/add-ability-language",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"candidate",
+										"31",
+										"add-ability-language"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Complete profile language",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"languages\": [\n        \"ES\",\n        \"IT\"\n    ],\n    \"abilities\": [\n        1,\n        6,\n        2,\n        7\n    ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 38,\n    \"names\": \"Pedro\",\n    \"surnames\": \"Perez\",\n    \"email\": \"pedro@yopmail.com\",\n    \"authId\": \"auth0|6558c9475aafe8e874275ae0\",\n    \"picture\": \"https://api.dicebear.com/7.x/bottts-neutral/svg?seed=38&flip=true&radius=4\",\n    \"rol\": \"CANDIDATO\",\n    \"company_id\": null,\n    \"identification\": \"104652158\",\n    \"nameIdentification\": null,\n    \"typeIdentificationId\": 1,\n    \"phone\": \"3202457894\",\n    \"experienceYears\": null,\n    \"address\": \"cra 1 2 3\",\n    \"dateBirthDate\": null,\n    \"skills\": [],\n    \"location\": null,\n    \"languages\": [\n        {\n            \"id\": 10734,\n            \"name\": \"Español\",\n            \"code\": \"ES\"\n        },\n        {\n            \"id\": 10735,\n            \"name\": \"Italiano\",\n            \"code\": \"IT\"\n        }\n    ],\n    \"education\": [],\n    \"experiences\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "Complete profile education",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, 401, 403, or 500\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 401, 403, 500]);",
+											"",
+											"    if (pm.response.code === 200) {",
+											"        // Realiza las validaciones para el caso de código 201",
+											"        pm.response.to.have.status(200);",
+											"    }    ",
+											"    if (pm.response.code === 201) {",
+											"        // Realiza las validaciones para el caso de código 201",
+											"        pm.response.to.have.status(201);",
+											"    }",
+											"    else if (pm.response.code === 401) {",
+											"        // Realiza las validaciones para el caso de código 401",
+											"        pm.response.to.have.status(401);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 401);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Unauthorized\");",
+											"    }",
+											"    else if (pm.response.code === 403) {",
+											"        // Realiza las validaciones para el caso de código 403",
+											"        pm.response.to.have.status(403);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 403);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Forbidden\");",
+											"    }",
+											"    else if (pm.response.code === 500) {",
+											"        // Realiza las validaciones para el caso de código 500",
+											"        pm.response.to.have.status(500);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 500);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Internal Server Error\");",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjN4QUhqaVFOVl9WbjctcXRTQWFVMyJ9.eyJpc3MiOiJodHRwczovL2FiYy1qb2JzLWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjU1NjlkZDMyZjIwYWU4NTg0MjVlYmY3IiwiYXVkIjoiaHR0cDovL2FiYy1qb2JzLnVzZXJzLWFwaS5kZXYiLCJpYXQiOjE3MDA4NDUxNTgsImV4cCI6MTcwMDkzMTU1OCwiYXpwIjoicFdzWUtHRE02MGNkdERPd0FkR1p5VDlpcGlBY0hSNE4iLCJndHkiOiJwYXNzd29yZCIsInBlcm1pc3Npb25zIjpbInJlYWQ6bG9jYXRpb24iLCJyZWFkOnVzZXJzIiwicmVnaXN0ZXI6cHJvZmlsZS1jYW5kaWRhdGUiLCJ2aWV3OmFwcG9pbnRtZW50Il19.ZemqSPyqQFyy7Ovj28w1C0QegqiuYy2MhyYnhNgC-kaNwOaOy_8PeOQLig1KbMAACC3vN7vF7J3O38N0mLAS30spQpiyn0DyJUqi8XtLF16ZCc3Pu-ITJAuauaJDyimBKJr1lRwNx2Vym-ZtVHf3bj4nk4DQcQ3DJ2FER6xGPgmvhZ-dY3uVjUoS9uSNgDX4D9i3esTyQ_XDA9IsMZXT20xKur8lu33_-FNrkGu0HjmuOH9suJEdm3WyR6v1VFSkYD9J37ggn_RhPzXRSr913ek1C5D8GE9wNYqjCfzle2xDv560C01D94qNkzCmP4ACaWIG457sYetDdkDrsdYQ4A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Especialista en bases de datos\",\n    \"dateInit\": \"2017-01-02T05:00:00.000Z\",\n    \"dateEnd\": \"2017-12-29T05:00:00.000Z\",\n    \"type\": \"Especialista\",\n    \"institution\": \"UPTC\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users-app/candidate/38/education",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users-app",
+										"candidate",
+										"38",
+										"education"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Complete profile education",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"Especialista en bases de datos\",\n    \"dateInit\": \"2017-01-02T05:00:00.000Z\",\n    \"dateEnd\": \"2017-12-29T05:00:00.000Z\",\n    \"type\": \"Especialista\",\n    \"institution\": \"UPTC\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"title\": \"Especialista en bases de datos\",\n    \"dateInit\": \"2017-01-02T05:00:00.000Z\",\n    \"dateEnd\": \"2017-12-29T05:00:00.000Z\",\n    \"type\": \"Especialista\",\n    \"institution\": \"UPTC\",\n    \"user\": {\n        \"id\": 38,\n        \"names\": \"Pedro\",\n        \"surnames\": \"Perez\",\n        \"email\": \"pedro@yopmail.com\",\n        \"authId\": \"auth0|6558c9475aafe8e874275ae0\",\n        \"picture\": \"https://api.dicebear.com/7.x/bottts-neutral/svg?seed=38&flip=true&radius=4\",\n        \"rol\": \"CANDIDATO\",\n        \"company_id\": null,\n        \"identification\": \"104652158\",\n        \"nameIdentification\": null,\n        \"typeIdentificationId\": 1,\n        \"phone\": \"3202457894\",\n        \"experienceYears\": null,\n        \"address\": \"cra 1 2 3\",\n        \"dateBirthDate\": null\n    },\n    \"id\": 945\n}"
+								}
+							]
+						},
+						{
+							"name": "Complete profile experience",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200, 201, 401, 403, or 500\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 401, 403, 500]);",
+											"",
+											"    if (pm.response.code === 200) {",
+											"        // Realiza las validaciones para el caso de código 201",
+											"        pm.response.to.have.status(200);",
+											"    }    ",
+											"    if (pm.response.code === 201) {",
+											"        // Realiza las validaciones para el caso de código 201",
+											"        pm.response.to.have.status(201);",
+											"    }",
+											"    else if (pm.response.code === 401) {",
+											"        // Realiza las validaciones para el caso de código 401",
+											"        pm.response.to.have.status(401);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 401);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Unauthorized\");",
+											"    }",
+											"    else if (pm.response.code === 403) {",
+											"        // Realiza las validaciones para el caso de código 403",
+											"        pm.response.to.have.status(403);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 403);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Forbidden\");",
+											"    }",
+											"    else if (pm.response.code === 500) {",
+											"        // Realiza las validaciones para el caso de código 500",
+											"        pm.response.to.have.status(500);",
+											"        pm.response.to.have.jsonBody(\"statusCode\", 500);",
+											"        pm.response.to.have.jsonBody(\"message\", \"Internal Server Error\");",
+											"    }",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjN4QUhqaVFOVl9WbjctcXRTQWFVMyJ9.eyJpc3MiOiJodHRwczovL2FiYy1qb2JzLWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjU1NjlkZDMyZjIwYWU4NTg0MjVlYmY3IiwiYXVkIjoiaHR0cDovL2FiYy1qb2JzLnVzZXJzLWFwaS5kZXYiLCJpYXQiOjE3MDA4NDUxNTgsImV4cCI6MTcwMDkzMTU1OCwiYXpwIjoicFdzWUtHRE02MGNkdERPd0FkR1p5VDlpcGlBY0hSNE4iLCJndHkiOiJwYXNzd29yZCIsInBlcm1pc3Npb25zIjpbInJlYWQ6bG9jYXRpb24iLCJyZWFkOnVzZXJzIiwicmVnaXN0ZXI6cHJvZmlsZS1jYW5kaWRhdGUiLCJ2aWV3OmFwcG9pbnRtZW50Il19.ZemqSPyqQFyy7Ovj28w1C0QegqiuYy2MhyYnhNgC-kaNwOaOy_8PeOQLig1KbMAACC3vN7vF7J3O38N0mLAS30spQpiyn0DyJUqi8XtLF16ZCc3Pu-ITJAuauaJDyimBKJr1lRwNx2Vym-ZtVHf3bj4nk4DQcQ3DJ2FER6xGPgmvhZ-dY3uVjUoS9uSNgDX4D9i3esTyQ_XDA9IsMZXT20xKur8lu33_-FNrkGu0HjmuOH9suJEdm3WyR6v1VFSkYD9J37ggn_RhPzXRSr913ek1C5D8GE9wNYqjCfzle2xDv560C01D94qNkzCmP4ACaWIG457sYetDdkDrsdYQ4A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"job\": \"Desarrollador de software\",\n    \"company\": \"ABC\",\n    \"description\": \"Desarrollador de software\",\n    \"dateInit\": \"2006-04-03T05:00:00.000Z\",\n    \"dateEnd\": \"2023-11-08T05:00:00.000Z\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users-app/candidate/38/experience",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users-app",
+										"candidate",
+										"38",
+										"experience"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Complete profile experience",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"job\": \"Desarrollador de software\",\n    \"company\": \"ABC\",\n    \"description\": \"Desarrollador de software\",\n    \"dateInit\": \"2006-04-03T05:00:00.000Z\",\n    \"dateEnd\": \"2023-11-08T05:00:00.000Z\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"job\": \"Desarrollador de software\",\n    \"company\": \"ABC\",\n    \"description\": \"Desarrollador de software\",\n    \"dateInit\": \"2006-04-03T05:00:00.000Z\",\n    \"dateEnd\": \"2023-11-08T05:00:00.000Z\",\n    \"user\": {\n        \"id\": 38,\n        \"names\": \"Pedro\",\n        \"surnames\": \"Perez\",\n        \"email\": \"pedro@yopmail.com\",\n        \"authId\": \"auth0|6558c9475aafe8e874275ae0\",\n        \"picture\": \"https://api.dicebear.com/7.x/bottts-neutral/svg?seed=38&flip=true&radius=4\",\n        \"rol\": \"CANDIDATO\",\n        \"company_id\": null,\n        \"identification\": \"104652158\",\n        \"nameIdentification\": null,\n        \"typeIdentificationId\": 1,\n        \"phone\": \"3202457894\",\n        \"experienceYears\": null,\n        \"address\": \"cra 1 2 3\",\n        \"dateBirthDate\": null\n    },\n    \"id\": 960\n}"
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -861,6 +1278,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjN4QUhqaVFOVl9WbjctcXRTQWFVMyJ9.eyJpc3MiOiJodHRwczovL2FiYy1qb2JzLWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjUzMTM0ODgwMmJjNWI1OTVkYWYxMjY1IiwiYXVkIjoiaHR0cDovL2FiYy1qb2JzLnVzZXJzLWFwaS5kZXYiLCJpYXQiOjE3MDA4NDM4MTgsImV4cCI6MTcwMDkzMDIxOCwiYXpwIjoicFdzWUtHRE02MGNkdERPd0FkR1p5VDlpcGlBY0hSNE4iLCJndHkiOiJwYXNzd29yZCIsInBlcm1pc3Npb25zIjpbInJlZ2lzdGVyOmNhbmRpZGF0ZSIsInJlZ2lzdGVyOmpvYi1ncm91cCIsInJlZ2lzdGVyOnBlcmZvcm1hbmNlLWV2YWx1YXRpb24iLCJyZWdpc3Rlcjpwcm9qZWN0Iiwic2VhcmNoOmNhbmRpZGF0ZSIsInZpZXc6YXBwb2ludG1lbnQiXX0.UwXcV8mtz7rAfnTqy56SkEM-lKMXIZR4lyl7jZpdatnHujjJkO1VcdDo29dHA4tlIc-Hr8HORyG_k6kjUZdl3_Qu4CrkJ1ctIZAchxWDU144hNKQX5MYJRmYDUJ9jQmltLhYiu2QHI2YCBaenliAMY8fp5JACoIIEh9efWSfxEoGcM7Zfsi0B9ivUGTHoCsT8BKh5zShRDbsBLWI8Bk00w5hLu7mqA222RFyHF1PaVkJu73_aoTxJfwAlpcHUu4lg_p4aUsxMJ8SGk6MoBmIVgGuiH6evMtUTlY5KeSB5O7aXc1eUkFAxl3YBaJaKnxirIP8ajGnyvLxBccABfYMhg",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {

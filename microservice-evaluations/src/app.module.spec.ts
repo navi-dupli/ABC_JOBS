@@ -20,9 +20,6 @@ describe('AppModule', () => {
     app.use(LoggerMiddleware);
     await app.init();
   });
-  afterAll(async () => {
-    await module.close();
-  });
   it('should be defined', () => {
     expect(module).toBeDefined();
   });
@@ -46,5 +43,4 @@ describe('AppModule', () => {
     const authorizedController = module.get(AuthorizedController);
     expect(authorizedController).toBeDefined();
   });
-
 });

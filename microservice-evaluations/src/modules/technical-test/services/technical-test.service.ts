@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TechnicalTest } from '../entities/technical-test.entity';
 import { AuthorizedController } from '../../../commons/controllers/authorized/authorized.controller';
-import {RegisterTechnicalTestDto} from "../dto/register-technical-test.dto";
+import { RegisterTechnicalTestDto } from '../dto/register-technical-test.dto';
 
 @Injectable()
 export class TechnicalTestService extends AuthorizedController {
@@ -22,5 +22,4 @@ export class TechnicalTestService extends AuthorizedController {
   async getTechTest() {
     return await this.technicalTestRepository.find();
   }
- 
 }

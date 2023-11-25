@@ -1,7 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class PerformanceEvaluationDto {
-
   @IsNotEmpty()
   performance: string;
 
@@ -23,4 +22,6 @@ export class PerformanceEvaluationDto {
   @IsNotEmpty()
   dimension_id: number;
 
+  @IsNotEmpty()
+  hash: string;
 }

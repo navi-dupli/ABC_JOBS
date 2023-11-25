@@ -1,4 +1,4 @@
-import {Controller, Get} from '@nestjs/common';
+import {Controller, Get, Param} from '@nestjs/common';
 import {AuthorizedController} from "../../../commons/controllers/authorized/authorized.controller";
 import {LanguageService} from "../services/language.service";
 import {Language} from "../entities/language.entity";
@@ -12,5 +12,10 @@ export class LanguageController extends AuthorizedController{
   @Get()
   findAll(): Promise<Language[]> {
     return this.languageService.findAll();
+  }
+
+  @Get(':code')
+  findOne(@Param('code') code: string): Promise<Language> {
+    return this.languageService.findOne(code);
   }
 }

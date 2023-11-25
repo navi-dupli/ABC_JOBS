@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {PerformanceEvaluationService} from "./performance-evaluation.service";
-import {PerformanceEvaluation} from "../entities/performance-evaluation.entity";
-import {PerformanceEvaluationDto} from "../dto/performance-evaluation.dto";
+import { PerformanceEvaluationService } from './performance-evaluation.service';
+import { PerformanceEvaluation } from '../entities/performance-evaluation.entity';
+import { PerformanceEvaluationDto } from '../dto/performance-evaluation.dto';
+import { has } from 'lodash';
 
 describe('PerformanceEvaluationService', () => {
   let service: PerformanceEvaluationService;
@@ -30,32 +31,33 @@ describe('PerformanceEvaluationService', () => {
 
   it('should register a performance evaluation', async () => {
     const registerPerformanceEval: PerformanceEvaluationDto = {
-      "performance": "Alto",
-      "observations": "NA",
-      "project_id": 1,
-      "team_id": 1,
-      "user_id": 1,
-      "qualifying_user_id": 1,
-      "dimension_id": 1
+      performance: 'Alto',
+      observations: 'NA',
+      project_id: 1,
+      team_id: 1,
+      user_id: 1,
+      qualifying_user_id: 1,
+      dimension_id: 1,
+      hash: 'hash',
     };
+    registerPerformanceEval.hash = service.createHash(registerPerformanceEval);
     const performanceEval = {
-      "performance": "Alto",
-      "observations": "NA",
-      "project_id": 1,
-      "team_id": 1,
-      "user_id": 1,
-      "qualifying_user_id": 1,
-      "dimension_id": 1,
-      "id": 1,
-      date: new Date()
-    };
+      performance: 'Alto',
+      observations: 'NA',
+      project_id: 1,
+      team_id: 1,
+      user_id: 1,
+      qualifying_user_id: 1,
+      dimension_id: 1,
+      id: 1,
+      date: new Date(),
+    } as unknown as PerformanceEvaluation;
 
-    jest.spyOn(service.performanceEvaluationRepository, 'create').mockReturnValue(performanceEval);
-    jest.spyOn(service.performanceEvaluationRepository, 'save').mockResolvedValue(performanceEval);
+    jest.spyOn(repository, 'create').mockReturnValue(performanceEval);
+    jest.spyOn(repository, 'save').mockResolvedValue(performanceEval);
 
     const result = await service.registerPerformanceEvaluation(registerPerformanceEval);
 
     expect(result).toEqual(performanceEval);
   });
-
 });
