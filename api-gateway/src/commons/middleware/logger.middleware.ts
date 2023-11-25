@@ -11,6 +11,8 @@ export class LoggerMiddleware implements NestMiddleware {
     req.headers['x-request-id'] = `abcjobs:${uuidv4()}`;
     const { method, originalUrl, params, headers } = req;
     const logMessage = `[${headers['x-request-id']}] Request ${method}:${originalUrl}?${JSON.stringify(params)}`;
+    // headert to response
+
     this.logger.log(logMessage);
     res.on('finish', () => {
       const endTime = new Date();

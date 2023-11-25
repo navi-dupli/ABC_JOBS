@@ -42,7 +42,7 @@ export class MicroserviceClientService {
         url,
         data,
         headers: clientHeaders,
-        timeout: timeout || parseInt(process.env.REQUEST_TIMEOUT) || 10000,
+        timeout: timeout || parseInt(process.env.REQUEST_TIMEOUT) || 15000,
       } as AxiosRequestConfig)
       .pipe(
         map((response) => {
@@ -75,12 +75,13 @@ export class MicroserviceClientService {
    */
   private checkMicroServiceStatus(originalRequest: Request) {
     const currentMicroservice = this.routeConfig.path;
+    this.logger.log(`[${originalRequest.headers['x-request-id']}] Checking microservice ${currentMicroservice} status`);
     if (
       !!process.env.MONITORING_CHECK_SERVICE_STATUS_ENABLED &&
       !this.microserviceStatusService.isMicroserviceHealthy(currentMicroservice.toString())
     ) {
       this.logger.error(`[${originalRequest.headers['x-request-id']}] Microservice ${currentMicroservice} is not healthy`);
-      throw new InternalServerErrorException(`Microservice ${currentMicroservice} is not healthy`);
+      throw new InternalServerErrorException(`The application is having problems, please try again later`);
     }
   }
 

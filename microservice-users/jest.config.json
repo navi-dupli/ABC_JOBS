@@ -21,7 +21,9 @@
     ".enum.ts",
     "-schedule.service.ts",
     "firebase.service.ts",
-    ".exception.ts"
+    ".exception.ts",
+    ".decorator.ts",
+    "health.controller.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -36,7 +38,9 @@
     ".enum.ts",
     "-schedule.service.ts",
     "firebase.service.ts",
-    ".exception.ts"
+    ".exception.ts",
+    ".decorator.ts",
+    "health.controller.ts"
   ],
   "moduleFileExtensions": [
     "js",

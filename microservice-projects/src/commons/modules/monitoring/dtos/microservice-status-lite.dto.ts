@@ -1,5 +1,6 @@
 export class MicroserviceStatusLiteDto {
   totalStatusRows: number;
   index: number;
-  lastCheck: string;
+  lastCheck: number;
+  instances: number;
 }

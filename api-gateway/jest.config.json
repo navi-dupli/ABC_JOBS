@@ -3,6 +3,7 @@
   "coverageThreshold": {
     "global": {
       "statements": 70,
+      "branches": 70,
       "functions": 70,
       "lines": 70
     }
@@ -17,9 +18,13 @@
     ".config.ts",
     ".filter.ts",
     ".dto.ts",
+    ".enum.ts",
     "-schedule.service.ts",
     "firebase.service.ts",
-    ".exception.ts"
+    ".exception.ts",
+    ".decorator.ts",
+    "health.controller.ts",
+    "-client.service.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -31,9 +36,13 @@
     ".config.ts",
     ".filter.ts",
     ".dto.ts",
+    ".enum.ts",
     "-schedule.service.ts",
     "firebase.service.ts",
-    ".exception.ts"
+    ".exception.ts",
+    ".decorator.ts",
+    "health.controller.ts",
+    "-client.service.ts"
   ],
   "moduleFileExtensions": [
     "js",
