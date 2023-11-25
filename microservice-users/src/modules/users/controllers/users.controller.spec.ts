@@ -66,7 +66,7 @@ describe('UserController', () => {
           experiences: [],
           userTests: [],
           address: 'Calle 123',
-          dateBirthDate: new Date(),
+          dateBirthday: new Date(),
         },
       ];
       jest.spyOn(userService, 'findAll').mockResolvedValue(mockCreatedUser);
@@ -87,7 +87,7 @@ describe('UserController', () => {
         nameIdentification: 'Cédula de ciudadanía',
         locationId: null,
         identification: '123456789',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
         address: 'Calle 123',
         phone: '123456789',
         experienceYears: 1,
@@ -114,7 +114,7 @@ describe('UserController', () => {
         experiences: [],
         userTests: [],
         address: createUserDto.address,
-        dateBirthDate: createUserDto.dateBirthDate,
+        dateBirthday: createUserDto.dateBirthday,
       };
 
       jest.spyOn(userService, 'createUser').mockResolvedValue(mockCreatedUser);
@@ -134,7 +134,7 @@ describe('UserController', () => {
         nameIdentification: 'Cédula de ciudadanía',
         locationId: null,
         identification: '123456789',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
         address: 'Calle 123',
         phone: '123456789',
         experienceYears: 1,
@@ -153,7 +153,7 @@ describe('UserController', () => {
         nameIdentification: 'Cédula de ciudadanía',
         locationId: null,
         identification: '123456789',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
         address: 'Calle 123',
         phone: '123456789',
         experienceYears: 1,
@@ -172,7 +172,7 @@ describe('UserController', () => {
         nameIdentification: 'Cédula de ciudadanía',
         locationId: null,
         identification: '123456789',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
         address: 'Calle 123',
         phone: '123456789',
         experienceYears: 1,
@@ -205,7 +205,7 @@ describe('UserController', () => {
           experiences: [],
           userTests: [],
           address: 'Calle 123',
-          dateBirthDate: new Date(),
+          dateBirthday: new Date(),
         },
         {
           id: 2,
@@ -228,7 +228,7 @@ describe('UserController', () => {
           experiences: [],
           userTests: [],
           address: 'Calle 123',
-          dateBirthDate: new Date(),
+          dateBirthday: new Date(),
         },
       ];
 
@@ -262,7 +262,7 @@ describe('UserController', () => {
           experiences: [],
           userTests: [],
           address: 'Calle 123',
-          dateBirthDate: new Date(),
+          dateBirthday: new Date(),
         },
         {
           id: 2,
@@ -285,7 +285,7 @@ describe('UserController', () => {
           experiences: [],
           userTests: [],
           address: 'Calle 123',
-          dateBirthDate: new Date(),
+          dateBirthday: new Date(),
         },
       ];
 
@@ -321,7 +321,7 @@ describe('UserController', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(mockUser);
@@ -353,7 +353,7 @@ describe('UserController', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(mockUser);

@@ -68,7 +68,7 @@ describe('Auth0ExternalApiService', () => {
       identification: '123456789',
       nameIdentification: 'Cédula de ciudadanía',
       phone: '123456789',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
       address: 'Calle 123',
       experienceYears: 1,
     };
@@ -99,7 +99,7 @@ describe('Auth0ExternalApiService', () => {
       identification: '123456789',
       nameIdentification: 'Cédula de ciudadanía',
       phone: '123456789',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
       address: 'Calle 123',
       experienceYears: 1,
     };
@@ -127,7 +127,7 @@ describe('Auth0ExternalApiService', () => {
       locationId: null,
       identification: '123456789',
       nameIdentification: 'Cédula de ciudadanía',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
       phone: '123456789',
       address: 'Calle 123',
       experienceYears: 1,

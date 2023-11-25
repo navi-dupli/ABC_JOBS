@@ -38,7 +38,7 @@ describe('CandidateService', () => {
       experiences: [],
       userTests: [],
       address: 'Calle 123',
-      dateBirthDate: new Date(),
+      dateBirthday: new Date(),
     },
   ];
 

@@ -92,7 +92,7 @@ describe('UsersService', () => {
         nameIdentification: 'Cédula de ciudadanía',
         phone: '123456789',
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
         experienceYears: 1,
       };
       const userEntity: User = {
@@ -116,7 +116,7 @@ describe('UsersService', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       jest.spyOn(repository, 'save').mockResolvedValue(userEntity);
@@ -140,7 +140,7 @@ describe('UsersService', () => {
         nameIdentification: 'Cédula de ciudadanía',
         phone: '123456789',
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
         experienceYears: 1,
       };
       const userEntity: User = {
@@ -164,7 +164,7 @@ describe('UsersService', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(userEntity);
 
@@ -215,7 +215,7 @@ describe('UsersService', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(user);
 
