@@ -138,7 +138,6 @@ export class CandidateService {
         await this.userLanguageRepository.remove(language);
       }
     }
-    user.languages = languages;
     return user;
   }
 
@@ -166,7 +165,6 @@ export class CandidateService {
         await this.userAbilityRepository.remove(skill);
       }
     }
-    user.skills = skillsExist;
     return user;
   }
 
