@@ -70,6 +70,7 @@ describe('Auth0ExternalApiService', () => {
       phone: '123456789',
       dateBirthDate: new Date(),
       address: 'Calle 123',
+      experienceYears: 1,
     };
     const result = await service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto));
     expect(result).toBeDefined();
@@ -100,6 +101,7 @@ describe('Auth0ExternalApiService', () => {
       phone: '123456789',
       dateBirthDate: new Date(),
       address: 'Calle 123',
+      experienceYears: 1,
     };
 
     await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(
@@ -128,6 +130,7 @@ describe('Auth0ExternalApiService', () => {
       dateBirthDate: new Date(),
       phone: '123456789',
       address: 'Calle 123',
+      experienceYears: 1,
     };
 
     await expect(service.createUser(Auth0UserDto.fromCreateUserDto(createUserDto))).rejects.toThrowError(
