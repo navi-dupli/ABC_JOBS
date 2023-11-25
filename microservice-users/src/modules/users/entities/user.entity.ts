@@ -51,7 +51,7 @@ export class User {
   address: string;
 
   @Column({ nullable: true })
-  dateBirthDate: Date;
+  dateBirthday: Date;
 
   @OneToMany(() => Education, (education) => education.user)
   education: Education[];

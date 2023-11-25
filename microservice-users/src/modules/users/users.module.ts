@@ -10,9 +10,17 @@ import { HttpModule } from '@nestjs/axios';
 import { CandidateController } from './controllers/candidate/candidate.controller';
 import { CandidateService } from './services/candidate/candidate.service';
 import { UserLocation } from '../userLocation/entities/userLocation.entity';
+import { Education } from '../education/entities/education.entity';
+import { Experience } from '../experience/entities/experience.entity';
+import { UserLanguage } from '../userLanguage/entities/userLanguage.entity';
+import { UserAbility } from '../userAbility/entities/userAbility.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserLocation]), UserManagerModule, HttpModule],
+  imports: [
+    TypeOrmModule.forFeature([User, UserLocation, Education, Experience, UserLanguage, UserAbility]),
+    UserManagerModule,
+    HttpModule,
+  ],
   controllers: [UsersController, LoginController, CandidateController],
   providers: [UsersService, Auth0LoginService, CandidateService],
 })

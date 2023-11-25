@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { MicroserviceEnum } from '../../../../dynamic-routes.config';
 import { MicroserviceClientService } from '../../../../commons/modules/microservice-manager/services/microservice-client.service';
 import { CreateCandidateDto } from '../../dto/create-candidate.dto';
+import {UserAbilityLanguageDto} from "../../dto/user-ability-language.dto";
 
 @Injectable()
 export class CandidateService {
@@ -34,6 +35,8 @@ export class CandidateService {
                 nameRegion: region.name,
                 nameCountry: country.name,
               },
+              typeIdentificationId: identificationType.id,
+              nameIdentification: identificationType.code,
             };
             const user = await this.registerCandidate(req, candidate);
             if (user) {
@@ -62,5 +65,36 @@ export class CandidateService {
     } catch (error) {
       return null;
     }
+  }
+
+  async addLanguageAndSkill(req: Request, id: number, userAbilityLanguageDto: UserAbilityLanguageDto) {
+    const userLanguage = [];
+    for (let i = 0; i < userAbilityLanguageDto.languages.length; i++) {
+      const language = await this.commonsRestClient.call(`/languages/${userAbilityLanguageDto.languages[i]}`, 'GET', req).toPromise();
+      if (language && language.code && language.name) {
+        userLanguage.push({
+          name: language.name,
+          code: language.code,
+        });
+      }
+    }
+    await this.usersRestClient.call(`/candidate/${id}/language`, 'POST', req, userLanguage).toPromise();
+    const userSkill = [];
+    for (let i = 0; i < userAbilityLanguageDto.abilities.length; i++) {
+      const skill = await this.commonsRestClient.call(`/skills/${userAbilityLanguageDto.abilities[i]}`, 'GET', req).toPromise();
+      if (skill && skill.id && skill.name) {
+        userSkill.push({
+          idAbility: skill.id,
+          name: skill.name,
+        });
+      }
+    }
+    await this.usersRestClient.call(`/candidate/${id}/skills`, 'POST', req, userSkill).toPromise();
+
+    await this.usersRestClient
+      .call(`/candidate/${id}/experience-years`, 'POST', req, { experienceYears: userAbilityLanguageDto.experienceYears })
+      .toPromise();
+
+    return await this.usersRestClient.call(`/candidate/${id}`, 'GET', req).toPromise();
   }
 }

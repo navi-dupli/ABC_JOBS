@@ -13,7 +13,7 @@ import { UserAlreadyExistException } from '../../../commons/exceptions/user-alre
 import { Auth0ResponseLoginDto, LoginDto } from '../dto/login.dto';
 import { UserLoginErrorException } from '../../../commons/exceptions/user-login-error.exception';
 import { UserLoginFailedException } from '../../../commons/exceptions/user-login-failed.exception';
-import {UserLocation} from "../../userLocation/entities/userLocation.entity";
+import { UserLocation } from '../../userLocation/entities/userLocation.entity';
 
 const fakeIdentity = new Identity('Username-Password-Authentication', 'fakeUserId', 'auth0', false);
 const fakeExternalApiResponseDto = new ExternalApiResponseDto(
@@ -92,7 +92,8 @@ describe('UsersService', () => {
         nameIdentification: 'Cédula de ciudadanía',
         phone: '123456789',
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
+        experienceYears: 1,
       };
       const userEntity: User = {
         id: 12341234,
@@ -115,7 +116,7 @@ describe('UsersService', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
       jest.spyOn(repository, 'save').mockResolvedValue(userEntity);
@@ -139,7 +140,8 @@ describe('UsersService', () => {
         nameIdentification: 'Cédula de ciudadanía',
         phone: '123456789',
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
+        experienceYears: 1,
       };
       const userEntity: User = {
         id: 12341234,
@@ -162,7 +164,7 @@ describe('UsersService', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(userEntity);
 
@@ -213,7 +215,7 @@ describe('UsersService', () => {
         experiences: [],
         userTests: [],
         address: 'Calle 123',
-        dateBirthDate: new Date(),
+        dateBirthday: new Date(),
       };
       jest.spyOn(repository, 'findOneBy').mockResolvedValue(user);
 

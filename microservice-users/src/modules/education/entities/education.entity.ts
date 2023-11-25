@@ -22,6 +22,5 @@ export class Education {
   dateEnd: Date;
 
   @ManyToOne(() => User, (user) => user.education)
-  // Asume que en Usuario tienes una relación OneToMany llamada educaciones
   user: User;
 }

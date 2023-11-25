@@ -1,15 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpException } from '@nestjs/common';
 import { CandidateService } from './candidate.service';
-import {MicroserviceEnum} from "../../../../dynamic-routes.config";
-import {MicroserviceClientService} from "../../../../commons/modules/microservice-manager/services/microservice-client.service";
-import {MicroserviceManagerModule} from "../../../../commons/modules/microservice-manager/microservice-manager.module";
-import {MonitoringModule} from "../../../../commons/modules/monitoring/monitoring.module";
-import {HttpModule} from "@nestjs/axios";
-import {CompanyCreatedDto, CreateCompanyDto, CreateUserDto} from "../../../companies/dto/create-companie.dto";
-import {of} from "rxjs";
-import {Request} from "express";
-import {CreateCandidateDto} from "../../dto/create-candidate.dto";
+import { MicroserviceEnum } from '../../../../dynamic-routes.config';
+import { MicroserviceClientService } from '../../../../commons/modules/microservice-manager/services/microservice-client.service';
+import { MicroserviceManagerModule } from '../../../../commons/modules/microservice-manager/microservice-manager.module';
+import { MonitoringModule } from '../../../../commons/modules/monitoring/monitoring.module';
+import { HttpModule } from '@nestjs/axios';
+import { of } from 'rxjs';
+import { Request } from 'express';
+import { CreateCandidateDto } from '../../dto/create-candidate.dto';
+import { UserAbilityLanguageDto } from '../../dto/user-ability-language.dto';
 
 describe('CandidateService', () => {
   let service: CandidateService;
@@ -25,7 +24,8 @@ describe('CandidateService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [MicroserviceManagerModule, MonitoringModule, HttpModule],
-      providers: [CandidateService,
+      providers: [
+        CandidateService,
         {
           provide: MicroserviceEnum.COMMONS,
           useClass: MicroserviceClientService,
@@ -59,52 +59,52 @@ describe('CandidateService', () => {
       phone: '00000',
       regionId: 1,
       surnames: 'apellido',
-      typeIdentificationId: 1
+      typeIdentificationId: 1,
     };
 
     const fakeCountryDto = {
       id: 1,
-      name: 'Colombia'
-    }
+      name: 'Colombia',
+    };
 
     const fakeRegionDto = {
       id: 1,
-      name: 'Boyaca'
-    }
+      name: 'Boyaca',
+    };
 
     const fakeCityDto = {
       id: 1,
-      name: 'Tunja'
-    }
+      name: 'Tunja',
+    };
 
     const fakeIdentificationDto = {
-      "id": 1,
-      "code": "CC",
-      "name": "Cédula de Ciudadanía",
-      "status": true
-    }
+      id: 1,
+      code: 'CC',
+      name: 'Cédula de Ciudadanía',
+      status: true,
+    };
 
     const fakeUser = {
       address: 'cll 1 2 3',
-        cityId: 1,
-        countryId: 1,
-        dateBirthDate: new Date(),
-        email: 'a@a.com',
-        identification: '12345679',
-        names: 'prueba',
-        password: 'pruena123',
-        phone: '00000',
-        regionId: 1,
-        surnames: 'apellido',
-        typeIdentificationId: 1,
-        locationId: {
+      cityId: 1,
+      countryId: 1,
+      dateBirthDate: new Date(),
+      email: 'a@a.com',
+      identification: '12345679',
+      names: 'prueba',
+      password: 'pruena123',
+      phone: '00000',
+      regionId: 1,
+      surnames: 'apellido',
+      typeIdentificationId: 1,
+      locationId: {
         idCity: 1,
-          idRegion: 1,
-          idCountry: 1,
-          nameCity: 'Tunja',
-          nameRegion: 'Boyaca',
-          nameCountry: 'Colombia'
-      }
+        idRegion: 1,
+        idCountry: 1,
+        nameCity: 'Tunja',
+        nameRegion: 'Boyaca',
+        nameCountry: 'Colombia',
+      },
     };
 
     // Mock MicroserviceClientService to return fake responses
@@ -119,4 +119,37 @@ describe('CandidateService', () => {
     expect(result).toBeDefined();
   });
 
+  it('should add language and skill to candidate', async () => {
+    const userAbilityLanguageDto: UserAbilityLanguageDto = {
+      languages: ['ES'],
+      abilities: [1],
+      experienceYears: 1,
+    };
+
+    const fakeLanguageDto = {
+      id: 1,
+      name: 'Español',
+      code: 'ES',
+      status: true,
+    };
+
+    const fakeAbilityDto = {
+      id: 1,
+      name: 'Angular',
+      status: true,
+    };
+
+    const experience = {
+      experienceYears: 1,
+    };
+
+    const request = {} as Request;
+    jest.spyOn(microserviceClientServiceCommons, 'call').mockReturnValue(of(fakeLanguageDto));
+    jest.spyOn(microserviceClientServiceUsers, 'call').mockReturnValue(of(fakeLanguageDto));
+    jest.spyOn(microserviceClientServiceCommons, 'call').mockReturnValue(of(fakeAbilityDto));
+    jest.spyOn(microserviceClientServiceUsers, 'call').mockReturnValue(of(fakeAbilityDto));
+    jest.spyOn(microserviceClientServiceUsers, 'call').mockReturnValue(of(experience));
+    const result = await service.addLanguageAndSkill(request, 1, userAbilityLanguageDto);
+    expect(result).toBeDefined();
+  });
 });

@@ -53,7 +53,7 @@ export class UsersService {
       newUser.nameIdentification = createUserDto.nameIdentification;
       newUser.phone = createUserDto.phone;
       newUser.address = createUserDto.address;
-      newUser.dateBirthDate = createUserDto.dateBirthDate;
+      newUser.dateBirthday = createUserDto.dateBirthday;
       if (createUserDto.locationId) {
         let location = await this.userLocationRepository.findOneBy({
           idCity: createUserDto.locationId.idCity,
@@ -76,6 +76,8 @@ export class UsersService {
           newLocation.nameCity = createUserDto.locationId.nameCity;
           newLocation.nameRegion = createUserDto.locationId.nameRegion;
           newLocation.nameCountry = createUserDto.locationId.nameCountry;
+          await this.userLocationRepository.save(newLocation);
+          newUser.location = newLocation;
         }
       }
       newUser.identification = createUserDto.identification;

@@ -2,7 +2,7 @@ name: Deploy cloud run service api gateway prod
 on:
   push:
     branches:
-      - test/*
+      - main
 #    paths:
 #      - 'api-gateway/**'
 env:
