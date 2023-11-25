@@ -75,7 +75,6 @@ describe('MicroserviceStatusService', () => {
       const status: MicroserviceStatusLiteDto = { index: 0.7, timestamp: new Date() } as unknown as MicroserviceStatusLiteDto;
 
       service.setMicroserviceStatus(microservice, status);
-
       expect(service.isMicroserviceHealthy(microservice)).toBe(false);
     });
 
@@ -83,6 +82,37 @@ describe('MicroserviceStatusService', () => {
       const microservice = 'nonexistentMicroservice';
 
       expect(service.isMicroserviceHealthy(microservice)).toBe(false);
+    });
+  });
+  describe('getMicroserviceStatusDataSet', () => {
+    it('should return the correct dataset for a healthy microservice', () => {
+      const microservice = 'healthyMicroservice';
+      const status: MicroserviceStatusLiteDto = { index: 0.9, timestamp: new Date() } as unknown as MicroserviceStatusLiteDto;
+
+      service.setMicroserviceStatus(microservice, status);
+
+      const result = service.getMicroserviceStatusDataSet();
+
+      expect(result).toBeDefined();
+    });
+
+    it('should return the correct dataset for an unhealthy microservice', () => {
+      const microservice = 'unhealthyMicroservice';
+      const status: MicroserviceStatusLiteDto = { index: 0.7, timestamp: new Date() } as unknown as MicroserviceStatusLiteDto;
+
+      service.setMicroserviceStatus(microservice, status);
+
+      const result = service.getMicroserviceStatusDataSet();
+
+      expect(result).toBeDefined();
+    });
+
+    it('should return default dataset for a nonexistent microservice', () => {
+      const microservice = 'nonexistentMicroservice';
+
+      const result = service.getMicroserviceStatusDataSet();
+
+      expect(result).toBeDefined();
     });
   });
 });

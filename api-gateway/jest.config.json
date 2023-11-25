@@ -23,7 +23,8 @@
     "firebase.service.ts",
     ".exception.ts",
     ".decorator.ts",
-    "health.controller.ts"
+    "health.controller.ts",
+    "-client.service.ts"
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
@@ -40,7 +41,8 @@
     "firebase.service.ts",
     ".exception.ts",
     ".decorator.ts",
-    "health.controller.ts"
+    "health.controller.ts",
+    "-client.service.ts"
   ],
   "moduleFileExtensions": [
     "js",

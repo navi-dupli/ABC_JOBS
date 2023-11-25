@@ -1,10 +1,10 @@
-import {Body, Controller, Param, Post, Req, UseGuards} from '@nestjs/common';
-import {CreateCandidateDto} from "../../dto/create-candidate.dto";
-import {CandidateService} from "../../services/candidate/candidate.service";
+import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { CreateCandidateDto } from '../../dto/create-candidate.dto';
+import { CandidateService } from '../../services/candidate/candidate.service';
 import { Request } from 'express';
 import { UserAbilityLanguageDto } from '../../dto/user-ability-language.dto';
-import {AuthGuard} from "@nestjs/passport";
-import {ApiBearerAuth} from "@nestjs/swagger";
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('candidate')
 export class CandidateController {

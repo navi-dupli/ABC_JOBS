@@ -27,10 +27,10 @@ export class MicroserviceStatusService {
     this.logger.log(`isMicroserviceHealthy: ${microservice}`);
     const microserviceStatusLite = this.microservicesStatus.get(microservice);
     const serverTime = new Date().getTime();
-    if (serverTime - microserviceStatusLite.lastCheck > this.maxTimeWithOutData) {
-      return false;
-    }
     if (microserviceStatusLite) {
+      if (serverTime - microserviceStatusLite.lastCheck > this.maxTimeWithOutData) {
+        return false;
+      }
       return microserviceStatusLite.index >= this.healthIndex;
     }
     return false;
@@ -74,15 +74,5 @@ export class MicroserviceStatusService {
         } as MicroserviceStatusLiteDto;
       }
     });
-  }
-
-  private map(microserviceStatusDtos: Map<string, MicroserviceStatusLiteDto>) {
-    const microservicesStatusObject: any[] = [];
-    microserviceStatusDtos.forEach((value, key) => {
-      const microserviceStatus = value as unknown;
-      microserviceStatus['name'] = key;
-      microservicesStatusObject.push(microserviceStatus);
-    });
-    return microservicesStatusObject;
   }
 }
