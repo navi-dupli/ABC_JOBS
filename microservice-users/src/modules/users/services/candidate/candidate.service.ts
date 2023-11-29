@@ -39,7 +39,7 @@ export class CandidateService {
     };
     if (skills.length > 0) {
       query.where['skills'] = {
-        id: In(skills),
+        idAbility: In(skills),
       };
     }
 
